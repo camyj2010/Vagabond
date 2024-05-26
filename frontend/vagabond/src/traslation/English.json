@@ -1,0 +1,16 @@
+{
+	"register":{
+		"title":"Create an account",
+		"fullName":"Full Name",
+		"email":"Email",
+		"password":"Password",
+		"button":"Sign up",
+		"alreadyAccount":"Do you already have an account?",
+		"signIn":"Sign in",
+		"clickingHere":"By clicking",
+		"accepts":"you agree to our",
+		"terms":"Terms of Service",
+		"privacy":"Privacy Policy",
+		"and":"and"
+	}
+}

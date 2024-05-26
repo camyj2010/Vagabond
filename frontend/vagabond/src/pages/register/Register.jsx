@@ -2,13 +2,23 @@ import React, {useState} from 'react'
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { useLanguageContext } from '../../context/languageContext';
+import { createUser } from '../../firebase/functions';
+
 const Register = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-	const handleRegister = (e) => {
-		alert('Register', e)
+	const { t } = useLanguageContext();
+	const texts = (data) => t(`register.${data}`);
+
+	const handleRegister = async(e) => {
+		e.preventDefault();
+		console.log(email)
+		console.log(password)
+		const userCreated = await createUser(email, password)
+		console.log(userCreated)
 	}
 	return (
 		<Container maxWidth="xs">
@@ -16,11 +26,11 @@ const Register = () => {
 				<Typography variant="h4" style={{ fontFamily: 'Inter', fontWeight: 600 }}>Vagabond</Typography>
 			</Box>
 			<Box component="form" mt={4} onSubmit={handleRegister}>
-				<Typography textAlign="center" variant="h5" mt={17} mb={2} style={{ fontFamily: 'Inter', fontWeight: 600 }}>Create an account</Typography>
+				<Typography textAlign="center" variant="h5" mt={17} mb={2} style={{ fontFamily: 'Inter', fontWeight: 600 }}>{texts('title')}</Typography>
 
 				<TextField
 					required
-          label="Full Name"
+          label={texts('fullName')}
           variant="outlined"
           fullWidth
           margin="normal"
@@ -42,7 +52,7 @@ const Register = () => {
 
         <TextField
 					required
-          label="Email"
+          label={texts('email')}
           variant="outlined"
           fullWidth
           margin="normal"
@@ -63,7 +73,7 @@ const Register = () => {
         />
         <TextField
 					required
-          label="Password"
+          label={texts('password')}
           variant="outlined"
           type="password"
           fullWidth
@@ -106,20 +116,20 @@ const Register = () => {
             },
           }}
         >
-          Sign up
+          {texts('button')}
         </Button>
 			</Box>
 			<Box textAlign="center" mt={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="body2">
-          Do you already have an account?{' '}
+          {texts('alreadyAccount')}{' '}
           <Link href="/" underline="hover">
-            Sign in
+            {texts('signIn')}
           </Link>
         </Typography>
       </Box>
       <Box textAlign="center" mt={4} mb={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="caption">
-          By clicking Sign up, you agree to our Terms of Service and Privacy Policy
+          {texts('clickingHere')} {texts('button')}, {texts('accepts')} <span style={{fontWeight: "bold"}}>{texts('terms')}</span> {texts('and')}  <span style={{fontWeight: "bold"}}>{texts('privacy')}</span>
         </Typography>
       </Box>
 		</Container>
