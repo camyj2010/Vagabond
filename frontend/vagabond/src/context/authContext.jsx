@@ -1,6 +1,6 @@
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
-import { createContext, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 export const authContext = createContext();
 
@@ -13,6 +13,19 @@ export const useAuth = ()=> {
 };
 
 export function AuthProvider ({children}) {
+  const [user, setUser] = useState("");
+  useEffect(()=>{
+    const suscribed = onAuthStateChanged(auth, (currentUser)=>{
+      if(!currentUser) {
+        console.log("No suscribed user");
+        setUser("");
+      }else{
+        setUser(currentUser);
+      }
+    });
+    return () => suscribed()
+  },[]);
+
   const login = async (email, password) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
@@ -44,7 +57,7 @@ export function AuthProvider ({children}) {
   };
 
   return <authContext.Provider
-    value={{login, loginWithGoogle, logout}}
+    value={{login, loginWithGoogle, logout, user}}
   >
     {children}
   </authContext.Provider>;

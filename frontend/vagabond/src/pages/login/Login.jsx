@@ -1,16 +1,26 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography, Link, Container, Box } from '@mui/material';
+import { TextField, Button, Typography, Link, Container, Box } from "@mui/material";
 import { useAuth } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  console.log(auth.user);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    auth.login(email, password)
+    try {
+      auth.login(email, password);
+      navigate('/my_trips');
+    } catch (err) {
+      setError('Correo o contraseña incorrectos');
+    }
   }
+
   return (
     <Container maxWidth="xs">
       <Box textAlign="center" mt={15}>
