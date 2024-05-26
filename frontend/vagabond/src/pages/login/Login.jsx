@@ -9,15 +9,14 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  console.log(auth.user);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      auth.login(email, password);
+      await auth.login(email, password);
       navigate('/my_trips');
     } catch (err) {
-      setError('Correo o contraseña incorrectos');
+      setError('Incorrect Email or Password');
     }
   }
 
