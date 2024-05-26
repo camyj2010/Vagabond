@@ -14,9 +14,9 @@ app.use(router);
 
 router.post("/register", async (req, res) => {
     try {
-    const { username, email, password } = req.body;
+    const { username, email } = req.body;
 
-    if (!username || !email || !password) {
+    if (!username || !email) {
         return res.status(400).json({ message: "Todos los campos son obligatorios." });
     }
 
