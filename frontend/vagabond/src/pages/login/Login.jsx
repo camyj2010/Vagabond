@@ -20,6 +20,16 @@ const Login = () => {
     }
   }
 
+  const handleGoogle = async (e) => {
+    e.preventDefault();
+    try {
+      await auth.loginWithGoogle();
+      navigate('/my_trips');
+    } catch (err) {
+      setError('Error while Sign in with Google');
+    }
+  }
+
   return (
     <Container maxWidth="xs">
       <Box textAlign="center" mt={15}>
@@ -92,6 +102,28 @@ const Login = () => {
           }}
         >
           Sign In
+        </Button>
+      </Box>
+      <Box component="form" mt={1} onSubmit={handleGoogle}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          size="large"
+          sx={{
+            mt: 2,
+            backgroundColor: '#2D6EFF',
+            '&:hover': {
+              backgroundColor: 'blue',
+            },
+            '& span': {
+              fontFamily: 'Inter',
+              fontWeight: 500,
+            },
+          }}
+        >
+          Sign In with Google
         </Button>
       </Box>
       <Box textAlign="center" mt={2}>
