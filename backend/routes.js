@@ -23,7 +23,7 @@ router.use(async (req, res, next) => {
 
 router.post("/register", async (req, res) => {
     try {
-    const { username, email } = req.body;
+        const { username, email, firebase_id } = req.body;
 
     if (!username || !email) {
         return res.status(400).json({ message: "Todos los campos son obligatorios." });
@@ -32,6 +32,7 @@ router.post("/register", async (req, res) => {
     const newUser = await ModelUser.create({
         username,
         email,
+        firebase_id
     });
     res.status(201).json({ message: "Usuario creado con éxito.", user: newUser });
     } catch (error) {
