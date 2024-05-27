@@ -1,5 +1,6 @@
 const app = require('./app');
 const dbconnect = require('./config');
+const auth = require('./firebaseConfig');
 
 const PORT = process.env.PORT || 3001;
 
