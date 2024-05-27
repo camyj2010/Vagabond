@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema(
             type: String,
             required:true
         },
+        firebase_id: {
+            type: String
+        },
         profile_photo: {
             type: String
         }
