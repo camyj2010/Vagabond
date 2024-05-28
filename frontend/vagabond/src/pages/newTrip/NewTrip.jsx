@@ -42,8 +42,9 @@ export default function NewTrip() {
 			init_date: startDate,
 			finish_date: endDate,
 			description: descriptionValue,
-			_user_id: auth.user.uid
+			firebase_id: auth.user.uid
 		}
+		console.log(data)
 		const response = await createNewTrip(data,token)
 		console.log(response)
 	}
