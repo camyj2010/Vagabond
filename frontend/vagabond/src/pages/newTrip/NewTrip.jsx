@@ -119,7 +119,7 @@ export default function NewTrip() {
               mb={2}
               style={{ fontFamily: "Inter", fontWeight: 600 }}
             >
-              {texts("strartDate")}
+              {texts("startDate")}
             </Typography>
             <TextField
               id="date"

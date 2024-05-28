@@ -19,7 +19,7 @@
 		"countryLabel":"Choose a country",
 		"city":"City",
 		"cityLabel":"Write the name of the city (Optional)",
-		"strartDate":"Start date",
+		"startDate":"Start date",
 		"endDate":"End date",
 		"describeTrip":"Describe the perfect trip for you",
 		"button":"Create Trip"

@@ -12,5 +12,16 @@
     "terms": "Términos de servicio",
     "privacy": "Política de privacidad",
     "and": "y"
+  },
+  "newTrip": {
+    "title": "Planear un viaje",
+    "country": "País",
+    "countryLabel": "Elige un país",
+    "city": "Ciudad",
+    "cityLabel": "Escribe el nombre de la ciudad (Opcional)",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de fin",
+    "describeTrip": "Describe el viaje perfecto para ti",
+    "button": "Crear viaje"
   }
 }
