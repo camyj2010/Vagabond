@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguageContext } from '../../context/languageContext';
 import { register } from '../../utils/connections';
 
-const Login = () => {
+export const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');

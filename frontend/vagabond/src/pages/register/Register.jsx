@@ -6,7 +6,7 @@ import { useLanguageContext } from '../../context/languageContext';
 import { createUser } from '../../firebase/functions';
 import { register } from '../../utils/connections';
 
-const Register = () => {
+export const Register = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
