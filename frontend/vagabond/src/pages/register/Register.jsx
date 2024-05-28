@@ -122,7 +122,7 @@ const Register = () => {
 			<Box textAlign="center" mt={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="body2">
           {texts('alreadyAccount')}{' '}
-          <Link href="/" underline="hover">
+          <Link href="/login" underline="hover">
             {texts('signIn')}
           </Link>
         </Typography>

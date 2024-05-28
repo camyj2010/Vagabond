@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button, Typography, Link, Container, Box } from "@mui/material";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { useLanguageContext } from '../../context/languageContext';
 
 const Login = () => {
   const auth = useAuth();
@@ -9,6 +10,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const { t } = useLanguageContext();
+  const texts = (data) => t(`login.${data}`);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,7 +19,7 @@ const Login = () => {
       await auth.login(email, password);
       navigate('/my_trips');
     } catch (err) {
-      setError('Incorrect Email or Password');
+      setError(texts('errorLogin'));
     }
   }
 
@@ -26,7 +29,7 @@ const Login = () => {
       await auth.loginWithGoogle();
       navigate('/my_trips');
     } catch (err) {
-      setError('Error while Sign in with Google');
+      setError(texts('errorGoogle'));
     }
   }
 
@@ -36,9 +39,10 @@ const Login = () => {
         <Typography variant="h4" style={{ fontFamily: 'Inter', fontWeight: 600 }}>Vagabond</Typography>
       </Box>
       <Box component="form" mt={4} onSubmit={handleLogin}>
-        <Typography textAlign="center" variant="h5" mt={17} mb={2} style={{ fontFamily: 'Inter', fontWeight: 600 }}>Log in</Typography>
+        <Typography textAlign="center" variant="h5" mt={17} mb={2} style={{ fontFamily: 'Inter', fontWeight: 600 }}>{texts('title')}</Typography>
         <TextField
-          label="Email"
+          required
+          label={texts('email')}
           variant="outlined"
           fullWidth
           margin="normal"
@@ -58,7 +62,8 @@ const Login = () => {
           }}
         />
         <TextField
-          label="Password"
+          required
+          label={texts('password')}
           variant="outlined"
           type="password"
           fullWidth
@@ -101,7 +106,7 @@ const Login = () => {
             },
           }}
         >
-          Sign In
+          {texts('button')}
         </Button>
       </Box>
       <Box component="form" mt={1} onSubmit={handleGoogle}>
@@ -123,20 +128,20 @@ const Login = () => {
             },
           }}
         >
-          Sign In with Google
+          {texts('signInGoogle')}
         </Button>
       </Box>
       <Box textAlign="center" mt={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="body2">
-          Don't have an account?{' '}
+          {texts('dontHaveAccount')}{' '}
           <Link href="/register" underline="hover">
-            Sign up right now
+            {texts('signUp')}
           </Link>
         </Typography>
       </Box>
       <Box textAlign="center" mt={4} mb={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="caption">
-          By clicking Sign in, you agree to our Terms of Service and Privacy Policy
+          {texts('clickingHere')} {texts('button')}, {texts('accepts')} <span style={{fontWeight: "bold"}}>{texts('terms')}</span> {texts('and')}  <span style={{fontWeight: "bold"}}>{texts('privacy')}</span>
         </Typography>
       </Box>
     </Container>

@@ -12,5 +12,21 @@
     "terms": "Términos de servicio",
     "privacy": "Política de privacidad",
     "and": "y"
-  }
+  },
+	"login":{
+		"title": "Inicio de Sesión",
+		"email":"Correo Electrónico",
+		"password":"Contraseña",
+		"errorLogin":"Correo Electrónico o Contraseña Incorrectos",
+		"errorGoogle": "Error al Iniciar Sesión con Google",
+		"button": "Ingresar",
+		"signInGoogle": "Ingresar con Google",
+		"dontHaveAccount":"¿No tienes una cuenta?",
+		"signUp": "Registrate ahora mismo",
+		"clickingHere": "Al hacer clic",
+    "accepts": "aceptas nuestros",
+    "terms": "Términos de servicio",
+    "privacy": "Política de privacidad",
+    "and": "y"
+	}
 }
