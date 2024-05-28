@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema(
         },
         email: {
             type: String,
-            required:true
+            required:true,
+            unique: true
         },
         firebase_id: {
             type: String
@@ -55,6 +56,12 @@ const travelSchema = new mongoose.Schema(
         ],
         restaurant_recomendations: {
             type: [String]
+        },
+        init_date: {
+            type: Date
+        },
+        finish_date: {
+            type: Date
         }
     },
     {
