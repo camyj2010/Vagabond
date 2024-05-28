@@ -10,7 +10,7 @@ class Middleware {
 			}
 			return res.json({ message: 'Un authorize' });
 		} catch (e) {
-			return res.json({ message: 'Internal Error' });
+			return res.status(500).json({message: "Internal Error",e});
 		}
 	}
 }
