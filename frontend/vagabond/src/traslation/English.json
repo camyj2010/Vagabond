@@ -12,5 +12,21 @@
 		"terms":"Terms of Service",
 		"privacy":"Privacy Policy",
 		"and":"and"
+	},
+	"login":{
+		"title": "Log in",
+		"email":"Email",
+		"password":"Password",
+		"errorLogin":"Incorrect Email or Password",
+		"errorGoogle": "Error while Sign in with Google",
+		"button": "Sign in",
+		"signInGoogle": "Sign in with Google",
+		"dontHaveAccount":"Don't have an account?",
+		"signUp": "Sign up right now",
+		"clickingHere":"By clicking",
+		"accepts":"you agree to our",
+		"terms":"Terms of Service",
+		"privacy":"Privacy Policy",
+		"and":"and"
 	}
 }

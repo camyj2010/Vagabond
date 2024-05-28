@@ -5,7 +5,6 @@ const admin = require('./firebaseConfig');
 const middleware = require('./middleware');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-
 // CREAR UN USUARIO ( REGISTRO )
 
 router.post("/register", async (req, res) => {
@@ -93,6 +92,5 @@ router.post("/travel", middleware.decodeToken,async (req, res) => {
     console.error('Error Travel Creation', error);
     res.status(500).json({ message: "Error Travel Creation" });
     }});
-
 
 module.exports = router; 
