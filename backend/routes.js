@@ -31,18 +31,22 @@ router.post("/register", async (req, res) => {
 router.post("/travel", middleware.decodeToken,async (req, res) => {
     try {
         const {firebase_id,country,city,description, init_date,finish_date } = req.body;
-
+			console.log(firebase_id," ",country," ",description," ",init_date," ",finish_date)
     if (!firebase_id || !country || !description || !init_date || !finish_date) {
         return res.status(400).json({ message: "All fields are required" });
     }
     // Buscar el usuario por firebase_id
-    const user = await ModelUser.findOne({ where: { firebase_id } });
+    console.log('firebase_id recibido:', firebase_id);
+    const user = await ModelUser.findOne({ firebase_id }).exec(); 
+    console.log('Resultado de la búsqueda del usuario:', user);
     if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const _user_id = user._user_id;
+    const _user_id = user._id;
+    console.log("hhhhh",_user_id);
 
+    
     const newTravelData = {
         _user_id,
         country,
