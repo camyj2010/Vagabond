@@ -3,7 +3,6 @@ import Header from "../../components/Header";
 import {
   Autocomplete,
   Box,
-  Button,
   Stack,
   TextField,
   Typography,
@@ -14,6 +13,7 @@ import { useAuth } from "../../context/authContext";
 
 import styles from "./NewTrip.module.css";
 import { createNewTrip } from "../../utils/connections";
+import { LoadingButton } from "@mui/lab";
 
 
 export default function NewTrip() {
@@ -27,17 +27,21 @@ export default function NewTrip() {
 	const [endDateValue, setEndDateValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
 
+	const [loading, setLoading] = useState(false);
+
   const { t } = useLanguageContext();
 
   const texts = (data) => t(`newTrip.${data}`);
 
 	const handleNewTrip = async(e) => {
 		e.preventDefault();
+		setLoading(true);
 		const token = auth.user.accessToken;
 		const startDate = new Date(startDateValue);
 		const endDate = new Date(endDateValue);
 		const data = {
-			country: countryValue.code,
+			country: countryValue.label,
+			country_cod: countryValue.code,
 			city: cityValue,
 			init_date: startDate,
 			finish_date: endDate,
@@ -47,6 +51,7 @@ export default function NewTrip() {
 		console.log(data)
 		const response = await createNewTrip(data,token)
 		console.log(response)
+		setLoading(false);
 	}
   return (
     <Box textAlign="center" component="section" sx={{ px: 3, pb: 2 }}>
@@ -184,9 +189,9 @@ export default function NewTrip() {
             onChange={(e) => setDescriptionValue(e.target.value)}
           />
         </div>
-        <Button type="submit" variant="contained" size="large" sx={{ width: "100%", mt: 1 }}>
+        <LoadingButton loading={loading} type="submit" variant="contained" size="large" sx={{ width: "100%", mt: 1 }}>
           {texts("button")}
-        </Button>
+        </LoadingButton>
       </Stack>
     </Box>
   );
