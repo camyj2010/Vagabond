@@ -10,10 +10,16 @@ import {
 } from "@mui/material";
 import { useLanguageContext } from "../../context/languageContext";
 import countries from "../../utils/countries";
+import { useAuth } from "../../context/authContext";
 
 import styles from "./NewTrip.module.css";
+import { createNewTrip } from "../../utils/connections";
+
 
 export default function NewTrip() {
+
+	const auth = useAuth();
+
   const [countryValue, setCountryValue] = useState(null);
   const [countryInput, setCountryInput] = useState("");
   const [cityValue, setCityValue] = useState("");
@@ -27,11 +33,19 @@ export default function NewTrip() {
 
 	const handleNewTrip = async(e) => {
 		e.preventDefault();
-		console.log("Country value", countryValue);
-		console.log("City value", cityValue);
-		console.log("Start date value", startDateValue);
-		console.log("End date value", endDateValue);
-    console.log("Description value", descriptionValue);
+		const token = auth.user.accessToken;
+		const startDate = new Date(startDateValue);
+		const endDate = new Date(endDateValue);
+		const data = {
+			country: countryValue.code,
+			city: cityValue,
+			init_date: startDate,
+			finish_date: endDate,
+			description: descriptionValue,
+			_user_id: auth.user.uid
+		}
+		const response = await createNewTrip(data,token)
+		console.log(response)
 	}
   return (
     <Box textAlign="center" component="section" sx={{ px: 3, pb: 2 }}>

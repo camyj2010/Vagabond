@@ -24,7 +24,7 @@ const routes = createBrowserRouter(
 			element: <App/>
 		},
 		{
-			path: '/newTrip',
+			path: '/new_trip',
 			element: <NewTrip/>
 		}
   ]
