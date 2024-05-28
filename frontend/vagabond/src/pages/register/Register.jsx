@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { useLanguageContext } from '../../context/languageContext';
 import { createUser } from '../../firebase/functions';
+import { register } from '../../utils/connections';
 
 const Register = () => {
 	const [name, setName] = useState('')
@@ -15,10 +16,24 @@ const Register = () => {
 
 	const handleRegister = async(e) => {
 		e.preventDefault();
-		console.log(email)
-		console.log(password)
 		const userCreated = await createUser(email, password)
-		console.log(userCreated)
+		if (userCreated === 'auth/email-already-in-use') {
+			console.log('Email already in use')
+			return
+		}
+		const data = {
+			username: name,
+			email: email,
+			firebase_id: userCreated.uid
+		}
+		const registered = await register(data)
+		if (registered === 'error') {
+			console.log('Error')
+			return
+		}else{
+			console.log('User registered')
+		}
+		
 	}
 	return (
 		<Container maxWidth="xs">
