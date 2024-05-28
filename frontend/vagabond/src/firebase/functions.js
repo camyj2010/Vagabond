@@ -13,6 +13,7 @@ const createUser = (email, password)=> createUserWithEmailAndPassword(auth, emai
     const errorCode = error.code;
     const errorMessage = error.message;
 		console.log(errorCode, errorMessage)
+		return error.code
     // ..
   });
 
