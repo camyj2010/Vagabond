@@ -55,6 +55,12 @@ const travelSchema = new mongoose.Schema(
         ],
         restaurant_recomendations: {
             type: [String]
+        },
+        init_date: {
+            type: Date
+        },
+        finish_date: {
+            type: Date
         }
     },
     {
