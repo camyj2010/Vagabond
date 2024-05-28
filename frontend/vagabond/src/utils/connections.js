@@ -16,8 +16,11 @@ export const register = async (data) => {
 		const response = await axios.post(`${URL}/api/register`, data)
 		return response.data
 	} catch (error) {
-		console.log(error)
-		return 'error'
+	    if (error.response && error.response.status === 500) {
+		  return 'duplicate_email';
+	    }
+	    console.log(error);
+		return 'error';
 	}
 }
 

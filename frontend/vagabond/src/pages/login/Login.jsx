@@ -3,6 +3,7 @@ import { TextField, Button, Typography, Link, Container, Box } from "@mui/materi
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { useLanguageContext } from '../../context/languageContext';
+import { register } from '../../utils/connections';
 
 const Login = () => {
   const auth = useAuth();
@@ -26,8 +27,27 @@ const Login = () => {
   const handleGoogle = async (e) => {
     e.preventDefault();
     try {
-      await auth.loginWithGoogle();
-      navigate('/my_trips');
+      const googleUser = await auth.loginWithGoogle();
+      //console.log(googleUser.user)
+      const data = {
+        username: googleUser.user.displayName,
+        email: googleUser.user.email,
+        firebase_id: googleUser.user.uid
+      }
+      //console.log("Soy la data con la que se va a crear el usuario", data)
+      const registered = await register(data)
+
+      if (registered === 'error') {
+        console.log('Error');
+        setError(texts('errorGoogle'));
+        return;
+      } else if (registered === 'duplicate_email') {
+        console.log('User already exists, logging in');
+        navigate('/my_trips');
+      } else {
+        console.log('User registered');
+        navigate('/my_trips');
+      }
     } catch (err) {
       setError(texts('errorGoogle'));
     }

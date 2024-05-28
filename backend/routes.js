@@ -3,22 +3,6 @@ const router = express.Router();
 const {ModelUser,ModelTravel,ModelChecklist} = require('./userModel');
 const admin = require('./firebaseConfig'); 
 
-// Middleware para verificar el token de Firebase
-router.use(async (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-        return res.status(401).json({ message: "No token provided." });
-    }
-
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        req.user = decodedToken;
-        next();
-    } catch (error) {
-        console.error('Error verifying token:', error);
-        res.status(401).json({ message: "Unauthorized." });
-    }
-});
 // CREAR UN USUARIO ( REGISTRO )
 
 router.post("/register", async (req, res) => {
@@ -26,7 +10,7 @@ router.post("/register", async (req, res) => {
         const { username, email, firebase_id } = req.body;
 
     if (!username || !email) {
-        return res.status(400).json({ message: "Todos los campos son obligatorios." });
+        return res.status(400).json({ message: "All fields are required" });
     }
 
     const newUser = await ModelUser.create({
@@ -40,4 +24,5 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Error al registrar nuevo usuario." });
     }
 });
+
 module.exports = router; 
