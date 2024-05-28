@@ -1,0 +1,16 @@
+{
+  "register": {
+    "title": "Crear una cuenta",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "button": "Registrarse",
+    "alreadyAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión",
+    "clickingHere": "Al hacer clic",
+    "accepts": "aceptas nuestros",
+    "terms": "Términos de servicio",
+    "privacy": "Política de privacidad",
+    "and": "y"
+  }
+}
