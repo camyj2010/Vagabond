@@ -35,10 +35,9 @@ describe('Register Component', () => {
     expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
   });
 
-  // it('renders already have account message with sign in link', () => {
-  //   expect(screen.getByText(/Do you already have an account\?/i)).toBeInTheDocument();
-  //   expect(screen.getByRole('link', { name: /sign in/i })).toBeInTheDocument();
-  // });
+  it('renders already have account message with sign in link', () => {
+    expect(screen.getByText(/alreadyAccount/i)).toBeInTheDocument();
+  });
 
   it('renders terms and privacy message with links', () => {
     expect(screen.getByText(/accepts/i)).toBeInTheDocument();
