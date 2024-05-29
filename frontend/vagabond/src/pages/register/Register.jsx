@@ -27,7 +27,7 @@ export const Register = () => {
 			firebase_id: userCreated.uid
 		}
 		const registered = await register(data)
-		if (registered === 'error') {
+		if (registered === 'error' || registered === 'duplicate_email' ) {
 			console.log('Error')
 			return
 		}else{

@@ -30,21 +30,36 @@ router.post("/register", async (req, res) => {
 // CREAR UN VIAJE
 router.post("/travel", middleware.decodeToken,async (req, res) => {
     try {
-        const {_user_id,country,city,description, init_date,finish_date } = req.body;
-
-    if (!_user_id || !country || !description || !init_date || !finish_date) {
+        const {firebase_id,country,country_cod,city,description, init_date,finish_date } = req.body;
+			
+    if (!firebase_id || !country || !country_cod || !description) {
         return res.status(400).json({ message: "All fields are required" });
     }
+    // Buscar el usuario por firebase_id
+    console.log('firebase_id recibido:', firebase_id);
+    const user = await ModelUser.findOne({ firebase_id }).exec(); 
+    console.log('Resultado de la búsqueda del usuario:', user);
+    if (!user) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+    }
 
+    const _user_id = user._id;
+    console.log("hhhhh",_user_id);
+
+    
     const newTravelData = {
         _user_id,
         country,
+        country_cod,
         description,
         suggestions: []
     };
 
     if (city) {
         newTravelData.city = city;
+    }
+    if (!city) {
+        newTravelData.city = "";
     }
     if(init_date){
         newTravelData.init_date=init_date;
@@ -67,6 +82,7 @@ router.post("/travel", middleware.decodeToken,async (req, res) => {
     //Gemini suggestions
     const prompt_suggestions = `Based on the information provided:
     - Country: ${newTravelData.country}
+    - Country: ${newTravelData.city}
     - Description: ${newTravelData.description}
     - Start Date: ${newTravelData.init_date}
     - End Date: ${newTravelData.finish_date}

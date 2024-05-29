@@ -38,6 +38,26 @@ const MyTrips = () => {
           Log Out
         </Button>
       </Box>
+			<Button
+				variant="contained"
+				color="primary"
+				fullWidth
+				size="large"
+				onClick={() => navigate('/new_trip')}
+				sx={{
+					mt: 2,
+					backgroundColor: '#2D6EFF',
+					'&:hover': {
+						backgroundColor: 'blue',
+					},
+					'& span': {
+						fontFamily: 'Inter',
+						fontWeight: 500,
+					},
+				}}
+			>
+				Create a new trip
+			</Button>
     </Container>
   );
 };

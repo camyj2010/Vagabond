@@ -35,6 +35,10 @@ const travelSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        country_cod: {
+            type: String,
+            required: true
+        },
         city: {
             type: String
         },
