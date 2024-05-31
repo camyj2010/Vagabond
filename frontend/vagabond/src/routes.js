@@ -4,6 +4,7 @@ import MyTrips from "./pages/myTrips/MyTrips";
 import App from "./App";
 import Register from "./pages/register/Register";
 import NewTrip from "./pages/newTrip/NewTrip";
+import Checklist from "./pages/myChecklist/Checklist";
 
 const routes = createBrowserRouter(
   [
@@ -26,7 +27,11 @@ const routes = createBrowserRouter(
 		{
 			path: '/new_trip',
 			element: <NewTrip/>
-		}
+		},
+    {
+      path: '/my_checklist',
+      element: <Checklist/>
+    }
   ]
 );
 
