@@ -11,7 +11,8 @@
     "accepts": "aceptas nuestros",
     "terms": "Términos de servicio",
     "privacy": "Política de privacidad",
-    "and": "y"
+    "and": "y",
+		"alertMessage": "El correo electrónico ya está registrado"
   },	
 	"login":{
 		"title": "Inicio de Sesión",
