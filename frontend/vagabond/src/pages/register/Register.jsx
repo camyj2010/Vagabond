@@ -1,24 +1,35 @@
 import React, {useState} from 'react'
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Box, Container, TextField, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useLanguageContext } from '../../context/languageContext';
 import { createUser } from '../../firebase/functions';
 import { register } from '../../utils/connections';
+import { LoadingButton } from '@mui/lab';
+import Alerts from '../../components/Alerts';
 
 const Register = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [loading, setLoading] = useState(false)
+	const [openAlert, setOpenAlert] = useState(false)
+	const [alertData, setAlertData] = useState({alertMessage: '', alertSeverity: ''})
+
+	const navigate = useNavigate();
 
 	const { t } = useLanguageContext();
 	const texts = (data) => t(`register.${data}`);
 
 	const handleRegister = async(e) => {
 		e.preventDefault();
+		setLoading(true);
 		const userCreated = await createUser(email, password)
 		if (userCreated === 'auth/email-already-in-use') {
+			setAlertData({alertMessage: 'Email already in use', alertSeverity: 'error'})
 			console.log('Email already in use')
+			setLoading(false)
+			setOpenAlert(true)
 			return
 		}
 		const data = {
@@ -28,15 +39,25 @@ const Register = () => {
 		}
 		const registered = await register(data)
 		if (registered === 'error' || registered === 'duplicate_email' ) {
+			setAlertData({alertMessage: 'Error registering the user', alertSeverity: 'error'})
 			console.log('Error')
+			setLoading(false)
+			setOpenAlert(true)
 			return
 		}else{
-			console.log('User registered')
+			setAlertData({alertMessage: 'User registered', alertSeverity: 'success'})
+			setLoading(false)
+			setOpenAlert(true)
+			setTimeout(() => {
+				navigate('/login')
+			}, 2000);
+			clearTimeout();
 		}
 		
 	}
 	return (
 		<Container maxWidth="xs">
+			<Alerts openAlert={openAlert} setOpenAlert={setOpenAlert} alertData={alertData} />
 			<Box textAlign="center" mt={15}>
 				<Typography variant="h4" style={{ fontFamily: 'Inter', fontWeight: 600 }}>Vagabond</Typography>
 			</Box>
@@ -113,18 +134,16 @@ const Register = () => {
             {error}
           </Typography>
         )} */}
-        <Button
+        <LoadingButton
+					loading={loading}
           type="submit"
           variant="contained"
-          color="primary"
           fullWidth
           size="large"
+					color='primary'
           sx={{
             mt: 2,
             backgroundColor: '#2D6EFF',
-            '&:hover': {
-              backgroundColor: 'blue',
-            },
             '& span': {
               fontFamily: 'Inter',
               fontWeight: 500,
@@ -132,12 +151,12 @@ const Register = () => {
           }}
         >
           {texts('button')}
-        </Button>
+        </LoadingButton>
 			</Box>
 			<Box textAlign="center" mt={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="body2">
           {texts('alreadyAccount')}{' '}
-          <Link href="/login" underline="hover">
+          <Link to="/login" underline="hover">
             {texts('signIn')}
           </Link>
         </Typography>

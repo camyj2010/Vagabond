@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography, Link, Container, Box } from "@mui/material";
+import { TextField, Button, Typography, Container, Box } from "@mui/material";
 import { useAuth } from "../../context/authContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguageContext } from '../../context/languageContext';
 import { register } from '../../utils/connections';
 
@@ -117,9 +117,6 @@ const Login = () => {
           sx={{
             mt: 2,
             backgroundColor: '#2D6EFF',
-            '&:hover': {
-              backgroundColor: 'blue',
-            },
             '& span': {
               fontFamily: 'Inter',
               fontWeight: 500,
@@ -139,9 +136,6 @@ const Login = () => {
           sx={{
             mt: 2,
             backgroundColor: '#2D6EFF',
-            '&:hover': {
-              backgroundColor: 'blue',
-            },
             '& span': {
               fontFamily: 'Inter',
               fontWeight: 500,
@@ -154,7 +148,7 @@ const Login = () => {
       <Box textAlign="center" mt={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="body2">
           {texts('dontHaveAccount')}{' '}
-          <Link href="/register" underline="hover">
+          <Link to="/register" underline="hover">
             {texts('signUp')}
           </Link>
         </Typography>
