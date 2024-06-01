@@ -5,14 +5,13 @@ import { Container, Button, Typography, Stack } from "@mui/material";
 import Header from "../../components/Header";
 import { useLanguageContext } from "../../context/languageContext";
 import CountryCard from "../../components/CountryCard";
+import { getUserTrips } from "../../utils/connections";
 
 const MyTrips = () => {
 	const [currentTrip, setCurrentTrip] = useState(null); 
 	const [trips, setTrips] = useState([]);
 
 	useEffect(() => {
-
-		console.log("User Uid",auth.user.uid)
 		// Fetch current trip
 		const tripDate = new Date();
 		const stringTripDateStart = tripDate.toLocaleDateString('en-GB');
@@ -28,41 +27,47 @@ const MyTrips = () => {
 		}
 		setCurrentTrip(currentTrip);
 		// Fetch user trips
-		const trips = [
-			{
-				id: '43B',
-				country: 'Spain',
-				country_cod: 'es',
-				city: 'Barcelona',
-				init_date: '15/06/2024',
-				finish_date: '20/06/2024',
-			},
-			{
-				id: '41A',
-				country: 'France',
-				country_cod: 'fr',
-				city: 'Paris',
-				init_date: '15/06/2024',
-				finish_date: '20/06/2024',
-			},
-			{
-				id: '425',
-				country: 'Italy',
-				country_cod: 'it',
-				city: '',
-				init_date: '15/06/2024',
-				finish_date: '20/06/2024',
-			},
-			{
-				id: '41Y',
-				country: 'Colombia',
-				country_cod: 'co',
-				city: 'Bogota',
-				init_date: '15/06/2024',
-				finish_date: '20/06/2024',
-			}
-		]
-		setTrips(trips);
+		const fetchTrips = async () => {	
+			const trips = await getUserTrips(auth.user.accessToken, auth.user.uid);
+			setTrips(trips.travels);
+		}
+
+		fetchTrips();
+		// const trips = [
+		// 	{
+		// 		id: '43B',
+		// 		country: 'Spain',
+		// 		country_cod: 'es',
+		// 		city: 'Barcelona',
+		// 		init_date: '15/06/2024',
+		// 		finish_date: '20/06/2024',
+		// 	},
+		// 	{
+		// 		id: '41A',
+		// 		country: 'France',
+		// 		country_cod: 'fr',
+		// 		city: 'Paris',
+		// 		init_date: '15/06/2024',
+		// 		finish_date: '20/06/2024',
+		// 	},
+		// 	{
+		// 		id: '425',
+		// 		country: 'Italy',
+		// 		country_cod: 'it',
+		// 		city: '',
+		// 		init_date: '15/06/2024',
+		// 		finish_date: '20/06/2024',
+		// 	},
+		// 	{
+		// 		id: '41Y',
+		// 		country: 'Colombia',
+		// 		country_cod: 'co',
+		// 		city: 'Bogota',
+		// 		init_date: '15/06/2024',
+		// 		finish_date: '20/06/2024',
+		// 	}
+		// ]
+		//setTrips(trips);
 		// Fetch user trips
 	}, []);
   const auth = useAuth();
@@ -93,15 +98,19 @@ const MyTrips = () => {
 			<Typography mb={2} mt={4} textAlign="center" variant="h4" style={{ fontFamily: 'Inter', fontWeight: 600 }}>{texts('yourTrips')}</Typography>
 			<Stack spacing={2} mb={10}>
 				{trips.map((trip, index) => {
+					const tripDateStart = new Date(trip.init_date);
+					const tripDateEnd = new Date(trip.finish_date);
+					const stringTripDateStart = tripDateStart.toLocaleDateString('en-GB');
+					const stringTripDateEnd = tripDateEnd.toLocaleDateString('en-GB');
 					return (<CountryCard key={index}
-						id={trip.id}
+						id={trip._id}
 						country={trip.country}
 						country_cod={trip.country_cod}
 						city={trip.city}
-						init_date={trip.init_date}
-						finish_date={trip.finish_date}
+						init_date={stringTripDateStart}
+						finish_date={stringTripDateEnd}
 						/>)
-					})
+					}) ?? "No trips"
 				}
 			</Stack>
 			<Button

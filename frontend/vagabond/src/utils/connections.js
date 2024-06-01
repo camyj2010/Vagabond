@@ -33,3 +33,12 @@ export const createNewTrip = async (data, token) => {
     console.log(error);
   }
 };
+
+export const getUserTrips = async (token, uid) => {
+	try {
+		const response = await service(token).get('/api/travels/'+uid);
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

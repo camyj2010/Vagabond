@@ -1,0 +1,40 @@
+.menuDiv {
+  width: 100%;
+  margin: auto;
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  top: 1em;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  border: none;
+  cursor: pointer;
+}
+
+.flag {
+  height: 2em;
+  width: auto;
+	margin-left: 10px;
+}
+
+.flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.texts {
+  display: flex;
+  align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.editIcon {
+	margin-left: 10px;
+	cursor: pointer;
+}

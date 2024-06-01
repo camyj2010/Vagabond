@@ -13,7 +13,7 @@ export default function CountryCard({id, country, country_cod, city, init_date, 
 				<Typography variant='body2' fontSize={12}>{init_date ?? " "} - {finish_date ?? " "}</Typography>
 			</Stack>
 			<div className={styles.flag}>
-				<img src={`https://flagcdn.com/${country_cod}.svg`} alt={country+' flag'} />
+				<img src={`https://flagcdn.com/${country_cod.toLowerCase()}.svg`} alt={country+' flag'} />
 			</div>
 		</Link>
 	)
