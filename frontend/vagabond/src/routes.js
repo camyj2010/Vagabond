@@ -4,6 +4,7 @@ import MyTrips from "./pages/myTrips/MyTrips";
 import App from "./App";
 import Register from "./pages/register/Register";
 import NewTrip from "./pages/newTrip/NewTrip";
+import MyTrip from "./pages/myTrips/myTrip/MyTrip";
 
 const routes = createBrowserRouter(
   [
@@ -14,6 +15,10 @@ const routes = createBrowserRouter(
     {
       path: '/my_trips',
       element: <MyTrips />
+    },
+		{
+      path: '/my_trips/:id',
+      element: <MyTrip/>
     },
     {
       path: '/register',

@@ -40,5 +40,11 @@
 		"endDate":"End date",
 		"describeTrip":"Describe the perfect trip for you",
 		"button":"Create Trip"
+	},
+	"myTrips":{
+		"currentTrip":"Current Trip",
+		"yourTrips":"Your Trips",
+		"noTrips":"You don't have any trips yet",
+		"button":"Create a new trip"
 	}
 }
