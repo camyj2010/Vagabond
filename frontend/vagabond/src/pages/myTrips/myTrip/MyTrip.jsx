@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../../context/authContext";
 
 import { Box, Container, Typography } from "@mui/material";
 
@@ -7,13 +8,49 @@ import Header from "../../../components/Header";
 import HeaderTrip from "../../../components/HeaderTrip";
 import ButtonCard from "../../../components/ButtonCard";
 
+import { getTrip } from "../../../utils/connections";
+
 export default function MyTrip() {
   let { id } = useParams();
+  const [trip, setTrip] = useState(null);
+
+  const auth = useAuth();
+
+  useEffect(() => {
+    const token = auth.user.accessToken;
+    const fetchTrip = async () => {
+      const trip = await getTrip(token, id);
+      if (!trip) return;
+      console.log("mitrippp", trip);
+      const tripInfo = trip.travels[0];
+      const startDate = new Date(tripInfo.init_date);
+      const endDate = new Date(tripInfo.finish_date);
+      const stringInitDate = (tripInfo.init_date =
+        startDate.toLocaleDateString("en-GB"));
+      const stringFinishDate = (tripInfo.finish_date =
+        endDate.toLocaleDateString("en-GB"));
+      const formatedTrip = {
+        ...tripInfo,
+        init_date: stringInitDate,
+        finish_date: stringFinishDate,
+      };
+      console.log("tripInfo", formatedTrip);
+      setTrip(formatedTrip);
+    };
+    fetchTrip();
+  }, [auth]);
 
   return (
     <Container component="section" maxWidth="xs">
       <Header />
-      <HeaderTrip mainPage={true} />
+      <HeaderTrip
+        mainPage={true}
+        country={trip?.country ?? " "}
+        country_cod={trip?.country_cod ?? " "}
+				city={trip?.city ?? " "}
+        init_date={trip?.init_date ?? " "}
+        finish_date={trip?.finish_date ?? " "}
+      />
 
       <Box mt={4}>
         <ButtonCard
@@ -48,20 +85,26 @@ export default function MyTrip() {
             color: "#000",
           }}
         >
-          <Typography variant="body1" fontWeight="bold" sx={{ margin: "auto" }}>
-            {" "}
-            Barcelona{" "}
-          </Typography>
-          <Typography variant="body2" sx={{ margin: "auto" }}>
-            {" "}
-            The Berlin Zoo, also known as Zoologischer Garten Berlin, is one of
-            the oldest and most renowned zoos in the world. Established in 1844,
-            it is located in the heart of Berlin, Germany. The zoo is home to a
-            vast array of species, boasting one of the most diverse animal
-            collections globally, including rare and endangered species. The
-            Berlin Zoo is famous for its historical architecture, extensive
-            conservation efforts, and educational programs,{" "}
-          </Typography>
+          {trip ? (
+            trip.suggestions.map((suggestion, index) => {
+              return (
+                <div key={index} style={{ marginTop: "10px" }}>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    sx={{ margin: "auto" }}
+                  >
+                    {suggestion.location}
+                  </Typography>
+                  <Typography variant="body2" sx={{ margin: "auto" }}>
+                    {suggestion.description}
+                  </Typography>
+                </div>
+              );
+            })
+          ) : (
+            <p>No hay nada</p>
+          )}
         </Box>
       </Box>
     </Container>

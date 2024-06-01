@@ -11,6 +11,13 @@ const MyTrips = () => {
 	const [currentTrip, setCurrentTrip] = useState(null); 
 	const [trips, setTrips] = useState([]);
 
+	const auth = useAuth();
+
+	const navigate = useNavigate();
+
+	const { t } = useLanguageContext();
+	const texts = (data) => t(`myTrips.${data}`);
+
 	useEffect(() => {
 		// Fetch current trip
 		const tripDate = new Date();
@@ -33,48 +40,8 @@ const MyTrips = () => {
 		}
 
 		fetchTrips();
-		// const trips = [
-		// 	{
-		// 		id: '43B',
-		// 		country: 'Spain',
-		// 		country_cod: 'es',
-		// 		city: 'Barcelona',
-		// 		init_date: '15/06/2024',
-		// 		finish_date: '20/06/2024',
-		// 	},
-		// 	{
-		// 		id: '41A',
-		// 		country: 'France',
-		// 		country_cod: 'fr',
-		// 		city: 'Paris',
-		// 		init_date: '15/06/2024',
-		// 		finish_date: '20/06/2024',
-		// 	},
-		// 	{
-		// 		id: '425',
-		// 		country: 'Italy',
-		// 		country_cod: 'it',
-		// 		city: '',
-		// 		init_date: '15/06/2024',
-		// 		finish_date: '20/06/2024',
-		// 	},
-		// 	{
-		// 		id: '41Y',
-		// 		country: 'Colombia',
-		// 		country_cod: 'co',
-		// 		city: 'Bogota',
-		// 		init_date: '15/06/2024',
-		// 		finish_date: '20/06/2024',
-		// 	}
-		// ]
-		//setTrips(trips);
-		// Fetch user trips
 	}, []);
-  const auth = useAuth();
-  const navigate = useNavigate();
 
-	const { t } = useLanguageContext();
-	const texts = (data) => t(`myTrips.${data}`);
 
   const handleLogout = () => {
     auth.logout()

@@ -1,13 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 
 //styles
 import styles from "./HeaderTrip.module.css";
 
-export default function HeaderTrip({mainPage}) {
+
+export default function HeaderTrip({mainPage, country, country_cod, city, init_date, finish_date}) {
   return (
     <div className={styles.menuDiv}>
-      <div className={styles.backButton}>
+      <Link to={mainPage ? "/my_trips" : -1} className={styles.backButton}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -23,19 +25,18 @@ export default function HeaderTrip({mainPage}) {
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M15 6l-6 6l6 6" />
         </svg>
-      </div>
+      </Link>
       <div className={styles.texts}>
         <Typography
           textAlign="center"
           variant="h4"
           style={{ fontFamily: "Inter", fontWeight: 600 }}
         >
-          Spain
+          {country}
         </Typography>
         <div className={styles.flag}>
           <img
-            src="https://flagcdn.com/es.svg"
-            // src={`https://flagcdn.com/${country_cod.toLowerCase()}.svg`}
+            src={`https://flagcdn.com/${country_cod.toLowerCase()}.svg`}
             alt={"espain flag"}
           />
         </div>
@@ -59,7 +60,7 @@ export default function HeaderTrip({mainPage}) {
         </svg> : <p></p>}
       </div>
         <Typography variant="body1" style={{ fontFamily: "Inter", fontWeight:500, paddingTop:10 }}>
-          Barcelona {"23/7/2023"} - {"30/07/2023"}
+          {city} {init_date} - {finish_date}
         </Typography>
 
     </div>

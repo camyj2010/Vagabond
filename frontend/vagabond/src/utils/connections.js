@@ -42,3 +42,12 @@ export const getUserTrips = async (token, uid) => {
 		console.log(error);
 	}
 };
+
+export const getTrip = async (token, tid) => {
+	try {
+		const response = await service(token).get('/api/travel/'+tid);
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+}
