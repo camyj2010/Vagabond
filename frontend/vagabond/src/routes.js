@@ -4,6 +4,7 @@ import MyTrips from "./pages/myTrips/MyTrips";
 import App from "./App";
 import Register from "./pages/register/Register";
 import NewTrip from "./pages/newTrip/NewTrip";
+import Checklist from "./pages/myTrips/myTrip/Checklist";
 import MyTrip from "./pages/myTrips/myTrip/MyTrip";
 import FoodandMore from "./pages/myTrips/myTrip/FoodandMore";
 import EditTrip from "./pages/myTrips/myTrip/EditTrip";
@@ -41,7 +42,11 @@ const routes = createBrowserRouter(
 		{
 			path: '/new_trip',
 			element: <NewTrip/>
-		}
+		},
+    {
+      path: '/my_trips/:id/my_checklist',
+      element: <Checklist/>
+    }
   ]
 );
 

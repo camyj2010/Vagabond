@@ -69,3 +69,39 @@ export const deleteTrip = async (token, tid) => {
 		console.log(error);
 	}
 }
+
+export const getChecklist = async (token, checklistId) => {
+  try {
+	const response = await service(token).get(`/api/checklist/${checklistId}`);
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+};
+
+export const toggleChecklistItem = async (token, checklistId, elementId, checked) => {
+  try {
+	const response = await service(token).patch(`/api/checklist/${checklistId}/${elementId}`, { checked });
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+};
+
+export const addCheckListItem = async (token, checklistId, element) => {
+  try {
+	const response = await service(token).post(`/api/checklist/${checklistId}`, { element });
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+};
+
+export const deleteChecklistItem = async (token, checklistId, elementId) => {
+  try {
+	const response = await service(token).delete(`/api/checklist/${checklistId}/${elementId}`);
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+}

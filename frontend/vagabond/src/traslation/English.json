@@ -41,6 +41,12 @@
 		"describeTrip":"Describe the perfect trip for you",
 		"button":"Create Trip"
 	},
+	"checklist": {
+		"description":"Below we have provided you with a checklist with the elements that we consider essential for your trip, but remember that you can adjust it to your needs.",
+		"newItem": "Add new item",
+		"checklistTitle": "Must-bring checklist",
+		"button": "Add Item"
+	},
 	"myTrips":{
 		"currentTrip":"Current Trip",
 		"yourTrips":"Your Trips",
