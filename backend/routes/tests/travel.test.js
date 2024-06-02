@@ -8,7 +8,7 @@ const app = require('../../app');
 const {ModelUser,ModelTravel,ModelChecklist} = require('../../userModel');
 const middleware = require('../../middleware');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const addSuggestions = require('../travel')
+
 
 // TRAVEL TEST
 describe ('api/travel', () => {
