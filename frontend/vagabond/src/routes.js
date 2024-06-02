@@ -6,6 +6,7 @@ import Register from "./pages/register/Register";
 import NewTrip from "./pages/newTrip/NewTrip";
 import MyTrip from "./pages/myTrips/myTrip/MyTrip";
 import FoodandMore from "./pages/myTrips/myTrip/FoodandMore";
+import EditTrip from "./pages/myTrips/myTrip/EditTrip";
 
 const routes = createBrowserRouter(
   [
@@ -24,6 +25,10 @@ const routes = createBrowserRouter(
 		{
       path: '/my_trips/:id/foodandmore',
       element: <FoodandMore/>
+    },
+		{
+      path: '/my_trips/:id/edit',
+      element: <EditTrip/>
     },
     {
       path: '/register',

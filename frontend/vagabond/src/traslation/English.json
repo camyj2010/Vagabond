@@ -57,5 +57,17 @@
 		"mustButton": "Must-bring Checklist",
 		"foodButton": "Food and more",
 		"interesting": "Interesting places" 
+	},
+	"editTrip":{
+		"title":"Edit Trip",
+		"country":"Country",
+		"countryLabel":"Choose a country",
+		"city":"City",
+		"cityLabel":"Write the name of the city (Optional)",
+		"startDate":"Start date",
+		"endDate":"End date",
+		"describeTrip":"Describe the perfect trip for you",
+		"buttonSubmit":"Edit trip",
+		"buttonDelete":"Delete trip"
 	}
 }

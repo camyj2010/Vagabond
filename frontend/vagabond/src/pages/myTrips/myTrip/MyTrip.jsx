@@ -26,7 +26,6 @@ export default function MyTrip() {
     const fetchTrip = async () => {
       const trip = await getTrip(token, id);
       if (!trip) return;
-      console.log("mitrippp", trip);
       const tripInfo = trip.travels[0];
       const startDate = new Date(tripInfo.init_date);
       const endDate = new Date(tripInfo.finish_date);
@@ -39,11 +38,11 @@ export default function MyTrip() {
         init_date: stringInitDate,
         finish_date: stringFinishDate,
       };
-      console.log("tripInfo", formatedTrip);
+      //console.log("tripInfo", formatedTrip);
       setTrip(formatedTrip);
     };
     fetchTrip();
-  }, [auth]);
+  }, [auth,id]);
 
   return (
     <Container component="section" maxWidth="xs">

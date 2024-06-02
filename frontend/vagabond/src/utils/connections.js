@@ -51,3 +51,21 @@ export const getTrip = async (token, tid) => {
 		console.log(error);
 	}
 }
+
+export const updateTrip = async (data, token, tid) => {
+	try {
+		const response = await service(token).patch('/api/travel/'+tid, data);
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const deleteTrip = async (token, tid) => {
+	try {
+		const response = await service(token).delete('/api/travel/'+tid);
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+}
