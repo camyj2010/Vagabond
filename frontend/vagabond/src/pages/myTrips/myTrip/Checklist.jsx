@@ -10,12 +10,11 @@ import HeaderTrip from '../../../components/HeaderTrip';
 import { useAuth } from "../../../context/authContext";
 import { useLanguageContext } from "../../../context/languageContext";
 
-import { getChecklist } from '../../../utils/connections';
+import { getChecklist, toggleChecklistItem } from '../../../utils/connections';
 
 export default function Checklist() {
   let { state } = useLocation();
   const auth = useAuth();
-  console.log("Traiga esta info", state._id)
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const { t } = useLanguageContext();
@@ -39,11 +38,10 @@ export default function Checklist() {
     }
   };
 
-  const handleToggleItem = (index) => {
-    const updatedItems = items.map((item, i) =>
-      i === index ? { ...item, checked: !item.checked } : item
-    );
-    setItems(updatedItems)
+  const handleToggleItem = async (index) => {
+    const token = auth.user.accessToken;
+    const updatedChecklist = await toggleChecklistItem(token, state?._id, items[index]._id, !items[index].checked);
+    setItems(updatedChecklist.elements)
   };
 
   const handleDeleteItem = (index) => {

@@ -72,7 +72,16 @@ export const deleteTrip = async (token, tid) => {
 
 export const getChecklist = async (token, checklistId) => {
   try {
-	const response = await service(token).get('/api/checklist/'+checklistId);
+	const response = await service(token).get(`/api/checklist/${checklistId}`);
+	return response.data;
+  } catch (error) {
+	console.log(error)
+  }
+}
+
+export const toggleChecklistItem = async (token, checklistId, elementId, checked) => {
+  try {
+	const response = await service(token).patch(`/api/checklist/${checklistId}/${elementId}`, { checked });
 	return response.data;
   } catch (error) {
 	console.log(error)
