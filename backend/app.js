@@ -9,6 +9,7 @@ const dbconnect = require('./config');
 const usersRouter = require('./routes/register');
 const travelsRouter = require('./routes/travels');
 const travelRouter = require('./routes/travel');
+const checklistRouter = require('./routes/checklist');
 
 // Middlewares
 app.use(logger('dev'));
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use('/api/register', usersRouter);
 app.use('/api/travels', travelsRouter);
 app.use('/api/travel', travelRouter);
+app.use('/api/checklist', checklistRouter);
 
 // Manejo de errores
 app.use((req, res, next) => {
