@@ -174,24 +174,7 @@ async function updateTravel(req, res) {
         res.status(500).json({ message: "Error Travel Update" });
     }
 }
-/**
-Description: Adds restaurant recommendations to the provided travel data by generating recommendations based on the country.
-Parameters:
-travel: The travel data object to which restaurant recommendations need to be added.
-Returns: The updated travel data object with restaurant recommendations 
- */
 
-async function addRestaurantRecommendations(travel) {
-    const prompt = `searches the internet for food ordering applications used in this country ${travel.country},
-     returns three applications separate by a coma and not numerate
-     example Mjam, Lieferando, Uber Eats`;
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const appsList = response.text();
-    
-    travel.restaurant_recommendations = appsList.split(',').map(app => app.trim());
-}
 /**
 Description: Retrieves restaurant recommendations for a specific travel from the database based on the provided travel ID.
 Parameters:
