@@ -12,31 +12,53 @@ Content-Type: application/json
   "finish_date": "2024-07-07T00:00:00Z"
 }
 ###Travels information
-GET http://localhost:3001/api/travel/665aa40dd64bcb61dfce2766
+GET http://localhost:3001/api/travel/665bedf54fd47d3398b5021d
 Content-Type: application/json
 
 ###Delete travel
-DELETE  http://localhost:3001/api/travel/665aa40dd64bcb61dfce2766
+DELETE  http://localhost:3001/api/travel/665ab3b7de5b5926db35b020
 Content-Type: application/json
 
 ###UPDATEs travel
-PATCH  http://localhost:3001/api/travel/665aa40dd64bcb61dfce2766
+PATCH  http://localhost:3001/api/travel/665bedf54fd47d3398b5021d
 Content-Type: application/json
 
 {
-  "country": "Spain",
-  "country_cod": "ESP",
-  "city": "Barcelona",
-  "description": "A week-long trip to explore the city and its surroundings.",
+  "country": "China",
+  "country_cod": "CN",
+  "city": "Beijing",
+  "description": "A week-long trip to explore the country and its surroundings.",
   "init_date": "2024-07-01T00:00:00Z",
   "finish_date": "2024-07-07T00:00:00Z"
 }
 ### food aplications 
-GET http://localhost:3001/api/travel/food/665aa40dd64bcb61dfce2766
+GET http://localhost:3001/api/travel/food/665bedf54fd47d3398b5021d
 Content-Type: application/json
 
 ###Travels per user
-GET http://localhost:3001/api/travels/u6EBH2EaVYgavwmqS7RRCEW2JWr1
+GET http://localhost:3001/api/travels/665bedf54fd47d3398b5021d
+Content-Type: application/json
+
+### Add to checklist
+POST http://localhost:3001/api/checklist/665c03c2d7b8297d722ac6ff
+Content-Type: application/json
+
+{
+  "element":"Sombrilla"
+}
+### delete from checklist
+DELETE  http://localhost:3001/api/checklist/665c03c2d7b8297d722ac6ff/665c08c0f0d6b1e30d0c5d51
+Content-Type: application/json
+
+### check an element in a checklist
+PATCH  http://localhost:3001/api/checklist/665c03c2d7b8297d722ac6ff/665c08c0f0d6b1e30d0c5d51
+Content-Type: application/json
+
+{
+  "checked": true
+}
+###Get a checklist
+GET http://localhost:3001/api/checklist/665c03c2d7b8297d722ac6ff/
 Content-Type: application/json
 
 
