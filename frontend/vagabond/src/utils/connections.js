@@ -96,3 +96,12 @@ export const addCheckListItem = async (token, checklistId, element) => {
 	console.log(error);
   }
 };
+
+export const deleteChecklistItem = async (token, checklistId, elementId) => {
+  try {
+	const response = await service(token).delete(`/api/checklist/${checklistId}/${elementId}`);
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+}

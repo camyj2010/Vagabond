@@ -10,7 +10,7 @@ import HeaderTrip from '../../../components/HeaderTrip';
 import { useAuth } from "../../../context/authContext";
 import { useLanguageContext } from "../../../context/languageContext";
 
-import { addCheckListItem, getChecklist, toggleChecklistItem } from '../../../utils/connections';
+import { addCheckListItem, deleteChecklistItem, getChecklist, toggleChecklistItem } from '../../../utils/connections';
 
 export default function Checklist() {
   let { state } = useLocation();
@@ -43,12 +43,13 @@ export default function Checklist() {
   const handleToggleItem = async (index) => {
     const token = auth.user.accessToken;
     const updatedChecklist = await toggleChecklistItem(token, state?._id, items[index]._id, !items[index].checked);
-    setItems(updatedChecklist.elements)
+    setItems(updatedChecklist.elements);
   };
 
-  const handleDeleteItem = (index) => {
-    const updatedItems = items.filter((_,i) => i !== index);
-    setItems(updatedItems)
+  const handleDeleteItem = async (index) => {
+    const token = auth.user.accessToken;
+    const updatedChecklist = await deleteChecklistItem(token, state?._id, items[index]._id);
+    setItems(updatedChecklist.elements);
   }
 
   return (
