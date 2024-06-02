@@ -255,5 +255,34 @@ router.patch("/:_id", middleware.decodeToken, async (req, res) => {
         res.status(500).json({ message: "Error Travel Update" });
     }
 });
+// OBTENER LAS APLICACIONES DE COMIDA//////////////////////////////////////////////////////////////////////////////////////////
+router.get("/food/:_id", middleware.decodeToken, async (req, res) => {
+    try {
+        const { _id } = req.params;
+
+        // Buscar el viaje por _id
+        const travels = await ModelTravel.find({ _id });
+
+        if (travels.length === 0) {
+            return res.status(404).json({ message: "Travel not found" });
+        }
+
+        const travel = travels[0];
+
+        // Verificar si el campo está presente y tiene datos
+        console.log('Travel retrieved:', travel);
+        console.log('Restaurant Recommendations:', travel.restaurant_recomendations);
+
+        // Incluir restaurant_recommendations en la respuesta
+        res.status(200).json({ 
+            message: "Travel successfully retrieved", 
+            restaurant_recommendations: travel.restaurant_recomendations 
+        });
+    } catch (error) {
+        console.error('Error retrieving travel', error);
+        res.status(500).json({ message: "Error retrieving travel" });
+    }
+});
+
 
 module.exports = router;
