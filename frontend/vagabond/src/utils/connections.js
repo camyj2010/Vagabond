@@ -69,3 +69,12 @@ export const deleteTrip = async (token, tid) => {
 		console.log(error);
 	}
 }
+
+export const getChecklist = async (token, checklistId) => {
+  try {
+	const response = await service(token).get('/api/checklist/'+checklistId);
+	return response.data;
+  } catch (error) {
+	console.log(error)
+  }
+}

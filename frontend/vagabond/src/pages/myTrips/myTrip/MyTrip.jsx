@@ -26,7 +26,7 @@ export default function MyTrip() {
     const fetchTrip = async () => {
       const trip = await getTrip(token, id);
       if (!trip) return;
-      const tripInfo = trip.travels[0];
+      const tripInfo = trip.travel;
       const startDate = new Date(tripInfo.init_date);
       const endDate = new Date(tripInfo.finish_date);
       const stringInitDate = (tripInfo.init_date =
@@ -60,7 +60,8 @@ export default function MyTrip() {
         <ButtonCard
           imageLink="/Images/Checklist.jpeg"
           title={texts("mustButton")}
-          clickLink="/Edit"
+          clickLink="my_checklist"
+          trip={trip}
         />
 
         <hr />
