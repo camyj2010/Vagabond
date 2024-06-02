@@ -75,15 +75,24 @@ export const getChecklist = async (token, checklistId) => {
 	const response = await service(token).get(`/api/checklist/${checklistId}`);
 	return response.data;
   } catch (error) {
-	console.log(error)
+	console.log(error);
   }
-}
+};
 
 export const toggleChecklistItem = async (token, checklistId, elementId, checked) => {
   try {
 	const response = await service(token).patch(`/api/checklist/${checklistId}/${elementId}`, { checked });
 	return response.data;
   } catch (error) {
-	console.log(error)
+	console.log(error);
   }
-}
+};
+
+export const addCheckListItem = async (token, checklistId, element) => {
+  try {
+	const response = await service(token).post(`/api/checklist/${checklistId}`, { element });
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+};
