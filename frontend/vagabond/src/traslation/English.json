@@ -40,5 +40,22 @@
 		"endDate":"End date",
 		"describeTrip":"Describe the perfect trip for you",
 		"button":"Create Trip"
+	},
+	"myTrips":{
+		"currentTrip":"Current Trip",
+		"yourTrips":"Your Trips",
+		"noTrips":"You don't have any trips yet",
+		"button":"Create a new trip"
+	},
+	"foodandMore":{
+		"title":"Food and more",
+		"discover":"Discover where to order",
+		"foodPedia":"Food-pedia",
+		"button":"Search"
+	},
+	"myTrip":{
+		"mustButton": "Must-bring Checklist",
+		"foodButton": "Food and more",
+		"interesting": "Interesting places" 
 	}
 }
