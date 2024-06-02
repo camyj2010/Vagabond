@@ -36,6 +36,7 @@ const MyTrips = () => {
 		// Fetch user trips
 		const fetchTrips = async () => {	
 			const trips = await getUserTrips(auth.user.accessToken, auth.user.uid);
+			if (!trips) return;
 			setTrips(trips.travels);
 		}
 
@@ -61,7 +62,7 @@ const MyTrips = () => {
 				init_date={currentTrip.init_date}
 				finish_date={currentTrip.finish_date}
 			/> 
-				: "Hola"}
+				: " "}
 			<Typography mb={2} mt={4} textAlign="center" variant="h4" style={{ fontFamily: 'Inter', fontWeight: 600 }}>{texts('yourTrips')}</Typography>
 			<Stack spacing={2} mb={10}>
 				{trips.map((trip, index) => {

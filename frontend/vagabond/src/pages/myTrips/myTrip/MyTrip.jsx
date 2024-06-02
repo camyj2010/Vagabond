@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
+import { useLanguageContext } from "../../../context/languageContext";
 
 import { Box, Container, Typography } from "@mui/material";
 
@@ -10,11 +11,15 @@ import ButtonCard from "../../../components/ButtonCard";
 
 import { getTrip } from "../../../utils/connections";
 
+
 export default function MyTrip() {
   let { id } = useParams();
   const [trip, setTrip] = useState(null);
 
   const auth = useAuth();
+
+  const { t } = useLanguageContext();
+  const texts = (data) => t(`myTrip.${data}`);
 
   useEffect(() => {
     const token = auth.user.accessToken;
@@ -47,15 +52,15 @@ export default function MyTrip() {
         mainPage={true}
         country={trip?.country ?? " "}
         country_cod={trip?.country_cod ?? " "}
-				city={trip?.city ?? " "}
+        city={trip?.city ?? " "}
         init_date={trip?.init_date ?? " "}
         finish_date={trip?.finish_date ?? " "}
       />
 
-      <Box mt={4}>
+      <Box mt={4} mb={4}>
         <ButtonCard
           imageLink="/Images/Checklist.jpeg"
-          title="Must-bring checklist"
+          title={texts("mustButton")}
           clickLink="/Edit"
         />
 
@@ -63,14 +68,15 @@ export default function MyTrip() {
 
         <ButtonCard
           imageLink="/Images/Food1.jpeg"
-          title="Food and More"
-          clickLink="/Edit"
+          title={texts("foodButton")}
+          clickLink="foodandmore"
+          trip={trip}
         />
 
         <hr />
 
         <Typography variant="h5" textAlign="center" fontWeight="bold">
-          Interesting Places
+          {texts("interesting")}
         </Typography>
         <Box
           mt={2}

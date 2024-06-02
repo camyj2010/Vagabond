@@ -6,7 +6,7 @@
 
 .backButton {
   position: absolute;
-  top: 1em;
+  top: .5em;
   display: flex;
   align-items: center;
   margin: auto;
