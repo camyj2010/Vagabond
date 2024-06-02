@@ -1,12 +1,42 @@
 ###Travel Creation
-POST http://localhost:3001/api/travel
+POST http://localhost:3001/api/travel/
 Content-Type: application/json
 
 {
-  "_user_id": "60c72b2f9b1d8c1a4f8b4567",
+  "firebase_id": "wVwLvswhTPaZcgAKinlNfYwUawg2",
   "country": "Spain",
+  "country_cod": "ESP",
   "city": "Barcelona",
   "description": "A week-long trip to explore the city and its surroundings.",
   "init_date": "2024-07-01T00:00:00Z",
   "finish_date": "2024-07-07T00:00:00Z"
 }
+###Travels information
+GET http://localhost:3001/api/travel/665aa40dd64bcb61dfce2766
+Content-Type: application/json
+
+###Delete travel
+DELETE  http://localhost:3001/api/travel/665aa40dd64bcb61dfce2766
+Content-Type: application/json
+
+###UPDATEs travel
+PATCH  http://localhost:3001/api/travel/665aa40dd64bcb61dfce2766
+Content-Type: application/json
+
+{
+  "country": "Spain",
+  "country_cod": "ESP",
+  "city": "Barcelona",
+  "description": "A week-long trip to explore the city and its surroundings.",
+  "init_date": "2024-07-01T00:00:00Z",
+  "finish_date": "2024-07-07T00:00:00Z"
+}
+### food aplications 
+GET http://localhost:3001/api/travel/food/665aa40dd64bcb61dfce2766
+Content-Type: application/json
+
+###Travels per user
+GET http://localhost:3001/api/travels/u6EBH2EaVYgavwmqS7RRCEW2JWr1
+Content-Type: application/json
+
+

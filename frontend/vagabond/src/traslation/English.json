@@ -11,7 +11,8 @@
 		"accepts":"you agree to our",
 		"terms":"Terms of Service",
 		"privacy":"Privacy Policy",
-		"and":"and"
+		"and":"and",
+		"alertMessage":"The email is already in use"
 	},
 	"login":{
 		"title": "Log in",
@@ -39,5 +40,34 @@
 		"endDate":"End date",
 		"describeTrip":"Describe the perfect trip for you",
 		"button":"Create Trip"
+	},
+	"myTrips":{
+		"currentTrip":"Current Trip",
+		"yourTrips":"Your Trips",
+		"noTrips":"You don't have any trips yet",
+		"button":"Create a new trip"
+	},
+	"foodandMore":{
+		"title":"Food and more",
+		"discover":"Discover where to order",
+		"foodPedia":"Food-pedia",
+		"button":"Search"
+	},
+	"myTrip":{
+		"mustButton": "Must-bring Checklist",
+		"foodButton": "Food and more",
+		"interesting": "Interesting places" 
+	},
+	"editTrip":{
+		"title":"Edit Trip",
+		"country":"Country",
+		"countryLabel":"Choose a country",
+		"city":"City",
+		"cityLabel":"Write the name of the city (Optional)",
+		"startDate":"Start date",
+		"endDate":"End date",
+		"describeTrip":"Describe the perfect trip for you",
+		"buttonSubmit":"Edit trip",
+		"buttonDelete":"Delete trip"
 	}
 }

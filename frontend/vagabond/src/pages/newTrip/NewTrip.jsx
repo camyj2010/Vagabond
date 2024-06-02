@@ -7,13 +7,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { useLanguageContext } from "../../context/languageContext";
 import countries from "../../utils/countries";
 import { useAuth } from "../../context/authContext";
 
 import styles from "./NewTrip.module.css";
 import { createNewTrip } from "../../utils/connections";
-import { LoadingButton } from "@mui/lab";
+
 
 
 export default function NewTrip() {
@@ -132,8 +133,8 @@ export default function NewTrip() {
             }}
           />
         </div>
-        <Stack direction="row" spacing={2}>
-          <div className={styles.labels}>
+        <Stack direction="row" spacing={1} width={"60%"}>
+          <div className={styles.dateLabels}>
             <Typography
               variant="body1"
               mb={2}
@@ -145,13 +146,14 @@ export default function NewTrip() {
               id="date"
               type="date"
               value={startDateValue}
+							sx={{ width: "100%" }}
 							onChange={(e) => setStartDateValue(e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
             />
           </div>
-          <div className={styles.labels}>
+          <div className={styles.dateLabels}>
             <Typography
               variant="body1"
               mb={2}
@@ -163,6 +165,7 @@ export default function NewTrip() {
               id="date"
               type="date"
               value={endDateValue}
+							sx={{ width: "100%" }}
 							onChange={(e) => setEndDateValue(e.target.value)}
               InputLabelProps={{
                 shrink: true,
