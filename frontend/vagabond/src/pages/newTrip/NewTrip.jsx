@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import {
   Autocomplete,
@@ -20,6 +21,7 @@ import { createNewTrip } from "../../utils/connections";
 export default function NewTrip() {
 
 	const auth = useAuth();
+  const navigate = useNavigate();
 
   const [countryValue, setCountryValue] = useState(null);
   const [countryInput, setCountryInput] = useState("");
@@ -53,6 +55,7 @@ export default function NewTrip() {
 		const response = await createNewTrip(data,token)
 		console.log(response)
 		setLoading(false);
+    navigate('/my_trips')
 	}
   return (
     <Box textAlign="center" component="section" sx={{ px: 3, pb: 2 }}>

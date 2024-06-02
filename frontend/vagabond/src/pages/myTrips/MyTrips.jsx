@@ -39,7 +39,7 @@ const MyTrips = () => {
       console.log("Trips", trips);
       if (!trips) return;
       setTrips(trips.travels);
-			if(trips.currentTrip){
+			if(trips.currentTravel){
       const currentTripDateStart = new Date(trips.currentTravel.init_date);
       const currentTripDateEnd = new Date(trips.currentTravel.finish_date);
       const stringCTripDateStart = currentTripDateStart.toLocaleDateString("en-GB");
