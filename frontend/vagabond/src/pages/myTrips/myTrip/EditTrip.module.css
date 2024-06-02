@@ -1,0 +1,12 @@
+.labels{
+	width: 100%;
+}
+
+.dateLabels{
+	width: 80%;
+}
+
+.buttons{
+	display:flex;
+	gap: 10px;
+}
