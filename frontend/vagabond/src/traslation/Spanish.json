@@ -11,7 +11,8 @@
     "accepts": "aceptas nuestros",
     "terms": "Términos de servicio",
     "privacy": "Política de privacidad",
-    "and": "y"
+    "and": "y",
+		"alertMessage": "El correo electrónico ya está registrado"
   },	
 	"login":{
 		"title": "Inicio de Sesión",
@@ -39,5 +40,11 @@
     "endDate": "Fecha de fin",
     "describeTrip": "Describe el viaje perfecto para ti",
     "button": "Crear viaje"
+  },
+  "checklist": {
+    "description":"A continuación te facilitamos una lista de chequeo con los elementos que consideramos imprescindibles para tu viaje, pero recuerda que puedes ajustarla a tus necesidades.",
+    "newItem": "Añadir un nuevo elemento",
+    "checklistTitle": "Lista de imprescindibles",
+    "button": "Añadir elemento"
   }
 }
