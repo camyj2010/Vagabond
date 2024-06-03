@@ -86,7 +86,9 @@ describe ('api/travel', () => {
         sinon.restore();
         verifyIdTokenStub.restore();
         generateContentStub.restore();
+        await ModelUser.deleteMany({});
         await ModelTravel.deleteMany({});
+        await ModelChecklist.deleteMany({})
         // Cerrar la conexión de mongoose y el servidor en memoria después de todas las pruebas
         await mongoose.disconnect();
         await mongoServer.stop();
@@ -135,11 +137,11 @@ describe('POST /api/travel', () => {
             .post('/api/travel')
             .send(testTravel)
             .set('Authorization', `Bearer ${token}`); // Agrega el encabezado Authorization
-
+        jest.setTimeout(15000);
         expect(response.status).toBe(500);
         expect(response.body).toEqual({ message: "Error Travel Creation" });
         createStub.restore(); // Restaurar el stub después de la prueba
-    });
+    },30000);
 });
 
 

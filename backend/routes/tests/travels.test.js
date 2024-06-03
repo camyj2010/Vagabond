@@ -16,25 +16,6 @@ describe('Travel API GET /:firebase_id', () => {
     let generateContentStub;
     let userId
     let travelId
-    const badtestTravel = {
-        firebase_id: 'fail',
-        country: 'Test Country',
-        country_cod: 'TC',
-        city: 'Test City',
-        description: 'Test Description',
-        init_date: '2023-01-01',
-        finish_date: '2023-01-10'
-    };    
-
-    const testTravel = {
-        firebase_id: 'test_firebase_id',
-        country: 'Test Country',
-        country_cod: 'TC',
-        city: 'Test City',
-        description: 'Test Description',
-        init_date: '2024-07-01T00:00:00Z',
-        finish_date: '2024-07-07T00:00:00Z',
-    };  
 
     beforeAll(async () => {
         mongoServer = await MongoMemoryServer.create();
@@ -81,6 +62,7 @@ describe('Travel API GET /:firebase_id', () => {
         // Restaurar stubs y limpiar la base de datos después de cada prueba
         sinon.restore();
         verifyIdTokenStub.restore();
+        await ModelUser.deleteMany({});
         await ModelTravel.deleteMany({});
         // Cerrar la conexión de mongoose y el servidor en memoria después de todas las pruebas
         await mongoose.disconnect();
