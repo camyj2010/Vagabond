@@ -17,11 +17,17 @@ router.delete("/:_id", middleware.decodeToken, deleteTravel);
 router.patch("/:_id", middleware.decodeToken, updateTravel);
 router.get("/food/:_id", middleware.decodeToken, getFoodRecommendations);
 /**
- * Description: Creates a new travel record in the database based on the provided data.
-    Parameters:
-    req: The request object containing the travel data in the request body.
-    res: The response object used to send the HTTP response.
-    Returns: Sends an HTTP response indicating the success or failure of the travel creation process.
+ * Description: Handles the creation of an ingredient list for a specified food item by making a request to the Google Generative AI API.
+ * 
+ * Parameters:
+ *   req: The request object from the client.
+ *     - req.body: The body of the request.
+ *       - country: The country where the food is from.
+ *       - country_cod: The country code where the food is from.
+ *       - food_name: The name of the food item.
+ *   res: The response object to be sent back to the client.
+ * 
+ * Returns: Sends an HTTP response with the list of ingredients or an error message.
  */
 async function createTravel(req, res) {
     try {

@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "firebase_id": "wVwLvswhTPaZcgAKinlNfYwUawg2",
   "country": "Spain",
-  "country_cod": "ESP",
+  "country_cod": "ES",
   "city": "Barcelona",
   "description": "A week-long trip to explore the city and its surroundings.",
   "init_date": "2024-07-01T00:00:00Z",
@@ -24,9 +24,9 @@ PATCH  http://localhost:3001/api/travel/665bedf54fd47d3398b5021d
 Content-Type: application/json
 
 {
-  "country": "China",
-  "country_cod": "CN",
-  "city": "Beijing",
+  "country": "España",
+  "country_cod": "ES",
+  "city": "Madrid",
   "description": "A week-long trip to explore the country and its surroundings.",
   "init_date": "2024-07-01T00:00:00Z",
   "finish_date": "2024-07-07T00:00:00Z"
@@ -61,4 +61,13 @@ Content-Type: application/json
 GET http://localhost:3001/api/checklist/665c03c2d7b8297d722ac6ff/
 Content-Type: application/json
 
+### Add to checklist
+POST http://localhost:3001/api/food/
+Content-Type: application/json
+
+{
+  "country":"Italia",
+  "country_cod":"IT",
+  "food_name": "Lasagna"
+}
 
