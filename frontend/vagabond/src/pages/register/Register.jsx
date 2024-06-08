@@ -8,7 +8,7 @@ import { register } from '../../utils/connections';
 import { LoadingButton } from '@mui/lab';
 import Alerts from '../../components/Alerts';
 
-const Register = () => {
+export const Register = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')

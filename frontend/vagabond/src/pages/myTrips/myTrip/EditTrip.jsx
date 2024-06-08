@@ -7,7 +7,7 @@ import { deleteTrip, getTrip, updateTrip } from "../../../utils/connections";
 import { LoadingButton } from "@mui/lab";
 
 import styles from "./EditTrip.module.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function EditTrip() {
   const auth = useAuth();
@@ -19,9 +19,9 @@ export default function EditTrip() {
   const [startDateValue, setStartDateValue] = useState("");
   const [endDateValue, setEndDateValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
-	const [originalStartDate, setOriginalStartDate] = useState("");
-	const [originalEndDate, setOriginalEndDate] = useState("");
-	const [originalDescription, setOriginalDescription] = useState("");
+  const [originalStartDate, setOriginalStartDate] = useState("");
+  const [originalEndDate, setOriginalEndDate] = useState("");
+  const [originalDescription, setOriginalDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { t } = useLanguageContext();
@@ -33,7 +33,8 @@ export default function EditTrip() {
     const fetchTrip = async () => {
       const trip = await getTrip(token, id);
       if (!trip) return;
-      const tripInfo = trip.travels[0];
+      console.log("trip", trip);
+      const tripInfo = trip.travel;
       const startDate = new Date(tripInfo.init_date);
       const endDate = new Date(tripInfo.finish_date);
       const stringInitDate = startDate.toISOString().split("T")[0];
@@ -50,12 +51,12 @@ export default function EditTrip() {
       setEndDateValue(formatedTrip.finish_date);
       setDescriptionValue(formatedTrip.description);
 
-			setOriginalStartDate(formatedTrip.init_date);
-			setOriginalEndDate(formatedTrip.finish_date);
-			setOriginalDescription(formatedTrip.description);
+      setOriginalStartDate(formatedTrip.init_date);
+      setOriginalEndDate(formatedTrip.finish_date);
+      setOriginalDescription(formatedTrip.description);
     };
-    fetchTrip();
-  }, [auth, id]);
+		fetchTrip()
+  }, [id]);
 
   const handleEditTrip = async (e) => {
     e.preventDefault();
@@ -95,25 +96,44 @@ export default function EditTrip() {
     if (response) navigate(-1);
   };
 
-	const handleDeleteTrip = async (e) => {
-		e.preventDefault();
-		setLoading(true);
-		const token = auth.user.accessToken;
-		const response = await deleteTrip(token, id);
-		setLoading(false);
-		if (response) navigate("/my_trips");
-	}
+  const handleDeleteTrip = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const token = auth.user.accessToken;
+    const response = await deleteTrip(token, id);
+    setLoading(false);
+    if (response) navigate("/my_trips");
+  };
 
   return (
     <div>
       <Box textAlign="center" component="section" sx={{ px: 3, pb: 2 }}>
         <Header />
-        <Typography
-          variant="h3"
-          sx={{ fontFamily: "Inter", fontWeight: 600, mt: 3 }}
-        >
-          {texts("title")}
-        </Typography>
+        <div className={styles.titleWraper}>
+          <Link to={-1} className={styles.backButton}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="34"
+              height="34"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M15 6l-6 6l6 6" />
+            </svg>
+          </Link>
+          <Typography
+            variant="h3"
+            sx={{ fontFamily: "Inter", fontWeight: 600, mt: 3 }}
+          >
+            {texts("title")}
+          </Typography>
+        </div>
         <Stack
           component="form"
           onSubmit={handleEditTrip}
@@ -178,7 +198,9 @@ export default function EditTrip() {
                 type="date"
                 value={endDateValue}
                 sx={{ width: "100%" }}
-                onChange={(e) => {setEndDateValue(e.target.value)}}
+                onChange={(e) => {
+                  setEndDateValue(e.target.value);
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -209,7 +231,7 @@ export default function EditTrip() {
           <div className={styles.buttons}>
             <LoadingButton
               loading={loading}
-							onClick={(e)=>handleDeleteTrip(e)}
+              onClick={(e) => handleDeleteTrip(e)}
               variant="contained"
               size="large"
               sx={{ width: "60%", fontSize: 12, backgroundColor: "#FF0000" }}

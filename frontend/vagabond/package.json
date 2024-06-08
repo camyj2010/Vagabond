@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@capacitor/cli": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
     "@capacitor/core": "^6.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -11,9 +11,6 @@
     "@mui/icons-material": "^5.15.19",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.18",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "firebase": "^10.12.1",
     "i18next": "^23.11.5",
@@ -28,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -48,5 +45,48 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./src/setupTests.js"
+    ],
+    "testEnvironment": "jsdom",
+    "babelConfig": "./src/babel.config.js",
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/",
+      "\\.pnp\\.[^\\/]+$"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
+      "^axios$": "axios/dist/node/axios.cjs"
+    },
+    "testMatch": [
+      "<rootDir>/**/*.test.(js|jsx|ts|tsx)",
+      "<rootDir>/**/__tests__/*.(js|jsx|ts|tsx)"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".jsx"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-react": "^7.24.6",
+    "@capacitor/cli": "^6.0.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "babel-jest": "^29.7.0"
   }
 }
