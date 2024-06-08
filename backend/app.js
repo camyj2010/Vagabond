@@ -10,7 +10,7 @@ const usersRouter = require('./routes/register');
 const travelsRouter = require('./routes/travels');
 const travelRouter = require('./routes/travel');
 const checklistRouter = require('./routes/checklist');
-
+const foodRouter= require('./routes/food');
 // Middlewares
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,6 +22,7 @@ app.use('/api/register', usersRouter);
 app.use('/api/travels', travelsRouter);
 app.use('/api/travel', travelRouter);
 app.use('/api/checklist', checklistRouter);
+app.use('/api/food', foodRouter);
 
 // Manejo de errores
 app.use((req, res, next) => {
