@@ -46,5 +46,12 @@
     "newItem": "Añadir un nuevo elemento",
     "checklistTitle": "Lista de imprescindibles",
     "button": "Añadir elemento"
-  }
+  },
+	"editProfile":{
+	  "title":"Editar Perfil",
+		"image":"Editar imagen de perfil",
+		"name": "Nombre de usuario",
+		"email": "Correo:",
+		"button": "Actualizar Perfil"
+	}
 }

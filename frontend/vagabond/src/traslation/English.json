@@ -75,5 +75,12 @@
 		"describeTrip":"Describe the perfect trip for you",
 		"buttonSubmit":"Edit trip",
 		"buttonDelete":"Delete trip"
+	},
+	"editProfile":{
+	    "title":"Edit Profile",
+		"image":"Edit profile image",
+		"name": "Username",
+		"email": "Email:",
+		"button": "Update Profile"
 	}
 }
