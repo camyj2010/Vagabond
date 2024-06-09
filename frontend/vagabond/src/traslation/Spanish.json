@@ -46,5 +46,16 @@
     "newItem": "Añadir un nuevo elemento",
     "checklistTitle": "Lista de imprescindibles",
     "button": "Añadir elemento"
-  }
+  },
+	"myTrip":{
+		"mustButton": "Lista de indispensables",
+		"foodButton": "Comida y mas",
+		"interesting": "Sitios de interes",
+		"translate": "Traducción",
+    "text": "Traduce el texto",
+    "from": "Traducir del",
+    "to": "Traducir al",
+		"error": "Seleccione los idiomas de origen y de destino en la configuración de traducción",
+    "uploadingError": "Error al subir el audio"
+	}
 }

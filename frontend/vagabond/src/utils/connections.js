@@ -114,3 +114,31 @@ export const foodDescription = async (token, data) => {
 	console.log(error);
   }
 };
+
+export const uploadAudio = async (token, audioData, languageAudio, languageObjetive)=> {
+  try {
+	const formData = new FormData();
+    formData.append('audio', audioData);
+    formData.append('languageObjetive', languageObjetive);
+    formData.append('languageAudio', languageAudio);
+
+    const response = await axios.post(`${URL}/api/voice/transcribe`, formData, {
+	  headers: {
+		'Authorization': `Bearer ${token}`,
+		'Content-Type': 'multipart/form-data',
+	  }
+	})
+	const path = response.data.audioUrl
+	const audioResponse = await axios.get(`${URL}/api/voice/${path}`,{
+	  responseType: 'arraybuffer', // Asegúrate de obtener la respuesta como un blob
+	});
+  
+	return {
+	  audio: audioResponse.data,
+	  text: response.data.text
+	};
+  
+	} catch (error) {
+	  console.log(error);
+	}
+};

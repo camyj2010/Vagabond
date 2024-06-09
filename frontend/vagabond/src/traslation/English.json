@@ -63,7 +63,13 @@
 	"myTrip":{
 		"mustButton": "Must-bring Checklist",
 		"foodButton": "Food and more",
-		"interesting": "Interesting places" 
+		"interesting": "Interesting places",
+		"translate": "Translate",
+		"text": "Translate from text",
+		"from": "Translate from",
+		"to": "Translate to",
+		"error": "Please select both source and target languages in Translate configuration",
+		"uploadingError": "Error uploading audio"
 	},
 	"editTrip":{
 		"title":"Edit Trip",
