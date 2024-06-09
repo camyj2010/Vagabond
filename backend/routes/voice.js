@@ -12,6 +12,7 @@ const wavFileInfo = require('wav-file-info');
 const axios = require('axios');
 const mime = require('mime-types');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const FormData = require('form-data');
 
 
 const API_KEY = process.env.api_key_gemmini;
@@ -49,11 +50,18 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
     },
 });
 
-router.post('/transcribe', upload.single('audio'), async (req, res, next) => {
+router.post('/transcribe',   middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
     try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No se ha subido ningún archivo de audio' });
+        }
         const filePath = req.file.path;
         const { languageAudio, languageObjetive } = req.body;
-
+        
+        // const languageAudio="es";
+        // const languageObjetive="en";
+        // console.log(languageAudio);
+        // console.log(languageObjetive);
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Missing languageObjetive  or languageAudio in request body' });
         }

@@ -12,6 +12,7 @@ import ButtonCard from "../../../components/ButtonCard";
 import { getTrip } from "../../../utils/connections";
 
 import { WaveFile } from "wavefile";
+import { uploadAudio } from "../../../utils/connections";
 
 // Icon for microphone and stop
 const MicIcon = (props) => (
@@ -29,7 +30,8 @@ const StopIcon = (props) => (
 export default function MyTrip() {
   let { id } = useParams();
   const [trip, setTrip] = useState(null);
-  const [isRecording, setIsRecording] = useState(false)
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioUrl, setAudioUrl] = useState(null);
 
   const mediaRecorderRef = useRef(null);
   const audioChunks = useRef([]);
@@ -64,7 +66,7 @@ export default function MyTrip() {
 
   
 
-  const handleRecordButtonClick = () => {
+  const handleRecordButtonClick = async() => {
     if (isRecording) {
       // Stop recording
       mediaRecorderRef.current.stop();
@@ -104,11 +106,21 @@ export default function MyTrip() {
             );
 
             const wavBlob = new Blob([wav.toBuffer()], { type: 'audio/wav' });
-            const wavUrl = URL.createObjectURL(wavBlob);
-            const link = document.createElement('a');
-            link.href = wavUrl;
-            link.download = 'recording.wav';
-            link.click();
+
+            // Convert Blob to File
+            const wavFile = new File([wavBlob], 'recording.wav', { type: 'audio/wav' });
+            try {
+              const response = await uploadAudio(auth.user.accessToken, wavFile, 'es','en');
+              setAudioUrl(response);
+              console.log("Response:", response);
+            } catch (error) {
+              console.error("Error uploading audio", error);
+            }
+            // const wavUrl = URL.createObjectURL(wavBlob);
+            // const link = document.createElement('a');
+            // link.href = wavUrl;
+            // link.download = 'recording.wav';
+            // link.click();
 
             setIsRecording(false);
           };
@@ -186,6 +198,11 @@ export default function MyTrip() {
           )}
         </Box>
       </Box>
+      {audioUrl && (
+        <Box mt={4} mb={4} textAlign="center">
+          <audio controls src={audioUrl}></audio>
+        </Box>
+      )}
       <Box
         sx={{
           position: "fixed",
