@@ -106,15 +106,14 @@ router.post('/transcribe',   middleware.decodeToken, upload.single('audio'), asy
             const audioContent = await ToSpeech(translatedText, languageObjetive);
 
             // Guardar el contenido de audio en un archivo temporal
-            const outputFilePath = 'output.mp3';
+            const outputFilePath = `output_${Date.now()}.mp3`;
             fs.writeFileSync(outputFilePath, audioContent, 'base64');
 
-            // Enviar el archivo de audio como respuesta
-            res.setHeader('Content-Type', mime.lookup(outputFilePath));
-            res.setHeader('Content-Disposition', 'attachment; filename=output.mp3');
-            fs.createReadStream(outputFilePath).pipe(res).on('finish', () => {
-                // Eliminar el archivo temporal después de enviarlo
-                fs.unlinkSync(outputFilePath);
+            // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
+            res.status(200).json({
+                message: "transcribed voice",
+                text: translatedText,
+                audioUrl: `${outputFilePath}`
             });
         });
 
@@ -123,12 +122,30 @@ router.post('/transcribe',   middleware.decodeToken, upload.single('audio'), asy
     }
 });
 
+// Ruta para descargar el archivo de audio
+router.get('/:filename', (req, res, next) => {
+    const filename = req.params.filename;
+    const filePath = `./${filename}`;
+
+    res.setHeader('Content-Type', mime.lookup(filePath));
+    res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+    fs.createReadStream(filePath).pipe(res).on('finish', () => {
+        // Eliminar el archivo temporal después de enviarlo
+        fs.unlinkSync(filePath);
+    });
+});
+
+
 async function translateText(text, sourceLang, targetLang) {
     try {
         const prompt = `Translate the following text from ${sourceLang} to ${targetLang}: ${text}`;
 
         const result = await model.generateContent(prompt);
         const responseGemini = await result.response;
+         // Verificar si el contenido es inseguro
+        if (responseGemini.unsafety) {
+            return { error: 'unsafe content' };
+        }
         const translateGemini = responseGemini.text();
         console.log(translateGemini)
         return translateGemini;

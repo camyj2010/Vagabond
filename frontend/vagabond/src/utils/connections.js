@@ -123,15 +123,22 @@ export const uploadAudio = async (token, audioData, languageAudio, languageObjet
     formData.append('languageAudio', languageAudio);
 
     const response = await axios.post(`${URL}/api/voice/transcribe`, formData, {
-		headers: {
-		  'Authorization': `Bearer ${token}`,
-		  'Content-Type': 'multipart/form-data',
-		}
-	  })
-	const audioBlob = response.data;
-	const audioUrl = URL.createObjectURL(audioBlob);
-	return audioUrl;
-  } catch (error) {
-	console.log(error);
-  }
-}
+	  headers: {
+		'Authorization': `Bearer ${token}`,
+		'Content-Type': 'multipart/form-data',
+	  }
+	})
+	const path = response.data.audioUrl
+	const audioResponse = await axios.get(`${URL}/api/voice/${path}`,{
+	  responseType: 'arraybuffer', // Asegúrate de obtener la respuesta como un blob
+	});
+  
+	return {
+	  audio: audioResponse.data,
+	  text: response.data.text
+	};
+  
+	} catch (error) {
+	  console.log(error);
+	}
+};

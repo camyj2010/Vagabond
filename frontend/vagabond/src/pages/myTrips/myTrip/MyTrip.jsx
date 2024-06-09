@@ -3,16 +3,16 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/authContext";
 import { useLanguageContext } from "../../../context/languageContext";
 
-import { Box, Container, Typography, IconButton, SvgIcon } from "@mui/material";
+import { Box, Container, Typography, IconButton, SvgIcon, MenuItem, Select, FormControl, InputLabel, TextField } from "@mui/material";
 
 import Header from "../../../components/Header";
 import HeaderTrip from "../../../components/HeaderTrip";
 import ButtonCard from "../../../components/ButtonCard";
 
-import { getTrip } from "../../../utils/connections";
+import { getTrip, uploadAudio } from "../../../utils/connections";
+import languages from "../../../utils/languages";
 
 import { WaveFile } from "wavefile";
-import { uploadAudio } from "../../../utils/connections";
 
 // Icon for microphone and stop
 const MicIcon = (props) => (
@@ -31,7 +31,11 @@ export default function MyTrip() {
   let { id } = useParams();
   const [trip, setTrip] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [audioUrl, setAudioUrl] = useState(null);
+  const [languageAudio, setLanguageAudio] = useState('');
+  const [languageObjective, setLanguageObjective] = useState('');
+  const [responseText, setResponseText] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [text,setText] = useState('')
 
   const mediaRecorderRef = useRef(null);
   const audioChunks = useRef([]);
@@ -71,6 +75,12 @@ export default function MyTrip() {
       // Stop recording
       mediaRecorderRef.current.stop();
     } else {
+
+      if (!languageAudio || !languageObjective) {
+        setErrorMessage(texts("error"));
+        return;
+      }
+      setErrorMessage('');
       // Start recording
       navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
@@ -88,9 +98,11 @@ export default function MyTrip() {
           };
 
           mediaRecorder.onstop = async () => {
+            setIsRecording(false);
             const audioBlob = new Blob(audioChunks.current, { type: 'audio/webm' });
             const arrayBuffer = await audioBlob.arrayBuffer();
             const audioBuffer = await new AudioContext().decodeAudioData(arrayBuffer);
+
             // Convert the audio buffer to 16-bit PCM
             const pcmData = new Int16Array(audioBuffer.length);
             for (let i = 0; i < audioBuffer.length; i++) {
@@ -110,19 +122,17 @@ export default function MyTrip() {
             // Convert Blob to File
             const wavFile = new File([wavBlob], 'recording.wav', { type: 'audio/wav' });
             try {
-              const response = await uploadAudio(auth.user.accessToken, wavFile, 'es','en');
-              setAudioUrl(response);
+              const response = await uploadAudio(auth.user.accessToken, wavFile, languageAudio,languageObjective);
+              const audioBlob = new Blob([response.audio], { type: 'audio/mpeg' });
+              const audioUrl = URL.createObjectURL(audioBlob);
+              // Reproducir el audio automáticamente
+              const audio = new Audio(audioUrl);
+              audio.play();
+              setResponseText(response.text);
               console.log("Response:", response);
             } catch (error) {
               console.error("Error uploading audio", error);
             }
-            // const wavUrl = URL.createObjectURL(wavBlob);
-            // const link = document.createElement('a');
-            // link.href = wavUrl;
-            // link.download = 'recording.wav';
-            // link.click();
-
-            setIsRecording(false);
           };
         })
         .catch(error => console.error("Error accessing media devices.", error));
@@ -197,11 +207,84 @@ export default function MyTrip() {
             <p></p>
           )}
         </Box>
-      </Box>
-      {audioUrl && (
-        <Box mt={4} mb={4} textAlign="center">
-          <audio controls src={audioUrl}></audio>
+
+        <hr />
+
+        <Typography variant="h5" textAlign="center" fontWeight="bold">
+          {texts("translate")}
+        </Typography>
+        <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel id="language-audio-label">{texts("from")}</InputLabel>
+          <Select
+            labelId="language-audio-label"
+            value={languageAudio}
+            label="Language Audio"
+            onChange={(e) => setLanguageAudio(e.target.value)}
+          >
+            {languages.map((lang) => (
+              <MenuItem key={lang.code} value={lang.code}>
+                {lang.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel id="language-objective-label">{texts("to")}</InputLabel>
+          <Select
+            labelId="language-objective-label"
+            value={languageObjective}
+            label="Language Objective"
+            onChange={(e) => setLanguageObjective(e.target.value)}
+          >
+            {languages.map((lang) => (
+              <MenuItem key={lang.code} value={lang.code}>
+                {lang.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Box 
+          mt={2} 
+          sx={{
+            width: "90%",
+            padding: 2,
+            marginInline: "auto",
+            borderStyle: "solid",
+            borderColor: "#e0e0e0",
+            borderWidth: "1px",
+            borderRadius: "10px",
+            color: "#000",
+          }}>
+          <Typography variant="body1" sx={{ margin: "auto" }}>{responseText}</Typography>
         </Box>
+        <TextField
+          label={texts('text')}
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={3}
+          margin="normal"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          sx={{
+            fontFamily: 'Inter',
+            fontWeight: 400,
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: '#2D6EFF',
+              },
+            },
+            '& input': {
+              fontFamily: 'Inter', 
+            },
+          }}
+        />       
+      </Box>
+      {errorMessage && (
+        <Typography variant="body2" color="error" sx={{ margin: '10px auto' }}>
+          {errorMessage}
+        </Typography>
       )}
       <Box
         sx={{
