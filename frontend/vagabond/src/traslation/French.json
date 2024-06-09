@@ -1,0 +1,92 @@
+{
+"register": {
+		"title": "Créer un compte",
+		"fullName": "Nom complet",
+		"email": "Email",
+		"password": "Mot de passe",
+		"button": "S'inscrire",
+		"alreadyAccount": "Vous avez déjà un compte?",
+		"signIn": "Se connecter",
+		"clickingHere": "En cliquant ici",
+		"accepts": "vous acceptez nos",
+		"terms": "Conditions d'utilisation",
+		"privacy": "Politique de confidentialité",
+		"and": "et",
+		"alertMessage": "L'email est déjà utilisé"
+	},
+	"login": {
+		"title": "Se connecter",
+		"email": "Email",
+		"password": "Mot de passe",
+		"errorLogin": "Email ou mot de passe incorrect",
+		"errorGoogle": "Erreur lors de la connexion avec Google",
+		"button": "Se connecter",
+		"signInGoogle": "Se connecter avec Google",
+		"dontHaveAccount": "Vous n'avez pas de compte?",
+		"signUp": "Inscrivez-vous maintenant",
+		"clickingHere": "En cliquant ici",
+		"accepts": "vous acceptez nos",
+		"terms": "Conditions d'utilisation",
+		"privacy": "Politique de confidentialité",
+		"and": "et"
+	},
+	"newTrip": {
+		"title": "Planifier un voyage",
+		"country": "Pays",
+		"countryLabel": "Choisissez un pays",
+		"city": "Ville",
+		"cityLabel": "Écrivez le nom de la ville (Optionnel)",
+		"startDate": "Date de début",
+		"endDate": "Date de fin",
+		"describeTrip": "Décrivez le voyage parfait pour vous",
+		"button": "Créer un voyage"
+	},
+	"checklist": {
+		"description": "Nous vous avons fourni ci-dessous une liste de contrôle avec les éléments que nous considérons essentiels pour votre voyage, mais n'oubliez pas que vous pouvez l'ajuster à vos besoins.",
+		"newItem": "Ajouter un nouvel élément",
+		"checklistTitle": "Liste de contrôle indispensable",
+		"button": "Ajouter un élément"
+	},
+	"myTrips": {
+		"currentTrip": "Voyage en cours",
+		"yourTrips": "Vos voyages",
+		"noTrips": "Vous n'avez pas encore de voyages",
+		"button": "Créer un nouveau voyage"
+	},
+	"foodandMore": {
+		"title": "Nourriture et plus",
+		"discover": "Découvrez où commander",
+		"foodPedia": "Food-pedia",
+		"button": "Rechercher"
+	},
+	"myTrip": {
+		"mustButton": "Liste de contrôle indispensable",
+		"foodButton": "Nourriture et plus",
+		"interesting": "Lieux intéressants"
+	},
+	"editTrip": {
+		"title": "Modifier le voyage",
+		"country": "Pays",
+		"countryLabel": "Choisissez un pays",
+		"city": "Ville",
+		"cityLabel": "Écrivez le nom de la ville (Optionnel)",
+		"startDate": "Date de début",
+		"endDate": "Date de fin",
+		"describeTrip": "Décrivez le voyage parfait pour vous",
+		"buttonSubmit": "Modifier le voyage",
+		"buttonDelete": "Supprimer le voyage"
+	},
+	"profile": {
+		"title": "Profil",
+		"name": "Nom d'utilisateur :",
+		"email": "Email :",
+		"language": "Langue :"
+	},
+	"editProfile": {
+		"title": "Modifier le profil",
+		"image": "Modifier l'image de profil",
+		"name": "Nom d'utilisateur",
+		"email": "Email :",
+		"button": "Mettre à jour le profil"
+	}
+}

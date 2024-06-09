@@ -11,6 +11,7 @@ export const LanguageContextProvider = ({ children }) => {
   const languages = {
     en: { nativeName: "English" },
     es: { nativeName: "Spanish" },
+		fr: { nativeName: "French" },
   };
   const { t, i18n } = useTranslation();
 
