@@ -12,7 +12,7 @@ const wavFileInfo = require('wav-file-info');
 const axios = require('axios');
 const mime = require('mime-types');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-
+const FormData = require('form-data');
 
 const API_KEY = process.env.api_key_gemmini;
 const genAI = new GoogleGenerativeAI(API_KEY);
@@ -48,8 +48,8 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
         client_x509_cert_url: process.env.GOOGLE_CLOUD_CLIENT_X509_CERT_URL,
     },
 });
-
-router.post('/transcribe', upload.single('audio'), async (req, res, next) => {
+// Endpoint for transcribing audio, translating the transcription, and converting it to speech
+router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
     try {
         const filePath = req.file.path;
         const { languageAudio, languageObjetive } = req.body;
@@ -114,7 +114,37 @@ router.post('/transcribe', upload.single('audio'), async (req, res, next) => {
         next(error);
     }
 });
+// Endpoint for reading a text, translating it, and converting it to speech
+router.post('/read', middleware.decodeToken, async (req, res, next) => {
+    try {
+        const { text, languageText, languageObjective } = req.body;
 
+        if (!text || !languageText || !languageObjective) {
+            return res.status(400).json({ error: 'Missing text, languageText, or languageObjective in request body' });
+        }
+
+        // Traducción del texto
+        const translatedText = await translateText(text, languageText, languageObjective);
+
+        // Convertir el texto traducido a habla
+        const audioContent = await ToSpeech(translatedText, languageObjective);
+
+        // Guardar el contenido de audio en un archivo temporal
+        const outputFilePath = 'output.mp3';
+        fs.writeFileSync(outputFilePath, audioContent, 'base64');
+
+        // Enviar el archivo de audio como respuesta
+        res.setHeader('Content-Type', mime.lookup(outputFilePath));
+        res.setHeader('Content-Disposition', 'attachment; filename=output.mp3');
+        fs.createReadStream(outputFilePath).pipe(res).on('finish', () => {
+            // Eliminar el archivo temporal después de enviarlo
+            fs.unlinkSync(outputFilePath);
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+// Function to translate text using Google Generative AI
 async function translateText(text, sourceLang, targetLang) {
     try {
         const prompt = `Translate the following text from ${sourceLang} to ${targetLang}: ${text}`;
@@ -130,6 +160,7 @@ async function translateText(text, sourceLang, targetLang) {
     }
 }
 
+// Function to convert text to speech using Google Cloud Text-to-Speech
 async function ToSpeech(text, language) {
     const request = {
         input: { text: text },

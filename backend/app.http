@@ -62,3 +62,12 @@ GET http://localhost:3001/api/checklist/665c03c2d7b8297d722ac6ff/
 Content-Type: application/json
 
 
+### Read traslate 
+POST http://localhost:3001/api/voice/read
+Content-Type: application/json
+
+{
+  "text":"Me puedes decir como llegar al monumento de la libertad",
+  "languageText": "es",
+  "languageObjective": "it"
+}
