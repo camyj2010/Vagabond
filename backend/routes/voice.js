@@ -138,6 +138,22 @@ router.post('/read', middleware.decodeToken, async (req, res, next) => {
         // Convertir el texto traducido a habla
         const audioContent = await ToSpeech(translatedText, languageObjective);
 
+        // Guardar el contenido de audio en un archivo temporal
+        const outputFilePath = `output_${Date.now()}.mp3`;
+        fs.writeFileSync(outputFilePath, audioContent, 'base64');
+
+        // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
+        res.status(200).json({
+            message: "transcribed voice",
+            text: translatedText,
+            audioUrl: `${outputFilePath}`
+        });
+
+} catch (error) {
+    next(error);
+}
+});
+
 
 // Ruta para descargar el archivo de audio
 router.get('/:filename', (req, res, next) => {
