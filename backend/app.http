@@ -71,3 +71,12 @@ Content-Type: application/json
   "food_name": "Lasagna"
 }
 
+### Read traslate 
+POST http://localhost:3001/api/voice/read
+Content-Type: application/json
+
+{
+  "text":"Me puedes decir como llegar al monumento de la libertad",
+  "languageText": "es",
+  "languageObjective": "it"
+}

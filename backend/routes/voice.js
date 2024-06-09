@@ -50,7 +50,9 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
     },
 });
 
-router.post('/transcribe',   middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
+// Endpoint for transcribing audio, translating the transcription, and converting it to speech
+router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
+
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'No se ha subido ningún archivo de audio' });
@@ -121,6 +123,21 @@ router.post('/transcribe',   middleware.decodeToken, upload.single('audio'), asy
         next(error);
     }
 });
+// Endpoint for reading a text, translating it, and converting it to speech
+router.post('/read', middleware.decodeToken, async (req, res, next) => {
+    try {
+        const { text, languageText, languageObjective } = req.body;
+
+        if (!text || !languageText || !languageObjective) {
+            return res.status(400).json({ error: 'Missing text, languageText, or languageObjective in request body' });
+        }
+
+        // Traducción del texto
+        const translatedText = await translateText(text, languageText, languageObjective);
+
+        // Convertir el texto traducido a habla
+        const audioContent = await ToSpeech(translatedText, languageObjective);
+
 
 // Ruta para descargar el archivo de audio
 router.get('/:filename', (req, res, next) => {
@@ -136,6 +153,7 @@ router.get('/:filename', (req, res, next) => {
 });
 
 
+// Function to translate text using Google Generative AI
 async function translateText(text, sourceLang, targetLang) {
     try {
         const prompt = `Translate the following text from ${sourceLang} to ${targetLang}: ${text}`;
@@ -155,6 +173,7 @@ async function translateText(text, sourceLang, targetLang) {
     }
 }
 
+// Function to convert text to speech using Google Cloud Text-to-Speech
 async function ToSpeech(text, language) {
     const request = {
         input: { text: text },
