@@ -105,3 +105,12 @@ export const deleteChecklistItem = async (token, checklistId, elementId) => {
 	console.log(error);
   }
 }
+
+export const foodDescription = async (token, data) => {
+  try {
+	const response = await service(token).post(`/api/food`, data);
+	return response.data;
+  } catch (error) {
+	console.log(error);
+  }
+};

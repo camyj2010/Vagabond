@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@capacitor/cli": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
     "@capacitor/core": "^6.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -47,7 +47,9 @@
     ]
   },
   "jest": {
-    "setupFilesAfterEnv": ["./src/setupTests.js"],
+    "setupFilesAfterEnv": [
+      "./src/setupTests.js"
+    ],
     "testEnvironment": "jsdom",
     "babelConfig": "./src/babel.config.js",
     "transform": {
@@ -78,9 +80,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.24.6",
     "@babel/preset-env": "^7.24.6",
     "@babel/preset-react": "^7.24.6",
-    "@babel/plugin-transform-modules-commonjs": "^7.24.6",
+    "@capacitor/cli": "^6.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

@@ -109,7 +109,7 @@ export default function MyTrip() {
               );
             })
           ) : (
-            <p>No hay nada</p>
+            <p></p>
           )}
         </Box>
       </Box>

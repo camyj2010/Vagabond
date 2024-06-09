@@ -57,7 +57,8 @@
 		"title":"Food and more",
 		"discover":"Discover where to order",
 		"foodPedia":"Food-pedia",
-		"button":"Search"
+		"button":"Search",
+		"textField":"Ej: Napolitana, sushi, etc."
 	},
 	"myTrip":{
 		"mustButton": "Must-bring Checklist",
