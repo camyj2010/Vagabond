@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Header.module.css'
 
 import { Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Header() {
 	const navigate = useNavigate()
@@ -15,9 +15,9 @@ export default function Header() {
 			variant='h5'
 			onClick={handleClick}
 			style={{ fontFamily: 'Inter', fontWeight: 600 }}>Vagabond</Typography>
-			<div className={styles.userCircle}>
+			<Link to="/profile" className={styles.userCircle}>
 				<img src='https://picsum.photos/200' alt='UserImage'/>
-			</div>
+			</Link>
 		</div>
 	)
 }

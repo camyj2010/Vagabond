@@ -76,8 +76,14 @@
 		"buttonSubmit":"Edit trip",
 		"buttonDelete":"Delete trip"
 	},
+	"profile":{
+		"title":"Profile",
+		"name": "User name: ",
+		"email": "Email:",
+		"language": "Language: "
+	},
 	"editProfile":{
-	    "title":"Edit Profile",
+		"title":"Edit Profile",
 		"image":"Edit profile image",
 		"name": "Username",
 		"email": "Email:",

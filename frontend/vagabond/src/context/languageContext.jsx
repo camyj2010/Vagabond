@@ -14,8 +14,7 @@ export const LanguageContextProvider = ({ children }) => {
   };
   const { t, i18n } = useTranslation();
 
-  const onClickLanguageChange = (e) => {
-    const language = e.target.value;
+  const onClickLanguageChange = (language) => {
     i18n.changeLanguage(language); //change the language
   };
 
