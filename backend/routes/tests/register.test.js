@@ -2,9 +2,13 @@ const request = require('supertest');
 const sinon = require('sinon');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const app = require('./app');
-const {ModelUser,ModelTravel,ModelChecklist} = require('./userModel');
+const admin = require('../../firebaseConfig');
+const app = require('../../app');
+const {ModelUser,ModelTravel,ModelChecklist} = require('../../userModel');
+const middleware = require('../../middleware');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+// REGISTER TEST
 describe('POST /api/register', () => {
     let createStub;
     let mongoServer;
@@ -43,7 +47,7 @@ describe('POST /api/register', () => {
             .send({ username: '' });
 
         expect(response.status).toBe(400);
-        expect(response.body).toEqual({ message: "Todos los campos son obligatorios." });
+        expect(response.body).toEqual({ message: "All fields are required" });
     });
 
     it('should return 201 and create a user if data is valid', async () => {

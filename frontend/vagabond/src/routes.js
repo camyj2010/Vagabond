@@ -1,7 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import Login from "./pages/login/Login";
 import MyTrips from "./pages/myTrips/MyTrips";
-import App from "./App";
 import Register from "./pages/register/Register";
 import NewTrip from "./pages/newTrip/NewTrip";
 import Checklist from "./pages/myTrips/myTrip/Checklist";
@@ -37,7 +36,7 @@ const routes = createBrowserRouter(
     },
 		{
 			path: '/',
-			element: <App/>
+			element: <Login/>
 		},
 		{
 			path: '/new_trip',

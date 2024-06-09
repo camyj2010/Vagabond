@@ -14,6 +14,7 @@ const mime = require('mime-types');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const FormData = require('form-data');
 
+
 const API_KEY = process.env.api_key_gemmini;
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -48,12 +49,21 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
         client_x509_cert_url: process.env.GOOGLE_CLOUD_CLIENT_X509_CERT_URL,
     },
 });
+
 // Endpoint for transcribing audio, translating the transcription, and converting it to speech
 router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
+
     try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No se ha subido ningún archivo de audio' });
+        }
         const filePath = req.file.path;
         const { languageAudio, languageObjetive } = req.body;
-
+        
+        // const languageAudio="es";
+        // const languageObjetive="en";
+        // console.log(languageAudio);
+        // console.log(languageObjetive);
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Missing languageObjetive  or languageAudio in request body' });
         }
@@ -98,15 +108,14 @@ router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async
             const audioContent = await ToSpeech(translatedText, languageObjetive);
 
             // Guardar el contenido de audio en un archivo temporal
-            const outputFilePath = 'output.mp3';
+            const outputFilePath = `output_${Date.now()}.mp3`;
             fs.writeFileSync(outputFilePath, audioContent, 'base64');
 
-            // Enviar el archivo de audio como respuesta
-            res.setHeader('Content-Type', mime.lookup(outputFilePath));
-            res.setHeader('Content-Disposition', 'attachment; filename=output.mp3');
-            fs.createReadStream(outputFilePath).pipe(res).on('finish', () => {
-                // Eliminar el archivo temporal después de enviarlo
-                fs.unlinkSync(outputFilePath);
+            // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
+            res.status(200).json({
+                message: "transcribed voice",
+                text: translatedText,
+                audioUrl: `${outputFilePath}`
             });
         });
 
@@ -129,21 +138,21 @@ router.post('/read', middleware.decodeToken, async (req, res, next) => {
         // Convertir el texto traducido a habla
         const audioContent = await ToSpeech(translatedText, languageObjective);
 
-        // Guardar el contenido de audio en un archivo temporal
-        const outputFilePath = 'output.mp3';
-        fs.writeFileSync(outputFilePath, audioContent, 'base64');
 
-        // Enviar el archivo de audio como respuesta
-        res.setHeader('Content-Type', mime.lookup(outputFilePath));
-        res.setHeader('Content-Disposition', 'attachment; filename=output.mp3');
-        fs.createReadStream(outputFilePath).pipe(res).on('finish', () => {
-            // Eliminar el archivo temporal después de enviarlo
-            fs.unlinkSync(outputFilePath);
-        });
-    } catch (error) {
-        next(error);
-    }
+// Ruta para descargar el archivo de audio
+router.get('/:filename', (req, res, next) => {
+    const filename = req.params.filename;
+    const filePath = `./${filename}`;
+
+    res.setHeader('Content-Type', mime.lookup(filePath));
+    res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+    fs.createReadStream(filePath).pipe(res).on('finish', () => {
+        // Eliminar el archivo temporal después de enviarlo
+        fs.unlinkSync(filePath);
+    });
 });
+
+
 // Function to translate text using Google Generative AI
 async function translateText(text, sourceLang, targetLang) {
     try {
@@ -151,6 +160,10 @@ async function translateText(text, sourceLang, targetLang) {
 
         const result = await model.generateContent(prompt);
         const responseGemini = await result.response;
+         // Verificar si el contenido es inseguro
+        if (responseGemini.unsafety) {
+            return { error: 'unsafe content' };
+        }
         const translateGemini = responseGemini.text();
         console.log(translateGemini)
         return translateGemini;
