@@ -133,7 +133,7 @@ const MyTrips = () => {
           right: 0,
         }}
       >
-        Create a new trip
+				{texts("button")}
       </Button>
     </Container>
   );
