@@ -8,13 +8,14 @@ import {
   Select,
   Stack,
   Typography,
+  Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import { useLanguageContext } from "../../context/languageContext";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [photoURL, setPhotoUrl] = useState("");
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -42,6 +43,11 @@ const Profile = () => {
 
   const handleEditClick = () => {
     navigate("edit_profile");
+  };
+
+  const handleLogout = async() => {
+    await logout();
+    navigate("/login");
   };
 
   const handleSelectChange = (event) => {
@@ -150,6 +156,11 @@ const Profile = () => {
             </Select>
           </div>
         </Stack>
+      </Box>
+      <Box display="flex" justifyContent="center" sx={{position: "fixed", bottom: 10, width: "90%", margin: "auto", left: 0, right: 0, borderTop: "1px solid #ccc" }}>
+        <Button fullWidth variant="contained" color="primary" onClick={handleLogout} sx={{ mt: 2, backgroundColor: '#2D6EFF','& span': { fontFamily: 'Inter', fontWeight: 500, }, }}>
+          {texts('logout')}
+        </Button>
       </Box>
     </Container>
   );

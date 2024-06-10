@@ -46,11 +46,6 @@ const MyTrips = () => {
     fetchTrips();
   }, [auth]);
 
-  const handleLogout = () => {
-    auth.logout();
-    navigate("/login");
-  };
-
   return (
     <Container component="section" maxWidth="xs">
       <Header />
