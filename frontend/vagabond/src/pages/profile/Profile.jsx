@@ -45,8 +45,8 @@ const Profile = () => {
     navigate("edit_profile");
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async() => {
+    await logout();
     navigate("/login");
   };
 
