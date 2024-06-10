@@ -46,11 +46,6 @@ const MyTrips = () => {
     fetchTrips();
   }, [auth]);
 
-  const handleLogout = () => {
-    auth.logout();
-    navigate("/login");
-  };
-
   return (
     <Container component="section" maxWidth="xs">
       <Header />
@@ -119,7 +114,7 @@ const MyTrips = () => {
           right: 0,
         }}
       >
-        Create a new trip
+				{texts("button")}
       </Button>
     </Container>
   );

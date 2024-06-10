@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Container, Box } from "@mui/material";
 import { useAuth } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ export const Login = () => {
   const [error, setError] = useState(null);
   const { t } = useLanguageContext();
   const texts = (data) => t(`login.${data}`);
+
+  useEffect(() => {
+    if (auth.user) {
+      navigate('/my_trips');
+    }
+  }, [auth.user, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
