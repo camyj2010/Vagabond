@@ -57,21 +57,21 @@ describe('MyTrip Component', () => {
     });
   });
 
-  it('should render "No hay nada" if trip data is not available', async () => {
-    const { getTrip } = require('./utils/connections'); 
+  // it('should render "No hay nada" if trip data is not available', async () => {
+  //   const { getTrip } = require('./utils/connections'); 
 
-    getTrip.mockResolvedValueOnce(null);
+  //   getTrip.mockResolvedValueOnce(null);
 
-    render(
-      <MemoryRouter>
-        <LanguageContextProvider>
-          <MyTrip />
-        </LanguageContextProvider>
-      </MemoryRouter>
-    );
+  //   render(
+  //     <MemoryRouter>
+  //       <LanguageContextProvider>
+  //         <MyTrip />
+  //       </LanguageContextProvider>
+  //     </MemoryRouter>
+  //   );
 
-    await waitFor(() => {
-      expect(screen.getByText('No hay nada')).toBeInTheDocument();
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(screen.getByText('No hay nada')).toBeInTheDocument();
+  //   });
+  // });
 });

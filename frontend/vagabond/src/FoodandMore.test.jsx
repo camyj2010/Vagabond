@@ -1,13 +1,20 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import FoodandMore from './pages/myTrips/myTrip/FoodandMore';
 import { LanguageContextProvider } from './context/languageContext';
+import { useAuth } from './context/authContext';
+import { foodDescription } from './utils/connections';
 
-
-
-
-
+jest.mock('./context/authContext', () => ({
+  useAuth: () => ({
+    user: {
+      accessToken: 'fakeAccessToken',
+      uid: 'fakeUid',
+    },
+  }),
+}));
+jest.mock('./utils/connections');
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
@@ -23,17 +30,12 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('FoodandMore component', () => {
-    beforeEach(() => {
-        jest.mock('./context/languageContext', () => ({
-          useLanguageContext: () => ({
-            t: (key) => key,
-          }),
-        }));
-      });
+  beforeEach(() => {
 
-      afterEach(() => {
-        jest.resetModules();  
-      })
+    foodDescription.mockResolvedValue({
+      ingredients: ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
+    });
+  });
 
   it('should render with provided state data', () => {
     render(
@@ -46,10 +48,29 @@ describe('FoodandMore component', () => {
 
     expect(screen.getByText('foodandMore.title')).toBeInTheDocument();
     expect(screen.getByText('foodandMore.discover')).toBeInTheDocument();
-    expect(screen.getByText('Restaurant 1')).toBeInTheDocument();
-    expect(screen.getByText('Restaurant 2')).toBeInTheDocument();
+    expect(screen.getByText('Restaurant 1', { container: document.querySelector('.restaurant-container') })).toBeInTheDocument();
+    expect(screen.getByText('Restaurant 2', { container: document.querySelector('.restaurant-container') })).toBeInTheDocument();
     expect(screen.getByText((content, element) => content.includes('Fake City'))).toBeInTheDocument();
     expect(screen.getByText((content, element) => content.includes('Fake Country'))).toBeInTheDocument();
+    
   });
 
+  it('should display ingredients after form submission', async () => {
+    render(
+      <MemoryRouter>
+        <LanguageContextProvider>
+          <FoodandMore />
+        </LanguageContextProvider>
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/textField/i), { target: { value: 'Test Food' } });
+    fireEvent.click(screen.getByRole('button', { name: 'foodandMore.button' }));
+
+    await waitFor(() => {
+      expect(screen.getByText('Ingredient 1')).toBeInTheDocument();
+      expect(screen.getByText('Ingredient 2')).toBeInTheDocument();
+      // Add more expectations as needed
+    });
+  });
 });
