@@ -10,7 +10,8 @@ const usersRouter = require('./routes/register');
 const travelsRouter = require('./routes/travels');
 const travelRouter = require('./routes/travel');
 const checklistRouter = require('./routes/checklist');
-const voiceRouter = require('./routes/voice')
+const foodRouter= require('./routes/food');
+const voiceRouter = require('./routes/voice');
 
 // Middlewares
 app.use(logger('dev'));
@@ -23,6 +24,7 @@ app.use('/api/register', usersRouter);
 app.use('/api/travels', travelsRouter);
 app.use('/api/travel', travelRouter);
 app.use('/api/checklist', checklistRouter);
+app.use('/api/food', foodRouter);
 app.use('/api/voice', voiceRouter);
 
 // Manejo de errores
