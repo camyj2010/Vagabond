@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
@@ -56,8 +56,21 @@ export function AuthProvider ({children}) {
     }
   };
 
+  const updateProfileData = async (profileData) => {
+    if(!user) {
+      throw new Error("No user is currently logged in");
+    }
+    try {
+      await updateProfile(user, profileData);
+      setUser({ ...user, ...profileData });
+    } catch (error) {
+      console.error("Error updating profile:",error);
+      throw error;
+    }
+  };
+
   return <authContext.Provider
-    value={{login, loginWithGoogle, logout, user}}
+    value={{login, loginWithGoogle, logout, user, updateProfileData}}
   >
     {children}
   </authContext.Provider>;
