@@ -7,6 +7,8 @@ import Checklist from "./pages/myTrips/myTrip/Checklist";
 import MyTrip from "./pages/myTrips/myTrip/MyTrip";
 import FoodandMore from "./pages/myTrips/myTrip/FoodandMore";
 import EditTrip from "./pages/myTrips/myTrip/EditTrip";
+import EditProfile from "./pages/profile/EditProfile";
+import Profile from "./pages/profile/Profile";
 
 const routes = createBrowserRouter(
   [
@@ -45,6 +47,14 @@ const routes = createBrowserRouter(
     {
       path: '/my_trips/:id/my_checklist',
       element: <Checklist/>
+    },
+    {
+      path: '/profile/edit_profile',
+      element: <EditProfile/>
+    },
+    {
+      path: '/profile',
+      element: <Profile/>
     }
   ]
 );

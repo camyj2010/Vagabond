@@ -119,6 +119,22 @@ export const deleteChecklistItem = async (token, checklistId, elementId) => {
   }
 };
 
+export const uploadImageToCloudinary = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'vagabond-preset');  
+	
+  try {
+	const response = await axios.post('https://api.cloudinary.com/v1_1/ddlszjdgr/image/upload', formData, {
+		headers: { 'Content-Type': 'multipart/form-data' }
+	});
+	return response.data.secure_url;
+  } catch (error) {
+	console.error("Error uploading image:", error);
+	throw error;
+  }
+};
+  
 export const foodDescription = async (token, data) => {
   try {
     const response = await service(token).post(`/api/food`, data);

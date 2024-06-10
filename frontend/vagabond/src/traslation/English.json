@@ -58,7 +58,7 @@
 		"discover":"Discover where to order",
 		"foodPedia":"Food-pedia",
 		"button":"Search",
-		"textField":"Ej: Napolitana, sushi, etc."
+		"textField":"Ex: Neapolitan, sushi, etc."
 	},
 	"myTrip":{
 		"mustButton": "Must-bring Checklist",
@@ -82,5 +82,19 @@
 		"describeTrip":"Describe the perfect trip for you",
 		"buttonSubmit":"Edit trip",
 		"buttonDelete":"Delete trip"
+	},
+	"profile":{
+		"title":"Profile",
+		"name": "User name: ",
+		"email": "Email:",
+		"language": "Language: ",
+		"logout": "Logout"
+	},
+	"editProfile":{
+		"title":"Edit Profile",
+		"image":"Edit profile image",
+		"name": "Username",
+		"email": "Email:",
+		"button": "Update Profile"
 	}
 }
