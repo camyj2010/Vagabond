@@ -119,6 +119,7 @@ export const uploadImageToCloudinary = async (file) => {
   } catch (error) {
 	console.error("Error uploading image:", error);
 	throw error;
+  }
 };
   
 export const foodDescription = async (token, data) => {
