@@ -142,3 +142,12 @@ export const uploadAudio = async (token, audioData, languageAudio, languageObjet
 	  console.log(error);
 	}
 };
+
+export const traslateText = async (token, data) => {
+	try {
+	const response = await service(token).post(`/api/voice/read`, data);
+	return response.data;
+	} catch (error) {
+	console.log(error);
+	}
+}
