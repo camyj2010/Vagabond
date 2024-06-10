@@ -59,10 +59,16 @@
 		"foodPedia": "Food-pedia",
 		"button": "Buscar"
 	},
-	"myTrip": {
-		"mustButton": "Lista de cosas esenciales",
-		"foodButton": "Comida y más",
-		"interesting": "Lugares interesantes"
+	"myTrip":{
+		"mustButton": "Lista de indispensables",
+		"foodButton": "Comida y mas",
+		"interesting": "Sitios de interes",
+		"translate": "Traducción",
+    "text": "Traduce el texto",
+    "from": "Traducir del",
+    "to": "Traducir al",
+		"error": "Seleccione los idiomas de origen y de destino en la configuración de traducción",
+    "uploadingError": "Error al subir el audio"
 	},
 	"editTrip": {
 		"title": "Editar Viaje",
@@ -88,5 +94,5 @@
 		"name": "Nombre de usuario",
 		"email": "Correo:",
 		"button": "Actualizar Perfil"
-	}
+
 }

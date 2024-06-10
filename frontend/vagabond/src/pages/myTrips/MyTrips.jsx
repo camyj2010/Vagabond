@@ -19,20 +19,6 @@ const MyTrips = () => {
   const texts = (data) => t(`myTrips.${data}`);
 
   useEffect(() => {
-    // Fetch current trip
-    const tripDate = new Date();
-    const stringTripDateStart = tripDate.toLocaleDateString("en-GB");
-    const stringTripDateEnd = tripDate.toLocaleDateString("en-GB");
-    console.log("Trip Date", stringTripDateStart);
-    const currentTrip = {
-      id: "43A",
-      country: "Germany",
-      country_cod: "de",
-      city: "Berlin",
-      init_date: stringTripDateStart,
-      finish_date: stringTripDateEnd,
-    };
-
     // Fetch user trips
     const fetchTrips = async () => {
       const trips = await getUserTrips(auth.user.accessToken, auth.user.uid);
