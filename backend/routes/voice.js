@@ -11,13 +11,15 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const wavFileInfo = require('wav-file-info');
 const axios = require('axios');
 const mime = require('mime-types');
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const translate = require('translate-google-api');
+// const { GoogleGenerativeAI } = require("@google/generative-ai");
 const FormData = require('form-data');
 
 
-const API_KEY = process.env.api_key_gemmini;
-const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+// const API_KEY = process.env.api_key_gemmini;
+// const genAI = new GoogleGenerativeAI(API_KEY);
+// const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -170,19 +172,30 @@ router.get('/:filename', (req, res, next) => {
 
 
 // Function to translate text using Google Generative AI
+// async function translateText(text, sourceLang, targetLang) {
+//     try {
+//         const prompt = `Translate the following text from ${sourceLang} to ${targetLang}: ${text}`;
+
+//         const result = await model.generateContent(prompt);
+//         const responseGemini = await result.response;
+//          // Verificar si el contenido es inseguro
+//         if (responseGemini.unsafety) {
+//             return { error: 'unsafe content' };
+//         }
+//         const translateGemini = responseGemini.text();
+//         console.log(translateGemini)
+//         return translateGemini;
+//     } catch (error) {
+//         console.error('Error translating text:', error);
+//         throw new Error('Translation failed');
+//     }
+// }
 async function translateText(text, sourceLang, targetLang) {
     try {
-        const prompt = `Translate the following text from ${sourceLang} to ${targetLang}: ${text}`;
-
-        const result = await model.generateContent(prompt);
-        const responseGemini = await result.response;
-         // Verificar si el contenido es inseguro
-        if (responseGemini.unsafety) {
-            return { error: 'unsafe content' };
-        }
-        const translateGemini = responseGemini.text();
-        console.log(translateGemini)
-        return translateGemini;
+        const result = await translate(text, { from: sourceLang, to: targetLang });
+        const translation = result[0];
+        console.log(`Translation: ${translation}`);
+        return translation;
     } catch (error) {
         console.error('Error translating text:', error);
         throw new Error('Translation failed');

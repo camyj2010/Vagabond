@@ -28,126 +28,154 @@ export const createNewTrip = async (data, token) => {
   try {
     const response = await service(token).post("/api/travel/", data);
     console.log(response);
-		return response.data;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 export const getUserTrips = async (token, uid) => {
-	try {
-		const response = await service(token).get('/api/travels/'+uid);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-export const getTrip = async (token, tid) => {
-	try {
-		const response = await service(token).get('/api/travel/'+tid);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-export const updateTrip = async (data, token, tid) => {
-	try {
-		const response = await service(token).patch('/api/travel/'+tid, data);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-export const deleteTrip = async (token, tid) => {
-	try {
-		const response = await service(token).delete('/api/travel/'+tid);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-export const getChecklist = async (token, checklistId) => {
   try {
-	const response = await service(token).get(`/api/checklist/${checklistId}`);
-	return response.data;
+    const response = await service(token).get("/api/travels/" + uid);
+    return response.data;
   } catch (error) {
-	console.log(error);
+    console.log(error);
   }
 };
 
-export const toggleChecklistItem = async (token, checklistId, elementId, checked) => {
+export const getTrip = async (token, tid) => {
   try {
-	const response = await service(token).patch(`/api/checklist/${checklistId}/${elementId}`, { checked });
-	return response.data;
+    const response = await service(token).get("/api/travel/" + tid);
+    return response.data;
   } catch (error) {
-	console.log(error);
+    console.log(error);
+  }
+};
+
+export const updateTrip = async (data, token, tid) => {
+  try {
+    const response = await service(token).patch("/api/travel/" + tid, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteTrip = async (token, tid) => {
+  try {
+    const response = await service(token).delete("/api/travel/" + tid);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getChecklist = async (token, checklistId) => {
+  try {
+    const response = await service(token).get(`/api/checklist/${checklistId}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const toggleChecklistItem = async (
+  token,
+  checklistId,
+  elementId,
+  checked
+) => {
+  try {
+    const response = await service(token).patch(
+      `/api/checklist/${checklistId}/${elementId}`,
+      { checked }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const addCheckListItem = async (token, checklistId, element) => {
   try {
-	const response = await service(token).post(`/api/checklist/${checklistId}`, { element });
-	return response.data;
+    const response = await service(token).post(
+      `/api/checklist/${checklistId}`,
+      { element }
+    );
+    return response.data;
   } catch (error) {
-	console.log(error);
+    console.log(error);
   }
 };
 
 export const deleteChecklistItem = async (token, checklistId, elementId) => {
   try {
-	const response = await service(token).delete(`/api/checklist/${checklistId}/${elementId}`);
-	return response.data;
+    const response = await service(token).delete(
+      `/api/checklist/${checklistId}/${elementId}`
+    );
+    return response.data;
   } catch (error) {
-	console.log(error);
+    console.log(error);
   }
-}
+};
 
 export const foodDescription = async (token, data) => {
   try {
-	const response = await service(token).post(`/api/food`, data);
-	return response.data;
+    const response = await service(token).post(`/api/food`, data);
+    return response.data;
   } catch (error) {
-	console.log(error);
+    console.log(error);
   }
 };
 
-export const uploadAudio = async (token, audioData, languageAudio, languageObjetive)=> {
+export const uploadAudio = async (
+  token,
+  audioData,
+  languageAudio,
+  languageObjetive
+) => {
   try {
-	const formData = new FormData();
-    formData.append('audio', audioData);
-    formData.append('languageObjetive', languageObjetive);
-    formData.append('languageAudio', languageAudio);
+    const formData = new FormData();
+    formData.append("audio", audioData);
+    formData.append("languageObjetive", languageObjetive);
+    formData.append("languageAudio", languageAudio);
 
     const response = await axios.post(`${URL}/api/voice/transcribe`, formData, {
-	  headers: {
-		'Authorization': `Bearer ${token}`,
-		'Content-Type': 'multipart/form-data',
-	  }
-	})
-	const path = response.data.audioUrl
-	const audioResponse = await axios.get(`${URL}/api/voice/${path}`,{
-	  responseType: 'arraybuffer', // Asegúrate de obtener la respuesta como un blob
-	});
-  
-	return {
-	  audio: audioResponse.data,
-	  text: response.data.text
-	};
-  
-	} catch (error) {
-	  console.log(error);
-	}
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const path = response.data.audioUrl;
+    const audioResponse = await axios.get(`${URL}/api/voice/${path}`, {
+      responseType: "arraybuffer", // Asegúrate de obtener la respuesta como un blob
+    });
+
+    return {
+      audio: audioResponse.data,
+      text: response.data.text,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const traslateText = async (token, data) => {
-	try {
-	const response = await service(token).post(`/api/voice/read`, data);
-	return response.data;
-	} catch (error) {
-	console.log(error);
-	}
-}
+  try {
+    const response = await service(token).post(`/api/voice/read`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAudio = async (token, path) => {
+  try {
+    const response = await service(token).get(`/api/voice/${path}`, {
+      responseType: "arraybuffer",
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

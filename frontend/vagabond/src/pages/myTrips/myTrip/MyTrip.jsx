@@ -20,7 +20,7 @@ import Header from "../../../components/Header";
 import HeaderTrip from "../../../components/HeaderTrip";
 import ButtonCard from "../../../components/ButtonCard";
 
-import { getTrip, traslateText, uploadAudio } from "../../../utils/connections";
+import { getAudio, getTrip, traslateText, uploadAudio } from "../../../utils/connections";
 import languages from "../../../utils/languages";
 
 import { WaveFile } from "wavefile";
@@ -174,11 +174,22 @@ export default function MyTrip() {
         languageObjective: languageObjective,
       };
       const response = await traslateText(auth.user.accessToken, data);
+      console.log("Response:", response);
+			console.log("Audio URL:", response.audioUrl)
+			const audioResponse = await getAudio(auth.user.accessToken, response.audioUrl);
+			console.log("Audio response:", audioResponse)
+			const audioBlob = new Blob([audioResponse], {
+        type: "audio/mpeg",
+      });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      // Reproducir el audio automáticamente
+      const audio = new Audio(audioUrl);
+      audio.play();
       setResponseText(response.text);
-			setLoadingButton(false);
+      setLoadingButton(false);
     } catch (error) {
       console.error("Error traslating the text", error);
-			setLoadingButton(false);
+      setLoadingButton(false);
     }
   };
 
