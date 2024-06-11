@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var multer = require('multer');
+// var multer = require('multer');
 var router = express.Router();
 router.use(bodyParser.json());
 const middleware = require('../middleware');
@@ -13,7 +13,7 @@ const axios = require('axios');
 const mime = require('mime-types');
 const translate = require('translate-google-api');
 // const { GoogleGenerativeAI } = require("@google/generative-ai");
-const FormData = require('form-data');
+// const FormData = require('form-data');
 
 
 
@@ -21,7 +21,7 @@ const FormData = require('form-data');
 // const genAI = new GoogleGenerativeAI(API_KEY);
 // const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-const upload = multer({ dest: 'uploads/' });
+// const upload = multer({ dest: 'uploads/' });
 
 const client = new speech.SpeechClient({
     credentials: {
@@ -53,22 +53,22 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
 });
 
 // Endpoint for transcribing audio, translating the transcription, and converting it to speech
-router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
-
+router.post('/transcribe', middleware.decodeToken,  async (req, res, next) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No se ha subido ningún archivo de audio' });
+        const { audio, languageAudio, languageObjetive } = req.body;
+
+        if (!audio) {
+            return res.status(400).json({ error: 'No se ha proporcionado ningún archivo de audio en base64' });
         }
-        const filePath = req.file.path;
-        const { languageAudio, languageObjetive } = req.body;
-        
-        // const languageAudio="es";
-        // const languageObjetive="en";
-        // console.log(languageAudio);
-        // console.log(languageObjetive);
+
         if (!languageObjetive || !languageAudio) {
-            return res.status(400).json({ error: 'Missing languageObjetive  or languageAudio in request body' });
+            return res.status(400).json({ error: 'Missing languageObjetive or languageAudio in request body' });
         }
+
+        // Decodificar el archivo base64 y guardarlo como un archivo temporal
+        const buffer = Buffer.from(audio, 'base64');
+        const filePath = `uploads/${Date.now()}.wav`;
+        fs.writeFileSync(filePath, buffer);
 
         // Obtener información del archivo WAV
         wavFileInfo.infoByFilename(filePath, async (err, info) => {
@@ -77,7 +77,7 @@ router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async
             }
 
             const sampleRateHertz = info.sample_rate;
-            const audioBytes = fs.readFileSync(filePath).toString('base64');
+            const audioBytes = buffer.toString('base64');
 
             const audio = {
                 content: audioBytes,
