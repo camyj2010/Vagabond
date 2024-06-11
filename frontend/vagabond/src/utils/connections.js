@@ -156,12 +156,21 @@ export const uploadAudio = async (
     formData.append("languageObjetive", languageObjetive);
     formData.append("languageAudio", languageAudio);
 
+		const newData = {
+			audio: audioData,
+			languageObjetive: languageObjetive,
+			languageAudio: languageAudio
+		}
+		
+		//const response = await service(token).post(`/api/voice/transcribe`, newData); 
     const response = await axios.post(`${URL}/api/voice/transcribe`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
+		console.log("Raw Backend response: ", response)
+		console.log("Backend response: ", JSON.stringify(response.data));
     const path = response.data.audioUrl;
     const audioResponse = await axios.get(`${URL}/api/voice/${path}`, {
       responseType: "arraybuffer", // Asegúrate de obtener la respuesta como un blob

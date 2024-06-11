@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
@@ -36,17 +36,6 @@ export function AuthProvider ({children}) {
     }
   };
 
-  const loginWithGoogle = async () => {
-    try {
-      const googleProvider = new GoogleAuthProvider();
-      const response = await signInWithPopup(auth, googleProvider);
-      return response;
-    } catch (error) {
-      console.error("Error during Google login:", error);
-      throw error;
-    }
-  };
-
   const logout = async () => {
     try {
       await signOut(auth);
@@ -70,7 +59,7 @@ export function AuthProvider ({children}) {
   };
 
   return <authContext.Provider
-    value={{login, loginWithGoogle, logout, user, updateProfileData}}
+    value={{login, logout, user, updateProfileData}}
   >
     {children}
   </authContext.Provider>;

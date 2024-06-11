@@ -30,35 +30,6 @@ export const Login = () => {
     }
   }
 
-  const handleGoogle = async (e) => {
-    e.preventDefault();
-    try {
-      const googleUser = await auth.loginWithGoogle();
-      //console.log(googleUser.user)
-      const data = {
-        username: googleUser.user.displayName,
-        email: googleUser.user.email,
-        firebase_id: googleUser.user.uid
-      }
-      //console.log("Soy la data con la que se va a crear el usuario", data)
-      const registered = await register(data)
-
-      if (registered === 'error') {
-        console.log('Error');
-        setError(texts('errorGoogle'));
-        return;
-      } else if (registered === 'duplicate_email') {
-        console.log('User already exists, logging in');
-        navigate('/my_trips');
-      } else {
-        console.log('User registered');
-        navigate('/my_trips');
-      }
-    } catch (err) {
-      setError(texts('errorGoogle'));
-    }
-  }
-
   return (
     <Container maxWidth="xs">
       <Box textAlign="center" mt={15}>
@@ -130,25 +101,6 @@ export const Login = () => {
           }}
         >
           {texts('button')}
-        </Button>
-      </Box>
-      <Box component="form" mt={1} onSubmit={handleGoogle}>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-          sx={{
-            mt: 2,
-            backgroundColor: '#2D6EFF',
-            '& span': {
-              fontFamily: 'Inter',
-              fontWeight: 500,
-            },
-          }}
-        >
-          {texts('signInGoogle')}
         </Button>
       </Box>
       <Box textAlign="center" mt={2}>
