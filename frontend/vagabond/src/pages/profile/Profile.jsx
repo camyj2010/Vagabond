@@ -58,7 +58,7 @@ const Profile = () => {
   return (
     <Container maxWidth="sm">
       <Box display="flex" alignItems="center" my={4}>
-        <IconButton onClick={handleBackClick}>
+        <IconButton onClick={handleBackClick} data-testid="back-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -83,7 +83,7 @@ const Profile = () => {
         >
           {texts("title")}
         </Typography>
-        <IconButton onClick={handleEditClick}>
+        <IconButton onClick={handleEditClick} data-testid="edit-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -144,6 +144,7 @@ const Profile = () => {
           </Typography>
           <div>
             <Select
+              data-testid="language-select"
               labelId="simple-select-label"
               id="demo-simple-select"
               value={language}
@@ -167,3 +168,5 @@ const Profile = () => {
 };
 
 export default Profile;
+
+

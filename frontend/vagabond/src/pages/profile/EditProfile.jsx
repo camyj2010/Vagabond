@@ -7,7 +7,6 @@ import { uploadImageToCloudinary } from "../../utils/connections";
 
 const EditProfile = () => {
   const { user, updateProfileData } = useAuth();
-  console.log(user)
   const [displayName, setDisplayName] = useState("");
   const [photoURL, setPhotoUrl] = useState("");
   const [email, setEmail] = useState("");
@@ -46,6 +45,7 @@ const EditProfile = () => {
       try {
         const url = await uploadImageToCloudinary(file);
         setPhotoUrl(url);
+        
       } catch (error) {
         console.error("Error uploading image:", error);
       }
@@ -92,6 +92,7 @@ const EditProfile = () => {
           {texts('image')}
         </Typography>
         <input
+         data-testid="image-edit-input"
           type="file"
           ref={fileInputRef}
           style={{ display: "none" }}
