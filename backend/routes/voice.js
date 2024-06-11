@@ -13,9 +13,10 @@ const axios = require('axios');
 const mime = require('mime-types');
 const translate = require('translate-google-api');
 // const { GoogleGenerativeAI } = require("@google/generative-ai");
-// const FormData = require('form-data');
+const FormData = require('form-data');
 
-
+const multer = require('multer');
+const upload = multer();
 
 // const API_KEY = process.env.api_key_gemmini;
 // const genAI = new GoogleGenerativeAI(API_KEY);
@@ -53,7 +54,7 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
 });
 
 // Endpoint for transcribing audio, translating the transcription, and converting it to speech
-router.post('/transcribe', middleware.decodeToken,  async (req, res, next) => {
+router.post('/transcribe', upload.none(), async (req, res, next) => {
     try {
         const { audio, languageAudio, languageObjetive } = req.body;
 
@@ -62,63 +63,47 @@ router.post('/transcribe', middleware.decodeToken,  async (req, res, next) => {
         }
 
         if (!languageObjetive || !languageAudio) {
-            return res.status(400).json({ error: 'Missing languageObjetive or languageAudio in request body' });
+            return res.status(400).json({ error: 'Faltan languageObjetive o languageAudio en el cuerpo de la solicitud' });
         }
 
-        // Decodificar el archivo base64 y guardarlo como un archivo temporal
+        // Decodificar el archivo base64
         const buffer = Buffer.from(audio, 'base64');
-        const filePath = `uploads/${Date.now()}.wav`;
-        fs.writeFileSync(filePath, buffer);
 
-        // Obtener información del archivo WAV
-        wavFileInfo.infoByFilename(filePath, async (err, info) => {
-            if (err) {
-                return next(err);
-            }
-
-            const sampleRateHertz = info.sample_rate;
-            const audioBytes = buffer.toString('base64');
-
-            const audio = {
-                content: audioBytes,
-            };
-
-            const config = {
+        // Configurar la solicitud para la API de Google Cloud Speech-to-Text
+        const audioContent = buffer.toString('base64');
+        const request = {
+            audio: {
+                content: audioContent,
+            },
+            config: {
                 encoding: 'LINEAR16',
-                sampleRateHertz: sampleRateHertz,
-                languageCode: 'en-US',
-                alternativeLanguageCodes: ['en-US', 'es-ES', languageAudio],
-            };
+                sampleRateHertz: 48000, // Asegúrate de que esta tasa de muestreo sea correcta para tu audio
+                languageCode: languageAudio,
+                alternativeLanguageCodes: ['en-US', 'es-ES'], // Añade más códigos de idiomas si es necesario
+            },
+        };
 
-            const request = {
-                audio: audio,
-                config: config,
-            };
+        // Enviar la solicitud de reconocimiento de voz
+        const [response] = await client.recognize(request);
+        const transcription = response.results
+            .map(result => result.alternatives[0].transcript)
+            .join('\n');
 
-            const [response] = await client.recognize(request);
-            const transcription = response.results
-                .map(result => result.alternatives[0].transcript)
-                .join('\n');
+        // Traducción del texto transcrito
+        const translatedText = await translateText(transcription, languageAudio, languageObjetive);
 
-            // Elimina el archivo temporal
-            fs.unlinkSync(filePath);
+        // Convertir el texto traducido a habla
+        const audioContentTranslated = await ToSpeech(translatedText, languageObjetive);
 
-            // Traducción a inglés utilizando la función de traducción
-            const translatedText = await translateText(transcription, languageAudio, languageObjetive);
+        // Guardar el contenido de audio traducido en un archivo temporal
+        const outputFilePath = `output_${Date.now()}.mp3`;
+        fs.writeFileSync(outputFilePath, audioContentTranslated, 'base64');
 
-            // Convertir el texto traducido a habla
-            const audioContent = await ToSpeech(translatedText, languageObjetive);
-
-            // Guardar el contenido de audio en un archivo temporal
-            const outputFilePath = `output_${Date.now()}.mp3`;
-            fs.writeFileSync(outputFilePath, audioContent, 'base64');
-
-            // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
-            res.status(200).json({
-                message: "transcribed voice",
-                text: translatedText,
-                audioUrl: `${outputFilePath}`
-            });
+        // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
+        res.status(200).json({
+            message: "Voz transcrita",
+            text: translatedText,
+            audioUrl: `${outputFilePath}`
         });
 
     } catch (error) {
