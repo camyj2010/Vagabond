@@ -1,98 +1,106 @@
 {
-    "register": {
-      "title": "Crear una cuenta",
-      "fullName": "Nombre completo",
-      "email": "Correo electrónico",
-      "password": "Contraseña",
-      "button": "Registrarse",
-      "alreadyAccount": "¿Ya tienes una cuenta?",
-      "signIn": "Iniciar sesión",
-      "clickingHere": "Al hacer clic",
-      "accepts": "aceptas nuestros",
-      "terms": "Términos de servicio",
-      "privacy": "Política de privacidad",
-      "and": "y",
-  	  "alertMessage": "El correo electrónico ya está registrado"
-    },	
-    "login":{
-	  "title": "Inicio de Sesión",
-	  "email":"Correo Electrónico",
-	  "password":"Contraseña",
-	  "errorLogin":"Correo Electrónico o Contraseña Incorrectos",
-	  "button": "Ingresar",
-	  "dontHaveAccount":"¿No tienes una cuenta?",
-	  "signUp": "Registrate ahora mismo",
-	  "clickingHere": "Al hacer clic",
-      "accepts": "aceptas nuestros",
-      "terms": "Términos de servicio",
-      "privacy": "Política de privacidad",
-      "and": "y"
-    },
-    "newTrip": {
-      "title": "Planear un viaje",
-      "country": "País",
-      "countryLabel": "Elige un país",
-      "city": "Ciudad",
-      "cityLabel": "Escribe el nombre de la ciudad (Opcional)",
-      "startDate": "Fecha de inicio",
-      "endDate": "Fecha de fin",
-      "describeTrip": "Describe el viaje perfecto para ti",
-      "button": "Crear viaje"
-    },
-    "checklist": {
-      "description":"A continuación te facilitamos una lista de chequeo con los elementos que consideramos imprescindibles para tu viaje, pero recuerda que puedes ajustarla a tus necesidades.",
-      "newItem": "Añadir un nuevo elemento",
-      "checklistTitle": "Lista de imprescindibles",
-      "button": "Añadir elemento"
-    },
-    "myTrips": {
-		"currentTrip": "Viaje Actual",
-		"yourTrips": "Tus Viajes",
-		"noTrips": "No tienes ningún viaje aún",
-		"button": "Crear un nuevo viaje"
-    },
-    "foodandMore": {
-		"title": "Comida y más",
-		"discover": "Descubre dónde ordenar",
-		"foodPedia": "Food-pedia",
-		"button": "Buscar",
-		"textField":"Ej: Napolitana, sushi, etc."
-	},
-	"myTrip":{
-		"mustButton": "Lista de indispensables",
-		"foodButton": "Comida y mas",
-		"interesting": "Sitios de interes",
-		"translate": "Traducción",
-    	"text": "Traduce el texto",
-    	"from": "Traducir del",
-    	"to": "Traducir al",
-		"error": "Seleccione los idiomas de origen y de destino en la configuración de traducción",
-    	"uploadingError": "Seleccione dos idiomas diferentes en la configuración de traducción"
-	},
-	"editTrip": {
-		"title": "Editar Viaje",
-		"country": "País",
-		"countryLabel": "Elige un país",
-		"city": "Ciudad",
-		"cityLabel": "Escribe el nombre de la ciudad (Opcional)",
-		"startDate": "Fecha de inicio",
-		"endDate": "Fecha de finalización",
-		"describeTrip": "Describe el viaje perfecto para ti",
-		"buttonSubmit": "Editar viaje",
-		"buttonDelete": "Eliminar viaje"
-	},
-	"profile": {
-		"title": "Perfil",
-		"name": "Nombre de usuario:",
-		"email": "Correo electrónico:",
-		"language": "Idioma:",
-		"logout": "Cerrar sesión"
-	},
-	"editProfile":{
-		"title":"Editar Perfil",
-		"image":"Editar imagen de perfil",
-		"name": "Nombre de usuario",
-		"email": "Correo:",
-		"button": "Actualizar Perfil"
-    }
+  "register": {
+    "title": "Crear una cuenta",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "button": "Registrarse",
+    "alreadyAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión",
+    "clickingHere": "Al hacer clic",
+    "accepts": "aceptas nuestros",
+    "terms": "Términos de servicio",
+    "privacy": "Política de privacidad",
+    "and": "y",
+    "alertMessage": "El correo electrónico ya está registrado"
+  },
+  "login": {
+    "title": "Inicio de Sesión",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "errorLogin": "Correo Electrónico o Contraseña Incorrectos",
+    "errorGoogle": "Error al Iniciar Sesión con Google",
+    "button": "Ingresar",
+    "signInGoogle": "Ingresar con Google",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "signUp": "Registrate ahora mismo",
+    "clickingHere": "Al hacer clic",
+    "accepts": "aceptas nuestros",
+    "terms": "Términos de servicio",
+    "privacy": "Política de privacidad",
+    "and": "y"
+  },
+  "newTrip": {
+    "title": "Planear un viaje",
+    "country": "País",
+    "countryLabel": "Elige un país",
+    "city": "Ciudad",
+    "cityLabel": "Escribe el nombre de la ciudad (Opcional)",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de fin",
+    "describeTrip": "Describe el viaje perfecto para ti",
+    "button": "Crear viaje"
+  },
+  "checklist": {
+    "description": "A continuación te facilitamos una lista de chequeo con los elementos que consideramos imprescindibles para tu viaje, pero recuerda que puedes ajustarla a tus necesidades.",
+    "newItem": "Añadir un nuevo elemento",
+    "checklistTitle": "Lista de imprescindibles",
+    "button": "Añadir elemento"
+  },
+  "myTrips": {
+    "currentTrip": "Viaje Actual",
+    "yourTrips": "Tus Viajes",
+    "noTrips": "No tienes ningún viaje aún",
+    "button": "Crear un nuevo viaje"
+  },
+  "foodandMore": {
+    "title": "Comida y más",
+    "discover": "Descubre dónde ordenar",
+    "foodPedia": "Food-pedia",
+    "button": "Buscar",
+    "textField": "Ej: Napolitana, sushi, etc."
+  },
+  "myTrip": {
+    "mustButton": "Lista de indispensables",
+    "foodButton": "Comida y mas",
+    "interesting": "Sitios de interes",
+    "translate": "Traducción",
+    "text": "Traduce el texto",
+    "from": "Traducir del",
+    "to": "Traducir al",
+    "error": "Seleccione los idiomas de origen y de destino en la configuración de traducción",
+    "uploadingError": "Seleccione dos idiomas diferentes en la configuración de traducción"
+  },
+  "editTrip": {
+    "title": "Editar Viaje",
+    "country": "País",
+    "countryLabel": "Elige un país",
+    "city": "Ciudad",
+    "cityLabel": "Escribe el nombre de la ciudad (Opcional)",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de finalización",
+    "describeTrip": "Describe el viaje perfecto para ti",
+    "buttonSubmit": "Editar viaje",
+    "buttonDelete": "Eliminar viaje"
+  },
+  "profile": {
+    "title": "Perfil",
+    "name": "Nombre de usuario:",
+    "email": "Correo electrónico:",
+    "language": "Idioma:",
+    "spanish": "Español",
+    "english": "Inglés",
+    "german": "Alemán",
+    "french": "Francés",
+    "italian": "Italiano",
+    "portuguese": "Portugués",
+    "logout": "Cerrar sesión"
+  },
+  "editProfile": {
+    "title": "Editar Perfil",
+    "image": "Editar imagen de perfil",
+    "name": "Nombre de usuario",
+    "email": "Correo:",
+    "button": "Actualizar Perfil"
+  }
 }

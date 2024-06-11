@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var multer = require('multer');
+// var multer = require('multer');
 var router = express.Router();
 router.use(bodyParser.json());
 const middleware = require('../middleware');
@@ -12,14 +12,11 @@ const wavFileInfo = require('wav-file-info');
 const axios = require('axios');
 const mime = require('mime-types');
 const translate = require('translate-google-api');
-// const { GoogleGenerativeAI } = require("@google/generative-ai");
+
 const FormData = require('form-data');
 
+const multer = require('multer');
 
-
-// const API_KEY = process.env.api_key_gemmini;
-// const genAI = new GoogleGenerativeAI(API_KEY);
-// const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -51,21 +48,22 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
         client_x509_cert_url: process.env.GOOGLE_CLOUD_CLIENT_X509_CERT_URL,
     },
 });
-
-// Endpoint for transcribing audio, translating the transcription, and converting it to speech
-router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
+// Endpoint for transcribing audio, translating the transcription, and converting it to speech for web
+router.post('/transcribe',middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
 
     try {
+        console.log("1");
         if (!req.file) {
             return res.status(400).json({ error: 'No se ha subido ningún archivo de audio' });
         }
+
         const filePath = req.file.path;
         const { languageAudio, languageObjetive } = req.body;
         
         // const languageAudio="es";
         // const languageObjetive="en";
-        // console.log(languageAudio);
-        // console.log(languageObjetive);
+        console.log(languageAudio);
+        console.log(languageObjetive);
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Missing languageObjetive  or languageAudio in request body' });
         }
@@ -75,7 +73,7 @@ router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async
             if (err) {
                 return next(err);
             }
-
+            console.log("2");
             const sampleRateHertz = info.sample_rate;
             const audioBytes = fs.readFileSync(filePath).toString('base64');
 
@@ -102,20 +100,91 @@ router.post('/transcribe', middleware.decodeToken, upload.single('audio'), async
 
             // Elimina el archivo temporal
             fs.unlinkSync(filePath);
-
+            console.log("3", transcription);
             // Traducción a inglés utilizando la función de traducción
             const translatedText = await translateText(transcription, languageAudio, languageObjetive);
-
+            console.log("4",translatedText);
             // Convertir el texto traducido a habla
             const audioContent = await ToSpeech(translatedText, languageObjetive);
 
             // Guardar el contenido de audio en un archivo temporal
             const outputFilePath = `output_${Date.now()}.mp3`;
             fs.writeFileSync(outputFilePath, audioContent, 'base64');
-
+            console.log("5");
             // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
             res.status(200).json({
                 message: "transcribed voice",
+                text: translatedText,
+                audioUrl: `${outputFilePath}`
+            });
+        });
+
+    } catch (error) {
+        next(error);
+    }
+});
+// Endpoint for transcribing audio, translating the transcription, and converting it to speech for app
+router.post('/transcribeApp',middleware.decodeToken, upload.none(), async (req, res, next) => {
+    try {
+        const { audio, languageAudio, languageObjetive } = req.body;
+
+        if (!audio) {
+            return res.status(400).json({ error: 'No se ha proporcionado ningún archivo de audio en base64' });
+        }
+
+        if (!languageObjetive || !languageAudio) {
+            return res.status(400).json({ error: 'Faltan languageObjetive o languageAudio en el cuerpo de la solicitud' });
+        }
+
+        // Decodificar el archivo base64 y guardarlo en un archivo temporal
+        const buffer = Buffer.from(audio, 'base64');
+        const tempFilePath = `temp_audio_${Date.now()}.wav`;
+        fs.writeFileSync(tempFilePath, buffer);
+
+        // Obtener información del archivo WAV
+        wavFileInfo.infoByFilename(tempFilePath, async (err, info) => {
+            if (err) {
+                fs.unlinkSync(tempFilePath);
+                return next(err);
+            }
+
+            const sampleRateHertz = info.sample_rate;
+
+            const audioContent = buffer.toString('base64');
+            const request = {
+                audio: {
+                    content: audioContent,
+                },
+                config: {
+                    encoding: 'LINEAR16',
+                    sampleRateHertz: sampleRateHertz, // Usar la frecuencia de muestreo obtenida
+                    languageCode: languageAudio,
+                    alternativeLanguageCodes: ['en-US', 'es-ES'],
+                },
+            };
+
+            // Enviar la solicitud de reconocimiento de voz
+            const [response] = await client.recognize(request);
+            const transcription = response.results
+                .map(result => result.alternatives[0].transcript)
+                .join('\n');
+
+            // Eliminar el archivo temporal
+            fs.unlinkSync(tempFilePath);
+
+            // Traducción del texto transcrito
+            const translatedText = await translateText(transcription, languageAudio, languageObjetive);
+
+            // Convertir el texto traducido a habla
+            const audioContentTranslated = await ToSpeech(translatedText, languageObjetive);
+
+            // Guardar el contenido de audio traducido en un archivo temporal
+            const outputFilePath = `output_${Date.now()}.mp3`;
+            fs.writeFileSync(outputFilePath, audioContentTranslated, 'base64');
+
+            // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
+            res.status(200).json({
+                message: "Voz transcrita",
                 text: translatedText,
                 audioUrl: `${outputFilePath}`
             });
