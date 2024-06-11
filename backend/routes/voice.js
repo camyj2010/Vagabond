@@ -52,16 +52,18 @@ const ttsClient = new textToSpeech.TextToSpeechClient({
 router.post('/transcribe',middleware.decodeToken, upload.single('audio'), async (req, res, next) => {
 
     try {
+        console.log("1");
         if (!req.file) {
             return res.status(400).json({ error: 'No se ha subido ningún archivo de audio' });
         }
+
         const filePath = req.file.path;
         const { languageAudio, languageObjetive } = req.body;
         
         // const languageAudio="es";
         // const languageObjetive="en";
-        // console.log(languageAudio);
-        // console.log(languageObjetive);
+        console.log(languageAudio);
+        console.log(languageObjetive);
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Missing languageObjetive  or languageAudio in request body' });
         }
@@ -71,7 +73,7 @@ router.post('/transcribe',middleware.decodeToken, upload.single('audio'), async 
             if (err) {
                 return next(err);
             }
-
+            console.log("2");
             const sampleRateHertz = info.sample_rate;
             const audioBytes = fs.readFileSync(filePath).toString('base64');
 
@@ -98,17 +100,17 @@ router.post('/transcribe',middleware.decodeToken, upload.single('audio'), async 
 
             // Elimina el archivo temporal
             fs.unlinkSync(filePath);
-
+            console.log("3", transcription);
             // Traducción a inglés utilizando la función de traducción
             const translatedText = await translateText(transcription, languageAudio, languageObjetive);
-
+            console.log("4",translatedText);
             // Convertir el texto traducido a habla
             const audioContent = await ToSpeech(translatedText, languageObjetive);
 
             // Guardar el contenido de audio en un archivo temporal
             const outputFilePath = `output_${Date.now()}.mp3`;
             fs.writeFileSync(outputFilePath, audioContent, 'base64');
-
+            console.log("5");
             // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
             res.status(200).json({
                 message: "transcribed voice",
