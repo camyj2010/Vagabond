@@ -65,7 +65,7 @@ router.post('/transcribe', upload.none(), async (req, res, next) => {
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Faltan languageObjetive o languageAudio en el cuerpo de la solicitud' });
         }
-        console.log("audio________________________________________________ ",audio);
+        console.log("audio________________________________________________",audio);
 
         // Decodificar el archivo base64
         const buffer = Buffer.from(audio, 'base64');
@@ -78,7 +78,7 @@ router.post('/transcribe', upload.none(), async (req, res, next) => {
             },
             config: {
                 encoding: 'LINEAR16',
-                sampleRateHertz: 48000, // Asegúrate de que esta tasa de muestreo sea correcta para tu audio
+                sampleRateHertz: 16000, // Asegúrate de que esta tasa de muestreo sea correcta para tu audio
                 languageCode: languageAudio,
                 alternativeLanguageCodes: ['en-US', 'es-ES'], // Añade más códigos de idiomas si es necesario
             },
