@@ -7,7 +7,7 @@ import {
   Box,
   Container,
   Typography,
-  //IconButton,
+  IconButton,
   SvgIcon,
   MenuItem,
   Select,
@@ -19,11 +19,13 @@ import {
 import Header from "../../../components/Header";
 import HeaderTrip from "../../../components/HeaderTrip";
 import ButtonCard from "../../../components/ButtonCard";
+import { VoiceRecorder } from 'capacitor-voice-recorder';
+
 
 import { getAudio, getTrip, traslateText, uploadAudio } from "../../../utils/connections";
 import languages from "../../../utils/languages";
 
-//import { WaveFile } from "wavefile";
+import { WaveFile } from "wavefile";
 import { LoadingButton } from "@mui/lab";
 //import { MediaCapture } from "@ionic-native/media-capture";
 //import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
@@ -31,17 +33,17 @@ import { LoadingButton } from "@mui/lab";
 //import { set } from "firebase/database";
 
 // Icon for microphone and stop
-// const MicIcon = (props) => (
-//   <SvgIcon {...props} style={{ color: "white" }}>
-//     <path d="M12 1C10.34 1 9 2.34 9 4V10C9 11.66 10.34 13 12 13C13.66 13 15 11.66 15 10V4C15 2.34 13.66 1 12 1zM19 10C19 14.42 15.42 18 11 18C6.58 18 3 14.42 3 10H5C5 13.31 7.69 16 11 16C14.31 16 17 13.31 17 10H19zM12 19C12 19.55 11.55 20 11 20C10.45 20 10 19.55 10 19H8C8 20.66 9.34 22 11 22C12.66 22 14 20.66 14 19H12z"></path>
-//   </SvgIcon>
-// );
+const MicIcon = (props) => (
+  <SvgIcon {...props} style={{ color: "white" }}>
+    <path d="M12 1C10.34 1 9 2.34 9 4V10C9 11.66 10.34 13 12 13C13.66 13 15 11.66 15 10V4C15 2.34 13.66 1 12 1zM19 10C19 14.42 15.42 18 11 18C6.58 18 3 14.42 3 10H5C5 13.31 7.69 16 11 16C14.31 16 17 13.31 17 10H19zM12 19C12 19.55 11.55 20 11 20C10.45 20 10 19.55 10 19H8C8 20.66 9.34 22 11 22C12.66 22 14 20.66 14 19H12z"></path>
+  </SvgIcon>
+);
 
-// const StopIcon = (props) => (
-//   <SvgIcon {...props} style={{ color: "white" }}>
-//     <path d="M6 6H18V18H6z"></path>
-//   </SvgIcon>
-// );
+const StopIcon = (props) => (
+  <SvgIcon {...props} style={{ color: "white" }}>
+    <path d="M6 6H18V18H6z"></path>
+  </SvgIcon>
+);
 
 export default function MyTrip() {
   let { id } = useParams();
@@ -52,6 +54,8 @@ export default function MyTrip() {
   const [errorMessage, setErrorMessage] = useState("");
   const [text, setText] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioFile, setAudioFile] = useState(null);
 
   const auth = useAuth();
 
@@ -75,180 +79,68 @@ export default function MyTrip() {
         init_date: stringInitDate,
         finish_date: stringFinishDate,
       };
-      //console.log("tripInfo", formatedTrip);
       setTrip(formatedTrip);
     };
     fetchTrip();
   }, [auth, id]);
 
-  // const handleRecordButtonClick = async () => {
-  //   console.log("Esta mamada funciona porque funciona porque ya estoy mamado de esta aplicacion de catremonda")
-		
-  //   if (!languageAudio || !languageObjective) {
-  //     setErrorMessage(texts("error"));
-  //     return;
-  //   }
-  //   setErrorMessage("");
-  //   setIsRecording(true);
+  const handleSecondStartRecording = async () => {
+    try {
+      const permission = await VoiceRecorder.requestAudioRecordingPermission();
+      if (!permission.value) {
+        return;
+      }
+      await VoiceRecorder.startRecording();
+      setIsRecording(true);
+    } catch (error) {
+      console.error("Error starting recording:", error);
+    }
+  };
 
-  //   try {
-			
-	// 		const permision = await Filesystem.requestPermissions;
-	// 		console.log("Permision nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn:", permision); 
-  //     const mediaFiles = await MediaCapture.captureAudio();
-  //     setIsRecording(false)
-  //     if(mediaFiles.length > 0){
-  //       const audioFile = mediaFiles[0];
-	// 			console.log("Soy el audio file y espero que pueda leer lo que sale de aca: \n",audioFile)
-  //       // Leer el archivo de audio con Capacitor Filesystem
-  //       const audioFilePath = audioFile.fullPath.replace("file:/storage/emulated/0/Recordings", "");
-  //       const audioData = await Filesystem.readFile({
-  //         path: audioFile.fullPath,
-  //         //directory: Directory.Recordings,
-  //       });
-
-  //       const audioBlob = new Blob([new Uint8Array(audioData.data)], { type: 'audio/mpeg' });
-  //       const arrayBuffer = await audioBlob.arrayBuffer();
-  //       const audioBuffer = await new AudioContext().decodeAudioData(
-  //         arrayBuffer
-  //       );
-  //       console.log("Vamos a convertir esto a wav")
-    
-  //       // Convert the audio buffer to 16-bit PCM
-  //       const pcmData = new Int16Array(audioBuffer.length);
-  //       for (let i = 0; i < audioBuffer.length; i++) {
-  //         pcmData[i] = audioBuffer.getChannelData(0)[i] * 0x7fff; // Convert to 16-bit PCM
-  //       }
-    
-  //       const wav = new WaveFile();
-  //       wav.fromScratch(
-  //         1, // Number of channels
-  //         audioBuffer.sampleRate, // Sample rate
-  //         "16", // Bit depth
-  //         pcmData // PCM samples
-  //       );
-    
-  //       const wavBlob = new Blob([wav.toBuffer()], { type: "audio/wav" });
-    
-  //       // Convert Blob to File
-  //       const wavFile = new File([wavBlob], "recording.wav", {
-  //         type: "audio/wav",
-  //       });
-  //       console.log("Pude convertir esto a wav")
-  //       try {
-  //         const response = await uploadAudio(
-  //           auth.user.accessToken,
-  //           wavFile,
-  //           languageAudio,
-  //           languageObjective
-  //         );
-  //         const audioBlob = new Blob([response.audio], {
-  //           type: "audio/mpeg",
-  //         });
-  //         const audioUrl = URL.createObjectURL(audioBlob);
-  //         // Reproducir el audio automáticamente
-  //         const audio = new Audio(audioUrl);
-  //         audio.play();
-  //         setResponseText(response.text);
-  //         console.log("Response:", response);
-  //       } catch (error) {
-  //         console.error("Error uploading audio", error);
-  //       }
-  //     }
-
-  //   } catch (error) {
-  //     console.error("Error uploading audio", error);
-  //     setErrorMessage(texts("uploadingError"));
-  //     setIsRecording(false)
-  //   }
-  // };
-
-	// const hadleSecondStartRecording = async () => {
-  //   if (!languageAudio || !languageObjective) {
-  //     setErrorMessage(texts("error"));
-  //     return;
-  //   }
-  //   try {
-	// 		const requestPermissionsResult = await Microphone.requestPermissions();
-	// 		console.log("Request permissions result: " + JSON.stringify(requestPermissionsResult));
-	// 		const startRecordingResult = await Microphone.startRecording();
-	// 		console.log("Start recording result: " + JSON.stringify(startRecordingResult));
-	// 		setIsRecording(true);
-	// 	} catch (error) {
-	// 		console.error("Error starting recording", error);
-	// 	}
-	// }
-
-	// const handleSecondStopRecording = async () => {
-	// 	try {
-	// 		const stopRecordingResult = await Microphone.stopRecording();
-	// 		console.log("Stop recording result webpath or something duration: " + JSON.stringify(stopRecordingResult.base64String));
-			
-	// 		setIsRecording(false);
-      //const baseString = stopRecordingResult.base64String;
-      // const binaryString = window.atob(baseString);
-      // const len = binaryString.length;
-      // const bytes = new Uint8Array(len);
-      // for (let i = 0; i < len; i++) {
-      //   bytes[i] = binaryString.charCodeAt(i);
-      // }
-      // const response = await fetch(stopRecordingResult.webPath);
-			//console.log("Response de la fetch del archivo: " + JSON.stringify(response))
-			//console.log("Response de la fetch del archivo sin el JSOn pero con string: ", String(response))
-			//console.log("Response de la fetch del archivo sin el JSOn y sin nada: " + response)			
-      //const blob = await response.blob();
-      //console.log("Soy el blob de la response despues de hacer le fetch del archivo: " + JSON.stringify(blob))
-      // const arrayBuffer = bytes.buffer;
-      // const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      // const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-      // // Convert the audio buffer to 16-bit PCM
-      // const pcmData = new Int16Array(audioBuffer.length);
-      // for (let i = 0; i < audioBuffer.length; i++) {
-      //   pcmData[i] = audioBuffer.getChannelData(0)[i] * 0x7fff; // Convert to 16-bit PCM
-      // }
-  
-      // const wav = new WaveFile();
-      // wav.fromScratch(
-      //   1, // Number of channels
-      //   audioBuffer.sampleRate, // Sample rate
-      //   "16", // Bit depth
-      //   pcmData // PCM samples
-      // );
-      // const wavBlob = new Blob([wav.toBuffer()], { type: "audio/wav" });
-    
-      // Convert Blob to File
-      // const wavFile = new File([wavBlob], "recording.wav", {
-      //   type: "audio/wav",
-      // });
-  //     console.log("Pude convertir esto a wav")
-	// 		const audioData = stopRecordingResult.base64String;
-  //     try {
-  //       const response = await uploadAudio(
-  //         auth.user.accessToken,
-  //         audioData,
-  //         languageAudio,
-  //         languageObjective
-  //       );
-	// 			console.log("Response:", JSON.stringify(response))
-	// 			console.log("Response sin JSON:", response)
-
-  //       const audioBlob = new Blob([response.audio], {
-  //         type: "audio/mpeg",
-  //       });
-  //       const audioUrl = URL.createObjectURL(audioBlob);
-  //       // Reproducir el audio automáticamente
-  //       const audio = new Audio(audioUrl);
-  //       audio.play();
-  //       setResponseText(response.text);
-  //       console.log("Response:", response);
-  //     } catch (error) {
-  //       console.error("Error uploading audio", error);
-  //     }
-	// 	} catch (error) {
-	// 		console.error("Error stopping recording", error);
-	// 	}
-	// }
-
+  const handleSecondStopRecording = async () => {
+    try {
+      const result = await VoiceRecorder.stopRecording();
+      setIsRecording(false);
+      if (result.value && result.value.recordDataBase64) {
+        const base64Sound = result.value.recordDataBase64;
+        const audioBlob = new Blob([Uint8Array.from(atob(base64Sound), c => c.charCodeAt(0))],{
+          type: 'audio/wav'
+        });
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(audioBlob);
+        reader.onloadend = async () => {
+          const wav = new WaveFile();
+          wav.fromBuffer(reader.result);
+          // Convert to mono
+          const numChannels = wav.fmt.numChannels;
+          if (numChannels > 1) {
+            const interleaved = wav.getSamples();
+            const monoSamples = [];
+            for (let i = 0; i < interleaved.length; i += numChannels) {
+              let sum = 0;
+              for (let j = 0; j < numChannels; j++) {
+                sum += interleaved[i + j];
+              }
+              monoSamples.push(sum / numChannels);
+            }
+            wav.fromScratch(1, wav.fmt.sampleRate, '16', monoSamples);
+          }
+          const wavBase64 = wav.toBase64();
+          setAudioFile(wavBase64);
+          const response = await uploadAudio(auth.user.accessToken, wavBase64, languageAudio, languageObjective)
+          const responseBlob = new Blob([response.audio], {
+            type: "audio/mpeg",
+          });
+          const audioUrl = URL.createObjectURL(responseBlob);
+          const audio = new Audio(audioUrl);
+          audio.play();
+          setResponseText(response.text)
+        }
+      }
+    } catch (error) {
+      console.error("Error stopping recording:", error)
+    }
+  }
 
   const handleTextTranslate = async () => {
     setLoadingButton(true);
@@ -437,7 +329,7 @@ export default function MyTrip() {
           {errorMessage}
         </Typography>
       )}
-      {/* <Box
+      <Box
         sx={{
           position: "fixed",
           bottom: 16,
@@ -447,7 +339,7 @@ export default function MyTrip() {
       >
         <IconButton
           color="primary"
-          onClick={isRecording ? handleSecondStopRecording : hadleSecondStartRecording}
+          onClick={isRecording ? handleSecondStopRecording : handleSecondStartRecording}
           sx={{
             backgroundColor: isRecording ? "red" : "#2D6EFF",
             "&:hover": {
@@ -460,7 +352,7 @@ export default function MyTrip() {
         >
           {isRecording ? <StopIcon /> : <MicIcon />}
         </IconButton>
-      </Box> */}
+      </Box>
     </Container>
   );
 }
