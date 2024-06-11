@@ -65,6 +65,7 @@ router.post('/transcribe', upload.none(), async (req, res, next) => {
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Faltan languageObjetive o languageAudio en el cuerpo de la solicitud' });
         }
+        console.log("audio________________________________________________ ",audio);
 
         // Decodificar el archivo base64
         const buffer = Buffer.from(audio, 'base64');
@@ -88,7 +89,7 @@ router.post('/transcribe', upload.none(), async (req, res, next) => {
         const transcription = response.results
             .map(result => result.alternatives[0].transcript)
             .join('\n');
-
+        console.log("trasncription______________________________ ", transcription)
         // Traducción del texto transcrito
         const translatedText = await translateText(transcription, languageAudio, languageObjetive);
 
