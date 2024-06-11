@@ -133,47 +133,59 @@ router.post('/transcribeApp',middleware.decodeToken, upload.none(), async (req, 
         if (!languageObjetive || !languageAudio) {
             return res.status(400).json({ error: 'Faltan languageObjetive o languageAudio en el cuerpo de la solicitud' });
         }
-        console.log("audio________________________________________________",audio);
 
-        // Decodificar el archivo base64
+        // Decodificar el archivo base64 y guardarlo en un archivo temporal
         const buffer = Buffer.from(audio, 'base64');
+        const tempFilePath = `temp_audio_${Date.now()}.wav`;
+        fs.writeFileSync(tempFilePath, buffer);
 
-        // Configurar la solicitud para la API de Google Cloud Speech-to-Text
-        const audioContent = buffer.toString('base64');
+        // Obtener información del archivo WAV
+        wavFileInfo.infoByFilename(tempFilePath, async (err, info) => {
+            if (err) {
+                fs.unlinkSync(tempFilePath);
+                return next(err);
+            }
 
-        const request = {
-            audio: {
-                content: audioContent,
-            },
-            config: {
-                encoding: 'LINEAR16',
-                sampleRateHertz: 16000, // Asegúrate de que esta tasa de muestreo sea correcta para tu audio
-                languageCode: languageAudio,
-                alternativeLanguageCodes: ['en-US', 'es-ES'], // Añade más códigos de idiomas si es necesario
-            },
-        };
+            const sampleRateHertz = info.sample_rate;
 
-        // Enviar la solicitud de reconocimiento de voz
-        const [response] = await client.recognize(request);
-        const transcription = response.results
-            .map(result => result.alternatives[0].transcript)
-            .join('\n');
-        console.log("trasncription______________________________ ", transcription)
-        // Traducción del texto transcrito
-        const translatedText = await translateText(transcription, languageAudio, languageObjetive);
+            const audioContent = buffer.toString('base64');
+            const request = {
+                audio: {
+                    content: audioContent,
+                },
+                config: {
+                    encoding: 'LINEAR16',
+                    sampleRateHertz: sampleRateHertz, // Usar la frecuencia de muestreo obtenida
+                    languageCode: languageAudio,
+                    alternativeLanguageCodes: ['en-US', 'es-ES'],
+                },
+            };
 
-        // Convertir el texto traducido a habla
-        const audioContentTranslated = await ToSpeech(translatedText, languageObjetive);
+            // Enviar la solicitud de reconocimiento de voz
+            const [response] = await client.recognize(request);
+            const transcription = response.results
+                .map(result => result.alternatives[0].transcript)
+                .join('\n');
 
-        // Guardar el contenido de audio traducido en un archivo temporal
-        const outputFilePath = `output_${Date.now()}.mp3`;
-        fs.writeFileSync(outputFilePath, audioContentTranslated, 'base64');
+            // Eliminar el archivo temporal
+            fs.unlinkSync(tempFilePath);
 
-        // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
-        res.status(200).json({
-            message: "Voz transcrita",
-            text: translatedText,
-            audioUrl: `${outputFilePath}`
+            // Traducción del texto transcrito
+            const translatedText = await translateText(transcription, languageAudio, languageObjetive);
+
+            // Convertir el texto traducido a habla
+            const audioContentTranslated = await ToSpeech(translatedText, languageObjetive);
+
+            // Guardar el contenido de audio traducido en un archivo temporal
+            const outputFilePath = `output_${Date.now()}.mp3`;
+            fs.writeFileSync(outputFilePath, audioContentTranslated, 'base64');
+
+            // Enviar la respuesta JSON incluyendo un enlace al archivo de audio
+            res.status(200).json({
+                message: "Voz transcrita",
+                text: translatedText,
+                audioUrl: `${outputFilePath}`
+            });
         });
 
     } catch (error) {
