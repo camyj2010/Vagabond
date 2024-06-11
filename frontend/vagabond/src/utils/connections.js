@@ -156,14 +156,7 @@ export const uploadAudio = async (
     formData.append("languageObjetive", languageObjetive);
     formData.append("languageAudio", languageAudio);
 
-		// const newData = {
-		// 	audio: audioData,
-		// 	languageObjetive: languageObjetive,
-		// 	languageAudio: languageAudio
-		// }
-		
-		//const response = await service(token).post(`/api/voice/transcribe`, newData); 
-    const response = await axios.post(`${URL}/api/voice/transcribe`, formData, {
+    const response = await axios.post(`${URL}/api/voice/transcribeApp`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

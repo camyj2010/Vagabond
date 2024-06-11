@@ -67,7 +67,7 @@
 		"from": "Translate from",
 		"to": "Translate to",
 		"error": "Please select both source and target languages in Translate configuration",
-		"uploadingError": "Error uploading audio"
+		"uploadingError": "Please select two different languages in Translate configuration"
 	},
 	"editTrip":{
 		"title":"Edit Trip",

@@ -27,10 +27,9 @@ import languages from "../../../utils/languages";
 
 import { WaveFile } from "wavefile";
 import { LoadingButton } from "@mui/lab";
-//import { MediaCapture } from "@ionic-native/media-capture";
-//import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-//import { Microphone } from "@mozartec/capacitor-microphone";
-//import { set } from "firebase/database";
+
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 
 // Icon for microphone and stop
 const MicIcon = (props) => (
@@ -55,7 +54,6 @@ export default function MyTrip() {
   const [text, setText] = useState("");
   const [loadingButton, setLoadingButton] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [audioFile, setAudioFile] = useState(null);
 
   const auth = useAuth();
 
@@ -85,6 +83,15 @@ export default function MyTrip() {
   }, [auth, id]);
 
   const handleSecondStartRecording = async () => {
+    if (!languageAudio || !languageObjective) {
+      setErrorMessage(texts("error"));
+      return;
+    }
+    if (languageAudio == languageObjective) {
+      setErrorMessage(texts("uploadingError"));
+      return;
+    }
+    setErrorMessage("");
     try {
       const permission = await VoiceRecorder.requestAudioRecordingPermission();
       if (!permission.value) {
@@ -103,39 +110,41 @@ export default function MyTrip() {
       setIsRecording(false);
       if (result.value && result.value.recordDataBase64) {
         const base64Sound = result.value.recordDataBase64;
-        const audioBlob = new Blob([Uint8Array.from(atob(base64Sound), c => c.charCodeAt(0))],{
-          type: 'audio/wav'
+        const fileName = `${new Date().getTime()}.wav`
+
+        await Filesystem.writeFile({
+          path: fileName,
+          data: base64Sound,
+          directory: Directory.Data,
         });
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(audioBlob);
-        reader.onloadend = async () => {
-          const wav = new WaveFile();
-          wav.fromBuffer(reader.result);
-          // Convert to mono
-          const numChannels = wav.fmt.numChannels;
-          if (numChannels > 1) {
-            const interleaved = wav.getSamples();
-            const monoSamples = [];
-            for (let i = 0; i < interleaved.length; i += numChannels) {
-              let sum = 0;
-              for (let j = 0; j < numChannels; j++) {
-                sum += interleaved[i + j];
-              }
-              monoSamples.push(sum / numChannels);
-            }
-            wav.fromScratch(1, wav.fmt.sampleRate, '16', monoSamples);
-          }
-          const wavBase64 = wav.toBase64();
-          setAudioFile(wavBase64);
-          const response = await uploadAudio(auth.user.accessToken, wavBase64, languageAudio, languageObjective)
-          const responseBlob = new Blob([response.audio], {
-            type: "audio/mpeg",
-          });
-          const audioUrl = URL.createObjectURL(responseBlob);
-          const audio = new Audio(audioUrl);
-          audio.play();
-          setResponseText(response.text)
+        const audioFile = await Filesystem.readFile({
+          path: fileName,
+          directory: Directory.Data
+        })
+        const arrayBuffer = Uint8Array.from(atob(audioFile.data), c => c.charCodeAt(0)).buffer;
+        const audioBuffer = await new AudioContext().decodeAudioData(
+          arrayBuffer
+        );
+        const pcmData = new Int16Array(audioBuffer.length);
+        for (let i = 0; i < audioBuffer.length; i++) {
+          pcmData[i] = audioBuffer.getChannelData(0)[i] * 0x7fff;
         }
+        const wav = new WaveFile();
+        wav.fromScratch(
+          1,
+          audioBuffer.sampleRate,
+          "16",
+          pcmData
+        );
+        const wavBase64 = wav.toBase64();
+        const response = await uploadAudio(auth.user.accessToken, wavBase64, languageAudio, languageObjective)
+        const responseBlob = new Blob([response.audio], {
+          type: "audio/mpeg",
+        });
+        const audioUrl = URL.createObjectURL(responseBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+        setResponseText(response.text)
       }
     } catch (error) {
       console.error("Error stopping recording:", error)
@@ -143,6 +152,15 @@ export default function MyTrip() {
   }
 
   const handleTextTranslate = async () => {
+    if (!languageAudio || !languageObjective) {
+      setErrorMessage(texts("error"));
+      return;
+    }
+    if (languageAudio == languageObjective) {
+      setErrorMessage(texts("uploadingError"));
+      return;
+    }
+    setErrorMessage("");
     setLoadingButton(true);
     try {
       const data = {

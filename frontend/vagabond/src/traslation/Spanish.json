@@ -67,7 +67,7 @@
     	"from": "Traducir del",
     	"to": "Traducir al",
 		"error": "Seleccione los idiomas de origen y de destino en la configuración de traducción",
-    	"uploadingError": "Error al subir el audio"
+    	"uploadingError": "Seleccione dos idiomas diferentes en la configuración de traducción"
 	},
 	"editTrip": {
 		"title": "Editar Viaje",

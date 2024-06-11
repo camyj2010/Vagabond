@@ -67,7 +67,7 @@
 		"from": "Traduire de",
 		"to": "Traduire en",
 		"error": "Veuillez sélectionner à la fois la langue source et la langue cible dans la configuration de Traduction",
-		"uploadingError": "Erreur de téléchargement de l'audio"
+		"uploadingError": "Sélectionnez deux langues différentes dans les paramètres de traduction"
 	},
 	"editTrip": {
 		"title": "Modifier le voyage",
