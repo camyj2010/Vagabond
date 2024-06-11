@@ -69,7 +69,7 @@
     "from": "Übersetzen von",
     "to": "Übersetzen nach",
     "error": "Bitte wählen Sie sowohl die Quell- als auch die Zielsprache in den Übersetzungseinstellungen aus",
-    "uploadingError": "Fehler beim Hochladen des Audios"
+    "uploadingError": "Bitte wählen Sie in der Übersetzerkonfiguration zwei unterschiedliche Sprachen aus"
   },
   "editTrip": {
     "title": "Reise bearbeiten",

@@ -69,7 +69,7 @@
     "from": "Traduzir de",
     "to": "Traduzir para",
     "error": "Selecione os idiomas de origem e destino na configuração de tradução",
-    "uploadingError": "Erro ao enviar áudio"
+    "uploadingError": "Selecione dois idiomas diferentes na configuração do Tradutor"
   },
   "editTrip": {
     "title": "Editar Viagem",
