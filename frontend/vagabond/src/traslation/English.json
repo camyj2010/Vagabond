@@ -57,12 +57,19 @@
 		"title":"Food and more",
 		"discover":"Discover where to order",
 		"foodPedia":"Food-pedia",
-		"button":"Search"
+		"button":"Search",
+		"textField":"Ex: Neapolitan, sushi, etc."
 	},
 	"myTrip":{
 		"mustButton": "Must-bring Checklist",
 		"foodButton": "Food and more",
-		"interesting": "Interesting places" 
+		"interesting": "Interesting places",
+		"translate": "Translate",
+		"text": "Translate from text",
+		"from": "Translate from",
+		"to": "Translate to",
+		"error": "Please select both source and target languages in Translate configuration",
+		"uploadingError": "Error uploading audio"
 	},
 	"editTrip":{
 		"title":"Edit Trip",
@@ -75,5 +82,19 @@
 		"describeTrip":"Describe the perfect trip for you",
 		"buttonSubmit":"Edit trip",
 		"buttonDelete":"Delete trip"
+	},
+	"profile":{
+		"title":"Profile",
+		"name": "User name: ",
+		"email": "Email:",
+		"language": "Language: ",
+		"logout": "Logout"
+	},
+	"editProfile":{
+		"title":"Edit Profile",
+		"image":"Edit profile image",
+		"name": "Username",
+		"email": "Email:",
+		"button": "Update Profile"
 	}
 }
