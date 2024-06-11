@@ -80,3 +80,13 @@ Content-Type: application/json
   "languageText": "es",
   "languageObjective": "it"
 }
+
+### Read traslate 
+POST http://localhost:3001/api/voice/transcribe
+Content-Type: application/json
+
+{
+  "audio": "UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAABAgME",
+  "languageAudio": "es",
+  "languageObjetive": "it"
+}
