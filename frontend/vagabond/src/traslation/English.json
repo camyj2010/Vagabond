@@ -88,6 +88,12 @@
 		"name": "User name: ",
 		"email": "Email:",
 		"language": "Language: ",
+		"spanish": "Spanish",
+		"english": "English",
+		"german": "German",
+		"french": "French",
+		"italian": "Italian",
+		"portuguese": "Portuguese",
 		"logout": "Logout"
 	},
 	"editProfile":{

@@ -1,0 +1,106 @@
+{
+  "register": {
+    "title": "Criar uma conta",
+    "fullName": "Nome completo",
+    "email": "E-mail",
+    "password": "Senha",
+    "button": "Inscrever-se",
+    "alreadyAccount": "Já tem uma conta?",
+    "signIn": "Entrar",
+    "clickingHere": "Ao clicar aqui",
+    "accepts": "você concorda com nossos",
+    "terms": "Termos de Serviço",
+    "privacy": "Política de Privacidade",
+    "and": "e",
+    "alertMessage": "O e-mail já está em uso"
+  },
+  "login": {
+    "title": "Entrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "errorLogin": "E-mail ou senha incorretos",
+    "errorGoogle": "Erro ao fazer login com o Google",
+    "button": "Entrar",
+    "signInGoogle": "Entrar com Google",
+    "dontHaveAccount": "Não tem uma conta?",
+    "signUp": "Inscreva-se agora",
+    "clickingHere": "Ao clicar aqui",
+    "accepts": "você concorda com nossos",
+    "terms": "Termos de Serviço",
+    "privacy": "Política de Privacidade",
+    "and": "e"
+  },
+  "newTrip": {
+    "title": "Planejar uma viagem",
+    "country": "País",
+    "countryLabel": "Escolha um país",
+    "city": "Cidade",
+    "cityLabel": "Escreva o nome da cidade (Opcional)",
+    "startDate": "Data de início",
+    "endDate": "Data de término",
+    "describeTrip": "Descreva a viagem perfeita para você",
+    "button": "Criar viagem"
+  },
+  "checklist": {
+    "description": "Abaixo, fornecemos uma lista de verificação com os elementos que consideramos essenciais para sua viagem, mas lembre-se de que você pode ajustá-la às suas necessidades.",
+    "newItem": "Adicionar novo item",
+    "checklistTitle": "Lista de verificação de itens essenciais",
+    "button": "Adicionar item"
+  },
+  "myTrips": {
+    "currentTrip": "Viagem Atual",
+    "yourTrips": "Suas Viagens",
+    "noTrips": "Você ainda não tem nenhuma viagem",
+    "button": "Criar uma nova viagem"
+  },
+  "foodandMore": {
+    "title": "Comida e mais",
+    "discover": "Descubra onde pedir",
+    "foodPedia": "Food-pedia",
+    "button": "Pesquisar",
+    "textField": "Ex: Napolitana, sushi, etc."
+  },
+  "myTrip": {
+    "mustButton": "Lista de verificação de itens essenciais",
+    "foodButton": "Comida e mais",
+    "interesting": "Lugares interessantes",
+    "translate": "Traduzir",
+    "text": "Traduzir do texto",
+    "from": "Traduzir de",
+    "to": "Traduzir para",
+    "error": "Selecione os idiomas de origem e destino na configuração de tradução",
+    "uploadingError": "Erro ao enviar áudio"
+  },
+  "editTrip": {
+    "title": "Editar Viagem",
+    "country": "País",
+    "countryLabel": "Escolha um país",
+    "city": "Cidade",
+    "cityLabel": "Escreva o nome da cidade (Opcional)",
+    "startDate": "Data de início",
+    "endDate": "Data de término",
+    "describeTrip": "Descreva a viagem perfeita para você",
+    "buttonSubmit": "Editar viagem",
+    "buttonDelete": "Excluir viagem"
+  },
+  "profile": {
+    "title": "Perfil",
+    "name": "Nome de usuário: ",
+    "email": "E-mail:",
+    "language": "Idioma: ",
+    "spanish": "Espanhol",
+    "english": "Inglês",
+    "german": "Alemão",
+    "french": "Francês",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "logout": "Sair"
+  },
+  "editProfile": {
+    "title": "Editar Perfil",
+    "image": "Editar imagem do perfil",
+    "name": "Nome de usuário",
+    "email": "E-mail:",
+    "button": "Atualizar Perfil"
+  }
+}

@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
-import {
-  Autocomplete,
-  Box,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Box, Stack, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useLanguageContext } from "../../context/languageContext";
 import countries from "../../utils/countries";
@@ -16,47 +10,92 @@ import { useAuth } from "../../context/authContext";
 import styles from "./NewTrip.module.css";
 import { createNewTrip } from "../../utils/connections";
 
-
-
 export default function NewTrip() {
-
-	const auth = useAuth();
+  const auth = useAuth();
   const navigate = useNavigate();
 
   const [countryValue, setCountryValue] = useState(null);
   const [countryInput, setCountryInput] = useState("");
   const [cityValue, setCityValue] = useState("");
   const [startDateValue, setStartDateValue] = useState("");
-	const [endDateValue, setEndDateValue] = useState("");
+  const [endDateValue, setEndDateValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
+  const [startDateError, setStartDateError] = useState(false);
+  const [endDateError, setEndDateError] = useState(false);
 
-	const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { t } = useLanguageContext();
+  const { t, i18n } = useLanguageContext();
 
   const texts = (data) => t(`newTrip.${data}`);
 
-	const handleNewTrip = async(e) => {
-		e.preventDefault();
-		setLoading(true);
-		const token = auth.user.accessToken;
-		const startDate = new Date(startDateValue);
-		const endDate = new Date(endDateValue);
-		const data = {
-			country: countryValue.label,
-			country_cod: countryValue.code,
-			city: cityValue,
-			init_date: startDate,
-			finish_date: endDate,
-			description: descriptionValue,
-			firebase_id: auth.user.uid
-		}
-		console.log(data)
-		const response = await createNewTrip(data,token)
-		console.log(response)
-		setLoading(false);
+  const handleNewTrip = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const token = auth.user.accessToken;
+    const startDate = new Date(`${startDateValue}T00:00:00Z`);
+		const endDate = new Date(`${endDateValue}T00:00:00Z`);
+		startDate.setDate(startDate.getDate() + 1);
+		endDate.setDate(endDate.getDate() + 1);
+
+    let language;
+    i18n.language === "es"
+      ? (language = "espanish")
+      : i18n.language === "it"
+      ? (language = "italian")
+      : i18n.language === "fr"
+      ? (language = "french")
+      : i18n.language === "de"
+      ? (language = "german")
+      : i18n.language === "pt"
+      ? (language = "portuguese")
+      : (language = "english");
+
+    const data = {
+      country: countryValue.label,
+      country_cod: countryValue.code,
+      language: language,
+      city: cityValue,
+      init_date: startDate,
+      finish_date: endDate,
+      description: descriptionValue,
+      firebase_id: auth.user.uid,
+    };
+    const response = await createNewTrip(data,token)
+    console.log(response)
+    setLoading(false);
     navigate('/my_trips')
-	}
+  };
+
+  const handleStartDate = (e) => {
+    if (!endDateValue) {
+      setStartDateError(false);
+      setStartDateValue(e.target.value);
+      return;
+    }
+    if (e.target.value > endDateValue) {
+      setStartDateError(true);
+      return;
+    }
+    setStartDateError(false);
+    setStartDateValue(e.target.value);
+  };
+
+  const handleEndDate = (e) => {
+    if (!startDateValue) {
+      setEndDateError(false);
+      setEndDateValue(e.target.value);
+      return;
+    }
+    if (e.target.value < startDateValue) {
+      console.log("End date", e.target.value, "Start date", startDateValue);
+      setEndDateError(true);
+      return;
+    }
+    setEndDateError(false);
+    setEndDateValue(e.target.value);
+  };
+
   return (
     <Box textAlign="center" component="section" sx={{ px: 3, pb: 2 }}>
       <Header />
@@ -66,7 +105,13 @@ export default function NewTrip() {
       >
         {texts("title")}
       </Typography>
-      <Stack component="form" onSubmit={handleNewTrip} textAlign="start" marginTop={5} spacing={4}>
+      <Stack
+        component="form"
+        onSubmit={handleNewTrip}
+        textAlign="start"
+        marginTop={5}
+        spacing={4}
+      >
         <div className={styles.labels}>
           <Typography
             variant="body1"
@@ -130,7 +175,7 @@ export default function NewTrip() {
             id="outlined-city"
             label={texts("cityLabel")}
             variant="outlined"
-						value={cityValue}
+            value={cityValue}
             onChange={(e) => {
               setCityValue(e.target.value);
             }}
@@ -148,9 +193,15 @@ export default function NewTrip() {
             <TextField
               id="date"
               type="date"
+              error={startDateError}
               value={startDateValue}
-							sx={{ width: "100%" }}
-							onChange={(e) => setStartDateValue(e.target.value)}
+              sx={{ width: "100%" }}
+              helperText={
+                startDateError
+                  ? "La fecha de inicio debe de ser anterior a la fecha de finalizacion."
+                  : ""
+              }
+              onChange={(e) => handleStartDate(e)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -167,9 +218,15 @@ export default function NewTrip() {
             <TextField
               id="date"
               type="date"
+              error={endDateError}
               value={endDateValue}
-							sx={{ width: "100%" }}
-							onChange={(e) => setEndDateValue(e.target.value)}
+              sx={{ width: "100%" }}
+              helperText={
+                endDateError
+                  ? "La fecha de finalizacion debe de ser posterior a la fecha de inicio."
+                  : ""
+              }
+              onChange={(e) => handleEndDate(e)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -195,7 +252,13 @@ export default function NewTrip() {
             onChange={(e) => setDescriptionValue(e.target.value)}
           />
         </div>
-        <LoadingButton loading={loading} type="submit" variant="contained" size="large" sx={{ width: "100%", mt: 1 }}>
+        <LoadingButton
+          loading={loading}
+          type="submit"
+          variant="contained"
+          size="large"
+          sx={{ width: "100%", mt: 1 }}
+        >
           {texts("button")}
         </LoadingButton>
       </Stack>
