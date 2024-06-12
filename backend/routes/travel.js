@@ -31,7 +31,7 @@ router.get("/food/:_id", middleware.decodeToken, getFoodRecommendations);
  */
 async function createTravel(req, res) {
     try {
-        const {firebase_id, country, country_cod, city, description, init_date, finish_date } = req.body;
+        const {firebase_id, country, country_cod, city, description, init_date, finish_date, language } = req.body;
         
         if (!firebase_id || !country || !country_cod || !description) {
             return res.status(400).json({ message: "All fields are required" });
@@ -61,11 +61,11 @@ async function createTravel(req, res) {
         }
 
         newTravelData = await addRestaurantRecommendations(newTravelData);
-        newTravelData = await addSuggestions(newTravelData);
+        newTravelData = await addSuggestions(newTravelData, language);
         
         const newTravel = await ModelTravel.create(newTravelData);
 
-        const checklist = await generateChecklist(newTravelData);
+        const checklist = await generateChecklist(newTravelData, language);
 
         const newChecklist = new ModelChecklist({
             _checklist_id: newTravel._id,
@@ -143,9 +143,9 @@ Returns: Sends an HTTP response indicating the success or failure of the travel 
 async function updateTravel(req, res) {
     try {
         const { _id } = req.params;
-        const { country, country_cod, city, description, init_date, finish_date } = req.body;
+        const { country, country_cod, city, description, init_date, finish_date, language } = req.body;
 
-        if (!country && !country_cod && !city && !description && !init_date && !finish_date) {
+        if (!country && !country_cod && !city && !description && !init_date && !finish_date && !language ) {
             return res.status(400).json({ message: "At least one variable must be changed" });
         }
 
@@ -166,12 +166,12 @@ async function updateTravel(req, res) {
         if (init_date) travel.init_date = init_date;
         if (finish_date) travel.finish_date = finish_date;
 
-        const suggestions = await addSuggestions(travel);
+        const suggestions = await addSuggestions(travel, language);
         travel.suggestions = suggestions.suggestions;
 
         await travel.save();
 
-        const checklist = await generateChecklist(travel);
+        const checklist = await generateChecklist(travel, language);
         await updateChecklist(_id, checklist);
 
         res.status(200).json({ message: "Travel Updated", travel });
@@ -253,7 +253,7 @@ Parameters:
 newTravelData: The travel data object to which suggestions need to be added.
 Returns: The updated travel data object with suggestions.
  */
-async function addSuggestions(newTravelData) {
+async function addSuggestions(newTravelData, language) {
     const prompt = `Based on the information provided:
         - Country: ${newTravelData.country}
         - City: ${newTravelData.city}
@@ -263,7 +263,7 @@ async function addSuggestions(newTravelData) {
         
         Generate a list of 5 suggestions for places and/or activities during the trip,
         including location and a brief description for each suggestion, in JSON format.
-        Provide the answer in the language used in the Description (${newTravelData.description}) english or spanish only.
+        Provide the answer in ${language}
         Example response:
         [
             {
@@ -313,7 +313,7 @@ Parameters:
 newTravelData: The travel data object for which the checklist needs to be generated.
 Returns: An array containing the generated checklist items.
  */
-async function generateChecklist(newTravelData) {
+async function generateChecklist(newTravelData, language) {
     const prompt = `Based on the information provided:
         - Country: ${newTravelData.country}
         - City: ${newTravelData.city}
@@ -323,7 +323,7 @@ async function generateChecklist(newTravelData) {
         - Places to visit: ${newTravelData.suggestions}
     
         Search the internet and generate a list of 10 items I must bring on this type of trip.
-        Provide the answer in the language used in the Description (${newTravelData.description}) english or spanish only.
+        Give me the answer in ${language}
         The list should be separated by commas and should not be numbered.`;
 
     let checklist = [];
