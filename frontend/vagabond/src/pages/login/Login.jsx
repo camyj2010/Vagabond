@@ -132,25 +132,6 @@ export const Login = () => {
           {texts('button')}
         </Button>
       </Box>
-      <Box component="form" mt={1} onSubmit={handleGoogle}>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-          sx={{
-            mt: 2,
-            backgroundColor: '#2D6EFF',
-            '& span': {
-              fontFamily: 'Inter',
-              fontWeight: 500,
-            },
-          }}
-        >
-          {texts('signInGoogle')}
-        </Button>
-      </Box>
       <Box textAlign="center" mt={2}>
         <Typography style={{ fontFamily: 'Inter', fontWeight: 400 }} variant="body2">
           {texts('dontHaveAccount')}{' '}
