@@ -23,8 +23,10 @@ export default function EditTrip() {
   const [originalEndDate, setOriginalEndDate] = useState("");
   const [originalDescription, setOriginalDescription] = useState("");
   const [loading, setLoading] = useState(false);
+	const [startDateError, setStartDateError] = useState(false);
+	const [endDateError, setEndDateError] = useState(false);
 
-  const { t } = useLanguageContext();
+  const { t, i18n } = useLanguageContext();
 
   const texts = (data) => t(`editTrip.${data}`);
 
@@ -70,9 +72,19 @@ export default function EditTrip() {
       setLoading(false);
       return;
     }
-    let data = {};
+		let language
+		i18n.language === "es" ? language = "espanish" : 
+		i18n.language === "it" ? language = "italian" :
+		i18n.language === "fr" ? language = "french" :
+		i18n.language === "de" ? language = "german" :
+		i18n.language === "pt" ? language = "portuguese" :
+		language = "english"
+    let data = {
+			language: language,
+		};
     if (originalStartDate !== startDateValue) {
       const startDate = new Date(startDateValue);
+			startDate.setDate(startDate.getDate() + 1);
       data = {
         ...data,
         init_date: startDate,
@@ -80,6 +92,7 @@ export default function EditTrip() {
     }
     if (originalEndDate !== endDateValue) {
       const endDate = new Date(endDateValue);
+			endDate.setDate(endDate.getDate() + 1);
       data = {
         ...data,
         finish_date: endDate,
@@ -104,6 +117,35 @@ export default function EditTrip() {
     setLoading(false);
     if (response) navigate("/my_trips");
   };
+
+		const handleStartDate = (e) => {
+		if (!endDateValue) {
+			setStartDateError(false);
+			setStartDateValue(e.target.value);
+			return;
+		}
+		if (e.target.value > endDateValue) {
+			setStartDateError(true);
+			return;	
+		}
+		setStartDateError(false);
+		setStartDateValue(e.target.value);
+	}
+
+	const handleEndDate = (e) => {
+		if (!startDateValue) {
+			setEndDateError(false);
+			setEndDateValue(e.target.value);
+			return;
+		}
+		if (e.target.value < startDateValue) {
+			console.log("End date", e.target.value, "Start date", startDateValue)
+			setEndDateError(true);
+			return;	
+		}
+		setEndDateError(false);
+		setEndDateValue(e.target.value);
+	}
 
   return (
     <div>
@@ -177,9 +219,11 @@ export default function EditTrip() {
               <TextField
                 id="date"
                 type="date"
+								error={startDateError}
                 value={startDateValue}
                 sx={{ width: "100%" }}
-                onChange={(e) => setStartDateValue(e.target.value)}
+                helperText={startDateError ? "La fecha de inicio debe de ser anterior a la fecha de finalizacion." : ""}
+								onChange={(e) => handleStartDate(e)}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -196,11 +240,11 @@ export default function EditTrip() {
               <TextField
                 id="date"
                 type="date"
+								error={endDateError}
                 value={endDateValue}
                 sx={{ width: "100%" }}
-                onChange={(e) => {
-                  setEndDateValue(e.target.value);
-                }}
+                helperText={ endDateError ? "La fecha de finalizacion debe de ser posterior a la fecha de inicio." : ""}
+								onChange={(e) => handleEndDate(e)}
                 InputLabelProps={{
                   shrink: true,
                 }}
