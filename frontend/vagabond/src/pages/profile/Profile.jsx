@@ -150,9 +150,12 @@ const Profile = () => {
               label="Age"
               onChange={handleSelectChange}
             >
-              <MenuItem value={"en"}>English</MenuItem>
-              <MenuItem value={"es"}>Spanish</MenuItem>
-              <MenuItem value={"fr"}>French</MenuItem>
+              <MenuItem value={"en"}>{texts('english')}</MenuItem>
+              <MenuItem value={"es"}>{texts('spanish')}</MenuItem>
+              <MenuItem value={"fr"}>{texts('french')}</MenuItem>
+							<MenuItem value={"it"}>{texts('italian')}</MenuItem>
+							<MenuItem value={"de"}>{texts('german')}</MenuItem>
+							<MenuItem value={"pt"}>{texts('portuguese')}</MenuItem>
             </Select>
           </div>
         </Stack>
