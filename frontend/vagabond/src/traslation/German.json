@@ -1,0 +1,106 @@
+{
+  "register": {
+    "title": "Ein Konto erstellen",
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "button": "Anmelden",
+    "alreadyAccount": "Haben Sie schon ein Konto?",
+    "signIn": "Einloggen",
+    "clickingHere": "Durch Klicken hier",
+    "accepts": "stimmen Sie unseren",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzrichtlinie",
+    "and": "und",
+    "alertMessage": "Die E-Mail wird bereits verwendet"
+  },
+  "login": {
+    "title": "Einloggen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "errorLogin": "Falsche E-Mail oder Passwort",
+    "errorGoogle": "Fehler beim Anmelden mit Google",
+    "button": "Einloggen",
+    "signInGoogle": "Mit Google anmelden",
+    "dontHaveAccount": "Haben Sie kein Konto?",
+    "signUp": "Jetzt anmelden",
+    "clickingHere": "Durch Klicken hier",
+    "accepts": "stimmen Sie unseren",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzrichtlinie",
+    "and": "und"
+  },
+  "newTrip": {
+    "title": "Eine Reise planen",
+    "country": "Land",
+    "countryLabel": "Wählen Sie ein Land",
+    "city": "Stadt",
+    "cityLabel": "Schreiben Sie den Namen der Stadt (optional)",
+    "startDate": "Anfangsdatum",
+    "endDate": "Enddatum",
+    "describeTrip": "Beschreiben Sie die perfekte Reise für sich",
+    "button": "Reise erstellen"
+  },
+  "checklist": {
+    "description": "Unten haben wir Ihnen eine Checkliste mit den Elementen zur Verfügung gestellt, die wir für Ihre Reise als wesentlich erachten. Denken Sie daran, dass Sie diese an Ihre Bedürfnisse anpassen können.",
+    "newItem": "Neues Element hinzufügen",
+    "checklistTitle": "Checkliste mitzubringen",
+    "button": "Element hinzufügen"
+  },
+  "myTrips": {
+    "currentTrip": "Aktuelle Reise",
+    "yourTrips": "Ihre Reisen",
+    "noTrips": "Sie haben noch keine Reisen",
+    "button": "Neue Reise erstellen"
+  },
+  "foodandMore": {
+    "title": "Essen und mehr",
+    "discover": "Entdecken, wo man bestellen kann",
+    "foodPedia": "Food-pedia",
+    "button": "Suchen",
+    "textField": "Beispiel: Neapolitanisch, Sushi, etc."
+  },
+  "myTrip": {
+    "mustButton": "Checkliste mitzubringen",
+    "foodButton": "Essen und mehr",
+    "interesting": "Interessante Orte",
+    "translate": "Übersetzen",
+    "text": "Vom Text übersetzen",
+    "from": "Übersetzen von",
+    "to": "Übersetzen nach",
+    "error": "Bitte wählen Sie sowohl die Quell- als auch die Zielsprache in den Übersetzungseinstellungen aus",
+    "uploadingError": "Fehler beim Hochladen des Audios"
+  },
+  "editTrip": {
+    "title": "Reise bearbeiten",
+    "country": "Land",
+    "countryLabel": "Wählen Sie ein Land",
+    "city": "Stadt",
+    "cityLabel": "Schreiben Sie den Namen der Stadt (optional)",
+    "startDate": "Anfangsdatum",
+    "endDate": "Enddatum",
+    "describeTrip": "Beschreiben Sie die perfekte Reise für sich",
+    "buttonSubmit": "Reise bearbeiten",
+    "buttonDelete": "Reise löschen"
+  },
+  "profile": {
+    "title": "Profil",
+    "name": "Benutzername: ",
+    "email": "E-Mail:",
+    "language": "Sprache: ",
+    "spanish": "Spanisch",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "french": "Französisch",
+    "italian": "Italienisch",
+    "portuguese": "Portugiesisch",
+    "logout": "Abmelden"
+  },
+  "editProfile": {
+    "title": "Profil bearbeiten",
+    "image": "Profilbild bearbeiten",
+    "name": "Benutzername",
+    "email": "E-Mail:",
+    "button": "Profil aktualisieren"
+  }
+}
